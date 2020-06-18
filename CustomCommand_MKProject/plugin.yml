@@ -1,0 +1,16 @@
+name: CustomCommand_MKProject
+main: me.maskat.customcommand.Plugin
+description: Custom Command
+version: 1.0.0
+author: MasKAT
+website: http://skyidea.pl/
+api-version: 1.15
+load: POSTWORLD
+
+commands:
+   c:
+      description: Custom Commands
+permissions:
+   mkp.customcommand.*:
+      description: Allows use custom commands
+      default: op

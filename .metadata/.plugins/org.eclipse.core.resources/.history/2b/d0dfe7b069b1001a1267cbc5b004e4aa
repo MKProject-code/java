@@ -1,0 +1,40 @@
+package me.maskat.MonsterEvent;
+
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityCombustEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
+
+import mkproject.maskat.Papi.Papi;
+import mkproject.maskat.Papi.Utils.Message;
+
+public class Event implements Listener {
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onEntitySpawnEvent(EntitySpawnEvent e) {
+		if(SchedulerTask.eventStarted && e.getLocation().getWorld() == Papi.Server.getServerSpawnWorld())
+			e.setCancelled(false);
+	}
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onEntityCombustEvent(EntityCombustEvent e) {
+		if(SchedulerTask.entitiesArenaAlive.contains(e.getEntity()))
+			e.setCancelled(true);
+	}
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onEntityDeathEvent(EntityDeathEvent  e) {
+		if(SchedulerTask.entitiesArenaAlive.contains(e.getEntity()))
+		{
+			SchedulerTask.entitiesArenaAlive.remove(e.getEntity());
+			e.getDrops().clear();
+			
+			if(e.getPlayer().getInventory().firstEmpty() < 0)
+			{
+				Message.sendMessage(e.getPlayer(), "&4Nie otrzymasz nagrody z eventu dopuki w twoim ekwipunku nie będzie miejsca!");
+				return;
+			}
+			e.getEntity().getKiller().getInventory().addItem("");
+		}
+	}
+}

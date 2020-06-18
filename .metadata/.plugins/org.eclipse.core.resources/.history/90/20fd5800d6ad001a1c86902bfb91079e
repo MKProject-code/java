@@ -1,0 +1,60 @@
+package me.maskat.MoneyManager;
+
+import java.util.Map;
+
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+
+import mkproject.maskat.Papi.Papi;
+
+public class MapiOfflinePlayer {
+	private OfflinePlayer offlinePlayer;
+	private int points;
+	
+	public MapiOfflinePlayer(OfflinePlayer offlinePlayer) {
+		this.offlinePlayer = offlinePlayer;
+		
+		Object result = Papi.MySQL.get(Database.Users.POINTS, Database.Users.NAME, "=", player.getName().toLowerCase(), Database.Users.TABLE);
+		
+		if(result == null)
+			this.points = 0;
+		else
+		{
+			try {
+				this.points = Integer.parseInt(result.toString());
+			} catch(Exception ex) {
+				this.points = 0;
+			}
+		}
+	}
+	
+	public Player getPlayer() {
+		return this.player;
+	}
+	
+	public int getPoints() {
+		return this.points;
+	}
+	
+	public int addPoints(int points) {
+		this.points += points;
+		MapiModel.doMapiUpdate(this);
+		return this.points;
+	}
+	public boolean delPoints(int points) {
+		if(this.points >= points)
+		{
+			this.points -= points;
+			MapiModel.doMapiUpdate(this);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	protected void saveData() {
+		Papi.MySQL.set(Map.of(Database.Users.POINTS,  MapiModel.getPlayer(player).getPoints()), Database.Users.NAME, "=", player.getName().toLowerCase(), Database.Users.TABLE);
+	}
+}

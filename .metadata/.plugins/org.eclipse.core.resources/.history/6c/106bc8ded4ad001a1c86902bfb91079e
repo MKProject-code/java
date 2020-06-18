@@ -1,0 +1,47 @@
+package mkproject.maskat.LoginManager;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+
+import mkproject.maskat.Papi.Papi;
+
+public class UsersAPI {
+	public static List<OfflinePlayer> getPlayersWithSameIP(Player player) {
+		ResultSet rs = Papi.MySQL.getResultSetAll(-1, Database.Users.UUID, Papi.SQL.getWhereOr(
+				Papi.SQL.getWhereObject(Database.Users.REGISTER_IP, "=", Papi.Model.getPlayer(player).getAddressIP()),
+				Papi.SQL.getWhereObject(Database.Users.LASTLOGIN_IP, "=", Papi.Model.getPlayer(player).getAddressIP())
+				), Database.Users.TABLE);
+		
+		List<OfflinePlayer> players = new ArrayList<>();
+		try {
+			while(rs.next()) {
+				String uuidStr = rs.getString(Database.Users.UUID);
+				
+				if(uuidStr == null)
+					continue;
+				UUID uuid = UUID.fromString(uuidStr);
+				if(uuid == null || player.getUniqueId().equals(uuid))
+					continue;
+				
+				OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
+				if(p != null)
+					players.add(p);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return players;
+	}
+	
+	public static OfflinePlayer getOfflinePlayer(String userName) {
+		Papi.MySQL.get(Database.Users.UUID, where_column, logic_gate, where_data, table)
+	}
+}

@@ -1,0 +1,9 @@
+package me.maskat.ShopManager.Models;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Models {
+	private Map<Integer, CategoryModel> categoriesMap = new HashMap<>();
+	
+}

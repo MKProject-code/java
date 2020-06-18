@@ -1,0 +1,25 @@
+package mkproject.maskat.Papi;
+
+import java.time.DayOfWeek;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import mkproject.maskat.Papi.Scheduler.PapiSchedulerManager;
+
+public class PapiThread extends Thread {
+    public void run()
+    {
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				DayOfWeek dayOfWeek = Papi.Function.getCurrentLocalDateTime().getDayOfWeek();
+				int hourOfDay = Papi.Function.getCurrentLocalDateTime().getHour();
+				int minute = Papi.Function.getCurrentLocalDateTime().getMinute();
+				int second = Papi.Function.getCurrentLocalDateTime().getSecond();
+				
+				PapiSchedulerManager.doCheck();
+			}
+		}, 0, 1000);
+    }
+}

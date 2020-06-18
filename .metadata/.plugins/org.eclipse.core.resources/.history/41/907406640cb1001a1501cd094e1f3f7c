@@ -1,0 +1,1235 @@
+categories:
+   Kopalnia:
+      name: "Kopalnia"
+      icon: "DIAMOND_ORE"
+      description: "Diamenty, żelazo, złoto itp."
+      items:
+         1:
+            item: EMERALD
+            buy: 50
+            sell: 1
+         2:
+            item: DIAMOND
+            buy: 200
+            sell: 1
+         3:
+            item: GOLD_INGOT
+            buy: 30
+            sell: 1
+         4:
+            item: IRON_INGOT
+            buy: 40
+            sell: 1
+         5:
+            item: COAL
+            buy: 20
+            sell: 1
+         6:
+            item: REDSTONE
+            buy: 30
+            sell: 1
+         7:
+            item: LAPIS_LAZULI
+            buy: 30
+            sell: 1
+         8:
+            item: EMERALD_ORE
+            buy: 70
+            sell: 1
+         9:
+            item: DIAMOND_ORE
+            buy: 120
+            sell: 1
+         10:
+            item: GOLD_ORE
+            buy: 50
+            sell: 1
+         11:
+            item: IRON_ORE
+            buy: 60
+            sell: 1
+         12:
+            item: COAL_ORE
+            buy: 40
+            sell: 1
+         13:
+            item: REDSTONE_ORE
+            buy: 50
+            sell: 1
+         14:
+            item: LAPIS_ORE
+            buy: 50
+            sell: 1
+            
+   Dekoracje:
+      name: "Dekoracje"
+      icon: RED_TULIP
+      description: "Przedmioty z kopalni"
+      items:
+         1:
+            item: DANDELION
+            buy: 20
+            sell: 1
+         2:
+            item: POPPY
+            buy: 20
+            sell: 1
+         3:
+            item: BLUE_ORCHID
+            buy: 20
+            sell: 1
+         4:
+            item: ALLIUM
+            buy: 20
+            sell: 1
+         5:
+            item: AZURE_BLUET
+            buy: 20
+            sell: 1
+         6:
+            item: RED_TULIP
+            buy: 20
+            sell: 1
+         7:
+            item: ORANGE_TULIP
+            buy: 20
+            sell: 1
+         8:
+            item: WHITE_TULIP
+            buy: 20
+            sell: 1
+         9:
+            item: PINK_TULIP
+            buy: 20
+            sell: 1
+         10:
+            item: OXEYE_DAISY
+            buy: 20
+            sell: 1
+         11:
+            item: CORNFLOWER
+            buy: 20
+            sell: 1
+         12:
+            item: LILY_OF_THE_VALLEY
+            buy: 20
+            sell: 1
+         13:
+            item: WITHER_ROSE
+            buy: 200
+            sell: 1
+         14:
+            item: BROWN_MUSHROOM
+            buy: 20
+            sell: 1
+         15:
+            item: RED_MUSHROOM
+            buy: 20
+            sell: 1
+         16:
+            item: OAK_SAPLING
+            buy: 20
+            sell: 1
+         17:
+            item: SPRUCE_SAPLING
+            buy: 20
+            sell: 1
+         18:
+            item: BIRCH_SAPLING
+            buy: 20
+            sell: 1
+         19:
+            item: JUNGLE_SAPLING
+            buy: 20
+            sell: 1
+         20:
+            item: ACACIA_SAPLING
+            buy: 20
+            sell: 1
+         21:
+            item: DARK_OAK_SAPLING
+            buy: 20
+            sell: 1
+         22:
+            item: COBWEB
+            buy: 20
+            sell: 1
+         23:
+            item: GRASS
+            buy: 20
+            sell: 1
+         24:
+            item: FERN
+            buy: 20
+            sell: 1
+         25:
+            item: DEAD_BUSH
+            buy: 20
+            sell: 1
+         26:
+            item: SEAGRASS
+            buy: 20
+            sell: 1
+         27:
+            item: SEAPICKLE
+            buy: 20
+            sell: 1
+            
+   Terracotta:
+      name: "Terracotta"
+      icon: WHITE_GLAZED_TERRACOTTA
+      description: "Przedmioty z kopalni"
+      items:
+         1:
+            item: WHITE_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         2:
+            item: ORANGE_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         3:
+            item: MAGENTA_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         4:
+            item: LIGHT_BLUE_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         5:
+            item: YELLOW_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         6:
+            item: LIME_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         7:
+            item: PINK_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         8:
+            item: GRAY_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         9:
+            item: LIGHT_GRAY_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         10:
+            item: CYAN_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         11:
+            item: PURPLE_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         12:
+            item: BLUE_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         13:
+            item: BROWN_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         14:
+            item: GREEN_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         15:
+            item: RED_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+         16:
+            item: BLACK_GLAZED_TERRACOTTA
+            buy: 20
+            sell: 1
+            
+            
+   Glowy:
+      name: "Głowy"
+      icon: CREEPER_HEAD
+      description: "Jajka z mobami"
+      items:
+         1:
+            item: SKELETON_SKULL
+            buy: 200
+            sell: 1
+         2:
+            item: WITHER_SKELETON_SKULL
+            buy: 200
+            sell: 1
+         3:
+            item: ZOMBIE_HEAD
+            buy: 200
+            sell: 1
+         4:
+            item: CREEPER_HEAD
+            buy: 200
+            sell: 1
+         5:
+            item: DRAGON_HEAD
+            buy: 200
+            sell: 1
+         6:
+            item: PLAYER_HEAD
+            buy: 200
+            sell: 1
+            
+   Jajka:
+      name: "Jajka"
+      icon: TURTLE_EGG
+      description: "Jajka z mobami"
+      items:
+         1:
+            item: BAT_SPAWN_EGG
+            buy: 200
+            sell: 1
+         2:
+            item: BEE_SPAWN_EGG
+            buy: 200
+            sell: 1
+         3:
+            item: BLAZE_SPAWN_EGG
+            buy: 200
+            sell: 1
+         4:
+            item: CAT_SPAWN_EGG
+            buy: 200
+            sell: 1
+         5:
+            item: CAVE_SPIDER_SPAWN_EGG
+            buy: 200
+            sell: 1
+         6:
+            item: CHICKEN_SPAWN_EGG
+            buy: 200
+            sell: 1
+         7:
+            item: COD_SPAWN_EGG
+            buy: 200
+            sell: 1
+         8:
+            item: COW_SPAWN_EGG
+            buy: 200
+            sell: 1
+         9:
+            item: CREEPER_SPAWN_EGG
+            buy: 200
+            sell: 1
+         10:
+            item: DOLPHIN_SPAWN_EGG
+            buy: 200
+            sell: 1
+         11:
+            item: DONKEY_SPAWN_EGG
+            buy: 200
+            sell: 1
+         12:
+            item: DROWNED_SPAWN_EGG
+            buy: 200
+            sell: 1
+         13:
+            item: ELDER_GUARDIAN_SPAWN_EGG
+            buy: 200
+            sell: 1
+         14:
+            item: ENDERMAN_SPAWN_EGG
+            buy: 200
+            sell: 1
+         15:
+            item: ENDERMITE_SPAWN_EGG
+            buy: 200
+            sell: 1
+         16:
+            item: EVOKER_SPAWN_EGG
+            buy: 200
+            sell: 1
+         17:
+            item: FOX_SPAWN_EGG
+            buy: 200
+            sell: 1
+         18:
+            item: GHAST_SPAWN_EGG
+            buy: 200
+            sell: 1
+         19:
+            item: GUARDIAN_SPAWN_EGG
+            buy: 200
+            sell: 1
+         20:
+            item: HORSE_SPAWN_EGG
+            buy: 200
+            sell: 1
+         21:
+            item: HUSK_SPAWN_EGG
+            buy: 200
+            sell: 1
+         22:
+            item: LLAMA_SPAWN_EGG
+            buy: 200
+            sell: 1
+         23:
+            item: MAGMA_CUBE_SPAWN_EGG
+            buy: 200
+            sell: 1
+         24:
+            item: MOOSHROOM_SPAWN_EGG
+            buy: 200
+            sell: 1
+         25:
+            item: MULE_SPAWN_EGG
+            buy: 200
+            sell: 1
+         26:
+            item: OCELOT_SPAWN_EGG
+            buy: 200
+            sell: 1
+         27:
+            item: PANDA_SPAWN_EGG
+            buy: 200
+            sell: 1
+         28:
+            item: PARROT_SPAWN_EGG
+            buy: 200
+            sell: 1
+         29:
+            item: PHANTOM_SPAWN_EGG
+            buy: 200
+            sell: 1
+         30:
+            item: PIG_SPAWN_EGG
+            buy: 200
+            sell: 1
+         31:
+            item: PILLAGER_SPAWN_EGG
+            buy: 200
+            sell: 1
+         32:
+            item: POLAR_BEAR_SPAWN_EGG
+            buy: 200
+            sell: 1
+         33:
+            item: PUFFERFISH_SPAWN_EGG
+            buy: 200
+            sell: 1
+         34:
+            item: RABBIT_SPAWN_EGG
+            buy: 200
+            sell: 1
+         35:
+            item: RAVAGER_SPAWN_EGG
+            buy: 200
+            sell: 1
+         36:
+            item: SALMON_SPAWN_EGG
+            buy: 200
+            sell: 1
+         37:
+            item: SHEEP_SPAWN_EGG
+            buy: 200
+            sell: 1
+         38:
+            item: SHULKER_SPAWN_EGG
+            buy: 200
+            sell: 1
+         39:
+            item: SILVERFISH_SPAWN_EGG
+            buy: 200
+            sell: 1
+         40:
+            item: SKELETON_SPAWN_EGG
+            buy: 200
+            sell: 1
+         41:
+            item: SKELETON_HORSE_SPAWN_EGG
+            buy: 200
+            sell: 1
+         42:
+            item: SLIME_SPAWN_EGG
+            buy: 200
+            sell: 1
+         43:
+            item: SPIDER_SPAWN_EGG
+            buy: 200
+            sell: 1
+         44:
+            item: SQUID_SPAWN_EGG
+            buy: 200
+            sell: 1
+         45:
+            item: STRAY_SPAWN_EGG
+            buy: 200
+            sell: 1
+         46:
+            item: TRADER_LLAMA_SPAWN_EGG
+            buy: 200
+            sell: 1
+         47:
+            item: TROPICAL_FISH_SPAWN_EGG
+            buy: 200
+            sell: 1
+         48:
+            item: TURTLE_SPAWN_EGG
+            buy: 200
+            sell: 1
+         49:
+            item: VEX_SPAWN_EGG
+            buy: 200
+            sell: 1
+         50:
+            item: VILLAGER_SPAWN_EGG
+            buy: 200
+            sell: 1
+         51:
+            item: VINDICATOR_SPAWN_EGG
+            buy: 200
+            sell: 1
+         52:
+            item: WANDERING_TRADER_SPAWN_EGG
+            buy: 200
+            sell: 1
+         53:
+            item: WITCH_SPAWN_EGG
+            buy: 200
+            sell: 1
+         54:
+            item: WITHER_SKELETON_SPAWN_EGG
+            buy: 200
+            sell: 1
+         55:
+            item: WOLF_SPAWN_EGG
+            buy: 200
+            sell: 1
+         56:
+            item: ZOMBIE_SPAWN_EGG
+            buy: 200
+            sell: 1
+         57:
+            item: ZOMBIE_HORSE_SPAWN_EGG
+            buy: 200
+            sell: 1
+         58:
+            item: ZOMBIE_PIGMAN_SPAWN_EGG
+            buy: 200
+            sell: 1
+         59:
+            item: ZOMBIE_VILLAGER_SPAWN_EGG
+            buy: 200
+            sell: 1
+            
+            
+   Płyty:
+      name: "Płyty"
+      icon: MUSIC_DISC_13
+      description: "Płyty z melodiami"
+      items:
+         1:
+            item: MUSIC_DISC_13
+            buy: 200
+            sell: 1
+         2:
+            item: MUSIC_DISC_CAT
+            buy: 200
+            sell: 1
+         3:
+            item: MUSIC_DISC_BLOCKS
+            buy: 200
+            sell: 1
+         4:
+            item: MUSIC_DISC_CHIRP
+            buy: 200
+            sell: 1
+         5:
+            item: MUSIC_DISC_FAR
+            buy: 200
+            sell: 1
+         6:
+            item: MUSIC_DISC_MALL
+            buy: 200
+            sell: 1
+         7:
+            item: MUSIC_DISC_MELLOHI
+            buy: 200
+            sell: 1
+         8:
+            item: MUSIC_DISC_STAL
+            buy: 200
+            sell: 1
+         9:
+            item: MUSIC_DISC_STRAD
+            buy: 200
+            sell: 1
+         10:
+            item: MUSIC_DISC_WARD
+            buy: 200
+            sell: 1
+         11:
+            item: MUSIC_DISC_11
+            buy: 200
+            sell: 1
+         12:
+            item: MUSIC_DISC_WAIT
+            buy: 200
+            sell: 1
+            
+            
+   Enchantment:
+      name: "Zaczarowane przedmioty"
+      icon: ENCHANTED_BOOK
+      description: "Zaczarowane książki, jabłka itp."
+      items:
+         1:
+            item: ENCHANTED_GOLDEN_APPLE
+            buy: 200
+            sell: 1
+         2:
+            item: EXPERIENCE_BOTTLE
+            buy: 200
+            sell: 1
+         fire_protection1:
+            item: ENCHANTED_BOOK
+            enchants:
+               fire_protection: 1
+            buy: 110
+            sell: 1
+         fire_protection2:
+            item: ENCHANTED_BOOK
+            enchants:
+               fire_protection: 2
+            buy: 140
+            sell: 1
+         fire_protection3:
+            item: ENCHANTED_BOOK
+            enchants:
+               fire_protection: 3
+            buy: 170
+            sell: 1
+         fire_protection4:
+            item: ENCHANTED_BOOK
+            enchants:
+               fire_protection: 4
+            buy: 200
+            sell: 1
+         sharpness1:
+            item: ENCHANTED_BOOK
+            enchants:
+               sharpness: 1
+            buy: 80
+            sell: 1
+         sharpness2:
+            item: ENCHANTED_BOOK
+            enchants:
+               sharpness: 2
+            buy: 110
+            sell: 1
+         sharpness3:
+            item: ENCHANTED_BOOK
+            enchants:
+               sharpness: 3
+            buy: 140
+            sell: 1
+         sharpness4:
+            item: ENCHANTED_BOOK
+            enchants:
+               sharpness: 4
+            buy: 170
+            sell: 1
+         sharpness5:
+            item: ENCHANTED_BOOK
+            enchants:
+               sharpness: 5
+            buy: 200
+            sell: 1
+         flame1:
+            item: ENCHANTED_BOOK
+            enchants:
+               flame: 1
+            buy: 200
+            sell: 1
+         aqua_affinity1:
+            item: ENCHANTED_BOOK
+            enchants:
+               aqua_affinity: 1
+            buy: 200
+            sell: 1
+         punch1:
+            item: ENCHANTED_BOOK
+            enchants:
+               punch: 1
+            buy: 170
+            sell: 1
+         punch2:
+            item: ENCHANTED_BOOK
+            enchants:
+               punch: 2
+            buy: 200
+            sell: 1
+         loyalty1:
+            item: ENCHANTED_BOOK
+            enchants:
+               loyalty: 1
+            buy: 140
+            sell: 1
+         loyalty2:
+            item: ENCHANTED_BOOK
+            enchants:
+               loyalty: 2
+            buy: 170
+            sell: 1
+         loyalty3:
+            item: ENCHANTED_BOOK
+            enchants:
+               loyalty: 3
+            buy: 200
+            sell: 1
+         depth_strider1:
+            item: ENCHANTED_BOOK
+            enchants:
+               depth_strider: 1
+            buy: 140
+            sell: 1
+         depth_strider2:
+            item: ENCHANTED_BOOK
+            enchants:
+               depth_strider: 2
+            buy: 170
+            sell: 1
+         depth_strider3:
+            item: ENCHANTED_BOOK
+            enchants:
+               depth_strider: 3
+            buy: 200
+            sell: 1
+         vanishing_curse1:
+            item: ENCHANTED_BOOK
+            enchants:
+               vanishing_curse: 1
+            buy: 200
+            sell: 1
+         unbreaking1:
+            item: ENCHANTED_BOOK
+            enchants:
+               unbreaking: 1
+            buy: 140
+            sell: 1
+         unbreaking2:
+            item: ENCHANTED_BOOK
+            enchants:
+               unbreaking: 2
+            buy: 170
+            sell: 1
+         unbreaking3:
+            item: ENCHANTED_BOOK
+            enchants:
+               unbreaking: 3
+            buy: 200
+            sell: 1
+         knockback1:
+            item: ENCHANTED_BOOK
+            enchants:
+               knockback: 1
+            buy: 170
+            sell: 1
+         knockback2:
+            item: ENCHANTED_BOOK
+            enchants:
+               knockback: 2
+            buy: 200
+            sell: 1
+         luck_of_the_sea1:
+            item: ENCHANTED_BOOK
+            enchants:
+               luck_of_the_sea: 1
+            buy: 140
+            sell: 1
+         luck_of_the_sea2:
+            item: ENCHANTED_BOOK
+            enchants:
+               luck_of_the_sea: 2
+            buy: 170
+            sell: 1
+         luck_of_the_sea3:
+            item: ENCHANTED_BOOK
+            enchants:
+               luck_of_the_sea: 3
+            buy: 200
+            sell: 1
+         binding_curse1:
+            item: ENCHANTED_BOOK
+            enchants:
+               binding_curse: 1
+            buy: 200
+            sell: 1
+         fortune1:
+            item: ENCHANTED_BOOK
+            enchants:
+               fortune: 1
+            buy: 140
+            sell: 1
+         fortune2:
+            item: ENCHANTED_BOOK
+            enchants:
+               fortune: 2
+            buy: 170
+            sell: 1
+         fortune3:
+            item: ENCHANTED_BOOK
+            enchants:
+               fortune: 3
+            buy: 200
+            sell: 1
+         protection1:
+            item: ENCHANTED_BOOK
+            enchants:
+               protection: 1
+            buy: 110
+            sell: 1
+         protection2:
+            item: ENCHANTED_BOOK
+            enchants:
+               protection: 2
+            buy: 140
+            sell: 1
+         protection3:
+            item: ENCHANTED_BOOK
+            enchants:
+               protection: 3
+            buy: 170
+            sell: 1
+         protection4:
+            item: ENCHANTED_BOOK
+            enchants:
+               protection: 4
+            buy: 200
+            sell: 1
+         efficiency1:
+            item: ENCHANTED_BOOK
+            enchants:
+               efficiency: 1
+            buy: 80
+            sell: 1
+         efficiency2:
+            item: ENCHANTED_BOOK
+            enchants:
+               efficiency: 2
+            buy: 110
+            sell: 1
+         efficiency3:
+            item: ENCHANTED_BOOK
+            enchants:
+               efficiency: 3
+            buy: 140
+            sell: 1
+         efficiency4:
+            item: ENCHANTED_BOOK
+            enchants:
+               efficiency: 4
+            buy: 170
+            sell: 1
+         efficiency5:
+            item: ENCHANTED_BOOK
+            enchants:
+               efficiency: 5
+            buy: 200
+            sell: 1
+         mending1:
+            item: ENCHANTED_BOOK
+            enchants:
+               mending: 1
+            buy: 200
+            sell: 1
+         frost_walker1:
+            item: ENCHANTED_BOOK
+            enchants:
+               frost_walker: 1
+            buy: 170
+            sell: 1
+         frost_walker2:
+            item: ENCHANTED_BOOK
+            enchants:
+               frost_walker: 2
+            buy: 200
+            sell: 1
+         lure1:
+            item: ENCHANTED_BOOK
+            enchants:
+               lure: 1
+            buy: 1400
+            sell: 1
+         lure2:
+            item: ENCHANTED_BOOK
+            enchants:
+               lure: 2
+            buy: 170
+            sell: 1
+         lure3:
+            item: ENCHANTED_BOOK
+            enchants:
+               lure: 3
+            buy: 200
+            sell: 1
+         looting1:
+            item: ENCHANTED_BOOK
+            enchants:
+               looting: 1
+            buy: 140
+            sell: 1
+         looting2:
+            item: ENCHANTED_BOOK
+            enchants:
+               looting: 2
+            buy: 170
+            sell: 1
+         looting3:
+            item: ENCHANTED_BOOK
+            enchants:
+               looting: 3
+            buy: 200
+            sell: 1
+         piercing1:
+            item: ENCHANTED_BOOK
+            enchants:
+               piercing: 1
+            buy: 110
+            sell: 1
+         piercing2:
+            item: ENCHANTED_BOOK
+            enchants:
+               piercing: 2
+            buy: 140
+            sell: 1
+         piercing3:
+            item: ENCHANTED_BOOK
+            enchants:
+               piercing: 3
+            buy: 170
+            sell: 1
+         piercing4:
+            item: ENCHANTED_BOOK
+            enchants:
+               piercing: 4
+            buy: 200
+            sell: 1
+         blast_protection1:
+            item: ENCHANTED_BOOK
+            enchants:
+               blast_protection: 1
+            buy: 110
+            sell: 1
+         blast_protection2:
+            item: ENCHANTED_BOOK
+            enchants:
+               blast_protection: 2
+            buy: 130
+            sell: 1
+         blast_protection3:
+            item: ENCHANTED_BOOK
+            enchants:
+               blast_protection: 3
+            buy: 170
+            sell: 1
+         blast_protection4:
+            item: ENCHANTED_BOOK
+            enchants:
+               blast_protection: 4
+            buy: 200
+            sell: 1
+         smite1:
+            item: ENCHANTED_BOOK
+            enchants:
+               smite: 1
+            buy: 80
+            sell: 1
+         smite2:
+            item: ENCHANTED_BOOK
+            enchants:
+               smite: 1
+            buy: 110
+            sell: 2
+         smite3:
+            item: ENCHANTED_BOOK
+            enchants:
+               smite: 1
+            buy: 140
+            sell: 3
+         smite4:
+            item: ENCHANTED_BOOK
+            enchants:
+               smite: 1
+            buy: 170
+            sell: 4
+         smite5:
+            item: ENCHANTED_BOOK
+            enchants:
+               smite: 5
+            buy: 200
+            sell: 1
+         multishot1:
+            item: ENCHANTED_BOOK
+            enchants:
+               multishot: 1
+            buy: 200
+            sell: 1
+         fire_aspect1:
+            item: ENCHANTED_BOOK
+            enchants:
+               fire_aspect: 1
+            buy: 170
+            sell: 1
+         fire_aspect2:
+            item: ENCHANTED_BOOK
+            enchants:
+               fire_aspect: 2
+            buy: 200
+            sell: 1
+         channeling1:
+            item: ENCHANTED_BOOK
+            enchants:
+               channeling: 1
+            buy: 200
+            sell: 1
+         sweeping1:
+            item: ENCHANTED_BOOK
+            enchants:
+               sweeping: 1
+            buy: 140
+            sell: 1
+         sweeping2:
+            item: ENCHANTED_BOOK
+            enchants:
+               sweeping: 2
+            buy: 170
+            sell: 1
+         sweeping3:
+            item: ENCHANTED_BOOK
+            enchants:
+               sweeping: 3
+            buy: 200
+            sell: 1
+         thorns1:
+            item: ENCHANTED_BOOK
+            enchants:
+               thorns: 1
+            buy: 140
+            sell: 1
+         thorns2:
+            item: ENCHANTED_BOOK
+            enchants:
+               thorns: 2
+            buy: 170
+            sell: 1
+         thorns3:
+            item: ENCHANTED_BOOK
+            enchants:
+               thorns: 3
+            buy: 200
+            sell: 1
+         bane_of_arthropods1:
+            item: ENCHANTED_BOOK
+            enchants:
+               bane_of_arthropods: 1
+            buy: 80
+            sell: 1
+         bane_of_arthropods2:
+            item: ENCHANTED_BOOK
+            enchants:
+               bane_of_arthropods: 2
+            buy: 110
+            sell: 1
+         bane_of_arthropods3:
+            item: ENCHANTED_BOOK
+            enchants:
+               bane_of_arthropods: 3
+            buy: 140
+            sell: 1
+         bane_of_arthropods4:
+            item: ENCHANTED_BOOK
+            enchants:
+               bane_of_arthropods: 4
+            buy: 170
+            sell: 1
+         bane_of_arthropods5:
+            item: ENCHANTED_BOOK
+            enchants:
+               bane_of_arthropods: 5
+            buy: 200
+            sell: 1
+         respiration1:
+            item: ENCHANTED_BOOK
+            enchants:
+               respiration: 1
+            buy: 140
+            sell: 1
+         respiration2:
+            item: ENCHANTED_BOOK
+            enchants:
+               respiration: 2
+            buy: 170
+            sell: 1
+         respiration3:
+            item: ENCHANTED_BOOK
+            enchants:
+               respiration: 3
+            buy: 200
+            sell: 1
+         riptide1:
+            item: ENCHANTED_BOOK
+            enchants:
+               riptide: 1
+            buy: 140
+            sell: 1
+         riptide2:
+            item: ENCHANTED_BOOK
+            enchants:
+               riptide: 2
+            buy: 170
+            sell: 1
+         riptide3:
+            item: ENCHANTED_BOOK
+            enchants:
+               riptide: 3
+            buy: 200
+            sell: 1
+         silk_touch1:
+            item: ENCHANTED_BOOK
+            enchants:
+               silk_touch: 1
+            buy: 200
+            sell: 1
+         quick_charge1:
+            item: ENCHANTED_BOOK
+            enchants:
+               quick_charge: 1
+            buy: 140
+            sell: 1
+         quick_charge2:
+            item: ENCHANTED_BOOK
+            enchants:
+               quick_charge: 2
+            buy: 170
+            sell: 1
+         quick_charge3:
+            item: ENCHANTED_BOOK
+            enchants:
+               quick_charge: 3
+            buy: 200
+            sell: 1
+         projectile_protection1:
+            item: ENCHANTED_BOOK
+            enchants:
+               projectile_protection: 1
+            buy: 110
+            sell: 1
+         projectile_protection2:
+            item: ENCHANTED_BOOK
+            enchants:
+               projectile_protection: 2
+            buy: 140
+            sell: 1
+         projectile_protection3:
+            item: ENCHANTED_BOOK
+            enchants:
+               projectile_protection: 3
+            buy: 170
+            sell: 1
+         projectile_protection4:
+            item: ENCHANTED_BOOK
+            enchants:
+               projectile_protection: 4
+            buy: 200
+            sell: 1
+         impaling1:
+            item: ENCHANTED_BOOK
+            enchants:
+               impaling: 1
+            buy: 80
+            sell: 1
+         impaling2:
+            item: ENCHANTED_BOOK
+            enchants:
+               impaling: 2
+            buy: 110
+            sell: 1
+         impaling3:
+            item: ENCHANTED_BOOK
+            enchants:
+               impaling: 3
+            buy: 140
+            sell: 1
+         impaling4:
+            item: ENCHANTED_BOOK
+            enchants:
+               impaling: 4
+            buy: 170
+            sell: 1
+         impaling5:
+            item: ENCHANTED_BOOK
+            enchants:
+               impaling: 5
+            buy: 200
+            sell: 1
+         feather_falling1:
+            item: ENCHANTED_BOOK
+            enchants:
+               feather_falling: 1
+            buy: 110
+            sell: 1
+         feather_falling2:
+            item: ENCHANTED_BOOK
+            enchants:
+               feather_falling: 2
+            buy: 140
+            sell: 1
+         feather_falling3:
+            item: ENCHANTED_BOOK
+            enchants:
+               feather_falling: 3
+            buy: 170
+            sell: 1
+         feather_falling4:
+            item: ENCHANTED_BOOK
+            enchants:
+               feather_falling: 4
+            buy: 200
+            sell: 1
+         power1:
+            item: ENCHANTED_BOOK
+            enchants:
+               power: 1
+            buy: 80
+            sell: 1
+         power2:
+            item: ENCHANTED_BOOK
+            enchants:
+               power: 2
+            buy: 110
+            sell: 1
+         power3:
+            item: ENCHANTED_BOOK
+            enchants:
+               power: 3
+            buy: 140
+            sell: 1
+         power4:
+            item: ENCHANTED_BOOK
+            enchants:
+               power: 4
+            buy: 170
+            sell: 1
+         power5:
+            item: ENCHANTED_BOOK
+            enchants:
+               power: 5
+            buy: 200
+            sell: 1
+         infinity1:
+            item: ENCHANTED_BOOK
+            enchants:
+               infinity: 1
+            buy: 200
+            sell: 1
+
+            
+            
+            

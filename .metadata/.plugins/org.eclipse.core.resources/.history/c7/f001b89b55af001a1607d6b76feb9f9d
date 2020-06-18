@@ -1,0 +1,17 @@
+package me.maskat.ArenaManager.ArenaAPI;
+
+import me.maskat.ArenaManager.Models.ModelArena;
+
+public class ApiArena {
+
+	private ModelArena modelArena;
+	
+	public ApiArena(ModelArena modelArena) {
+		this.modelArena = modelArena;
+	}
+	
+	public getTeam() {
+		
+	}
+	
+}

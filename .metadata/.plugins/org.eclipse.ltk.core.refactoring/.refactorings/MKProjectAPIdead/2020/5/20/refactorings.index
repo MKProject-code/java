@@ -1,0 +1,65 @@
+1589295390541	Rename package 'mkproject.maskat.papi'
+1589295408090	Rename type 'papi'
+1589295800250	Rename type 'MainMenu'
+1589296607189	Delete element
+1589296618047	Rename type 'MenuClickEvent'
+1589296631362	Rename compilation unit 'Cancellable.java'
+1589297277412	Rename package 'mkproject.maskat.mkprojectapi.addons'
+1589322585112	Move compilation unit
+1589322629212	Move compilation unit
+1589322637955	Move compilation unit
+1589322641392	Move compilation unit
+1589322643554	Move compilation unit
+1589322900305	Rename compilation unit 'InventoryMenu.java'
+1589322906806	Rename compilation unit 'InventoryMen.java'
+1589323056723	Rename compilation unit 'MenuGui.java'
+1589323067676	Rename compilation unit 'MenuGuisManager.java'
+1589323126349	Rename package 'mkproject.maskat.mkprojectapi'
+1589323133997	Rename type 'MenuInventory'
+1589323766828	Rename package 'mkproject.maskat.mkprojectapi.papi.menu'
+1589323774693	Rename type 'Menu'
+1589323998703	Rename type 'MenuGui'
+1589324046420	Rename type 'MenuPage'
+1589324230548	Rename package 'mkproject.maskat.mkprojectapi.inventories'
+1589324240846	Rename compilation unit 'retst.java'
+1589324348094	Move compilation unit
+1589324385759	Rename package 'xd'
+1589324402706	Rename package 'mkproject.maskat.mkprojectapi.pap'
+1589324431061	Rename package 'mkproject.maskat.mkprojectapi.pap'
+1589324437210	Rename package 'mkproject.maskat.mkprojectapi.papi.menuinventory'
+1589324453663	Move compilation unit
+1589324455981	Move compilation unit
+1589324458024	Move compilation unit
+1589324460966	Move compilation unit
+1589324462948	Move compilation unit
+1589324464695	Move compilation unit
+1589324493019	Rename type 'API'
+1589324514699	Rename type 'Papi'
+1589324593971	Rename compilation unit 'MenuClickEvent.java'
+1589324606763	Rename type 'PapiMenuClickEvent'
+1589325890593	Delete element
+1589325996727	Rename compilation unit 'InvSlot.java'
+1589327151901	Rename type 'Plugin'
+1589327275105	Rename type 'MenuGuiManager'
+1589327371573	Rename type 'MenuInventory'
+1589327391480	Rename type 'MenuGuiPage'
+1589327405912	Rename type 'MenuInventoryUtils'
+1589327409997	Rename type 'MenuInventoryPage'
+1589327414648	Rename type 'MenuInventoryManager'
+1589327537691	Rename compilation unit 'MenuInvSlot.java'
+1589327560758	Move compilation unit
+1589329378354	Delete element
+1589329558274	Delete element
+1589329580244	Rename type 'MenuInvManager'
+1589329590718	Rename type 'MenuInvPage'
+1589329627934	Rename type 'PapiInventorySlot'
+1589329633782	Rename type 'PapiMenuInventoryPage'
+1589329638284	Rename type 'PapiMenuInventoryClickEvent'
+1589329641655	Rename type 'PapiMenuInventoryManager'
+1589329845847	Move compilation unit
+1589329851491	Move compilation unit
+1589329864978	Move compilation unit
+1589329896886	Move compilation unit
+1589329905990	Move compilation unit
+1589330048087	Move compilation unit
+1589330169737	Move compilation units

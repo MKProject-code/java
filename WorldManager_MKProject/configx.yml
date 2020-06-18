@@ -1,0 +1,48 @@
+
+configWorlds:
+   world:
+      GameMode: SURVIVAL
+      Difficulty: EASY
+      KeepSpawnInMemory: False
+      Border:
+         Radius: -1
+         Squared: false
+   world_nether:
+      GameMode: SURVIVAL
+      Difficulty: NORMAL
+      KeepSpawnInMemory: False
+      Border:
+         Radius: -1
+         Squared: false
+   world_the_end:
+      GameMode: SURVIVAL
+      Difficulty: NORMAL
+      KeepSpawnInMemory: False
+      Border:
+         Radius: -1
+         Squared: false
+   world_spawn:
+      GameMode: CREATIVE
+      Difficulty: PEACEFUL
+      KeepSpawnInMemory: False
+      Border:
+         Radius: -1
+         Squared: false
+      WorldType: FLAT
+   world_spawncenter:
+      GameMode: SURVIVAL
+      Difficulty: PEACEFUL
+      KeepSpawnInMemory: False
+      Border:
+         Radius: 200
+         Squared: false
+      WorldType: NORMAL
+      GameRules:
+   world_build:
+      GameMode: CREATIVE
+      Difficulty: PEACEFUL
+      KeepSpawnInMemory: false
+      Border:
+         Radius: 200
+         Squared: false
+      WorldType: FLAT

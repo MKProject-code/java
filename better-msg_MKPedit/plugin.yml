@@ -1,0 +1,41 @@
+name: better-msg
+version: 1.5
+main: config.config
+description: this is a better version of msg
+
+commands:
+  msg:
+    description: send a message to a player
+    aliases: [pw]
+  tell:
+    description: send a message to a player
+    aliases: [tell]
+  t:
+    description: send a message to a player
+    aliases: [t]
+  reply:
+    description: send a message to a player
+    aliases: [r]
+  msgblock:
+    description: send a message to a player
+    aliases: [pwblock]
+  msgunblock:
+    description: send a message to a player
+    aliases: [pwunblock]
+  msgreload:
+    description: reloads the plugin
+    aliases: [msgr]
+    
+permissions:
+  msg.reload:
+    description: reloads the plugin
+    default: false
+  msg.use:
+    default: false
+    description: use the /msg and /reply commands
+  msg.*:
+    default: false
+    description: allows every command of this plugin.
+    children:
+        msg.use: true
+        msg.reload: true

@@ -1,0 +1,24 @@
+package me.maskat.MoneyManager;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+public class MapiModel {
+	
+	private static Map<Player, MapiPlayer> mapiPlayers = new HashMap<>();
+	
+	protected static MapiPlayer getPlayer(Player player) {
+		return mapiPlayers.get(player);
+	}
+
+	public static void addPlayer(Player player) {
+		mapiPlayers.put(player, new MapiPlayer(player));
+	}
+
+	public static void removePlayer(Player player) {
+		mapiPlayers.remove(player);
+	}
+}

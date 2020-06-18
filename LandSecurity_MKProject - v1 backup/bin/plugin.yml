@@ -1,0 +1,14 @@
+name: LandSecurity_MKProject
+main: me.maskat.landsecurity.LandSecurity
+#main: me.maskat.landsecurity.hider.ExampleMod
+description: Land Security
+version: 1.0.0
+author: MasKAT
+website: http://skyidea.pl/
+api-version: 1.15
+load: POSTWORLD
+softdepend: [AuthMe, ProtocolLib, Vault]
+
+commands:
+  wolf:
+    description: Command wolf

@@ -1,0 +1,8 @@
+package me.maskat.CommandBlocker;
+
+import org.bukkit.World;
+
+public class CommandModel {
+	String command;
+	String world;
+}

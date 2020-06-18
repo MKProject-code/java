@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value=""/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="apiArena"/>
+			<item value="setConnection"/>
+			<item value="createStatement"/>
+			<item value="&#x09;&#x09;papiMenuPage.setItem(InventorySlot.ROW6_COLUMN5, Material.GRAY_STAINED_GLASS_PANE, &quot; &quot;);"/>
+			<item value=":"/>
+			<item value="Enchantment"/>
+			<item value="buy: 10"/>
+			<item value="&#x09;    Bukkit.broadcastMessage(&quot;i=&quot;+i);"/>
+			<item value="setItem"/>
+			<item value="////&#x09;Timer timer = new Timer();"/>
+			<item value="&#x09;&#x09;if(menuPagesList.contains((MenuPage)e.getInventory().getHolder()))"/>
+			<item value="getArenaPluginInstanceArpPlayer"/>
+			<item value="player"/>
+			<item value="teleport"/>
+			<item value="UsersAPI"/>
+		</list>
+		<list key="replacehistory">
+			<item value="buy: 200"/>
+			<item value="O"/>
+			<item value="T"/>
+			<item value="S"/>
+			<item value=""/>
+			<item value="AdminUtils command"/>
+			<item value="coreprotectinfo.done"/>
+			<item value="Model."/>
+			<item value="Models."/>
+			<item value=" Models."/>
+			<item value="\r\n"/>
+			<item value=" {"/>
+			<item value="(List&lt;String&gt;)Lists.newArrayList(new String[] {});"/>
+			<item value="new String[] {"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="1310"/>
+		<item key="DIALOG_Y_ORIGIN" value="737"/>
+		<item key="DIALOG_WIDTH" value="353"/>
+		<item key="DIALOG_HEIGHT" value="555"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.75|0|WINDOWS|1|-13|0|0|0|400|0|0|0|-18|3|2|1|34|Segoe UI"/>
+	</section>
+</section>

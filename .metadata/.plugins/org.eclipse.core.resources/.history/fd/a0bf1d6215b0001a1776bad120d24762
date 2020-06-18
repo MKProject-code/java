@@ -1,0 +1,6 @@
+package mkproject.maskat.Papi.Timer;
+
+public class PapiTimer {
+	 private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+	 scheduler.scheduleAtFixedRate(yourRunnable, 8, 8, TimeUnit.HOURS);
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;database.yml&apos; to &apos;CustomCommand_MKProject&apos;&#x0D;&#x0A;- Original project: &apos;better-msg_MKPedit&apos;&#x0D;&#x0A;- Destination element: &apos;CustomCommand_MKProject&apos;&#x0D;&#x0A;- Original element: &apos;database.yml&apos;" description="Copy file" destination="=CustomCommand_MKProject" element1="database.yml" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1589030539680" units="0" version="1.0"/>
+</session>

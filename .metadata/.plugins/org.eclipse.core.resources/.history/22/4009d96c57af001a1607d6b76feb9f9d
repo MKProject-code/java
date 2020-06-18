@@ -1,0 +1,12 @@
+package me.maskat.ArenaPVP;
+
+import me.maskat.ArenaManager.ArenaPlugin.ArenaInstance;
+import me.maskat.ArenaManager.ArenaPlugin.ArenaPlugin;
+
+public class MonsterEvent_ArenaPlugin implements ArenaPlugin {
+
+	@Override
+	public ArenaInstance getNewInstance() {
+		return new MonsterEvent_ArenaInstance();
+	}
+}

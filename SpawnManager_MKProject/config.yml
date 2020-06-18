@@ -1,0 +1,14 @@
+
+MySQL:
+   Table:
+      Users: 'MKP_SpawnManager_Users'
+      
+GeneratedPlayerSpawnSchematicName: 'PlayerSpawnV1.schem'
+
+ServerSpawnLocation:
+   World: world_spawncenter
+   X: -278.0
+   Y: 72.0
+   Z: -135.0
+   Yaw: 270.0
+   Pitch: 0.0

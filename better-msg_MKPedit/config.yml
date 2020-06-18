@@ -1,0 +1,80 @@
+# better-msg plugin for 1.14.4
+# Made by (IGN) YungChazzie
+
+prefixes:
+    msg: "&7[&amsg&7]: &r"
+    no-permission: "&8[&cERROR&8] &r"
+
+deny-messages:
+    permission: "&cNo permission to do /msg or /reply"
+    reload: "&cYou cant use the reload"
+    # %t is the player you tried to send to but is not online
+    msg-send: "&cPlayer &r%t &cis not &aonline&c!"
+    #after usage of the reply command and you have no one that have messaged you
+    #you get this message:
+    reply: "&cThere's no one to reply to!"
+    #after reply to a offline player you get this message:
+    reply-send: "&cThe player you send to is not &aonline"
+    
+    #block: "&cThere's no one to reply to!"
+    #after reply to a offline player you get this message:
+    block-send: "&cThe player you block is not &aonline"
+    unblock-send: "&cThe player you unblock is not &aonline"
+    #after trying to send yourself a message you get this:
+    self-message: "&cWhy are you trying to send yourself a message?"
+    self-block: "&cWhy are you trying block yourself?"
+    self-unblock: "&cWhy are you trying unblock yourself?"
+    player-blocked-me-message: "&cNie mozesz wyslac wiadomosci, gracz cie zablokowal"
+    player-blocked-me-reply: "&cNie mozesz odpowiedziec, gracz cie zablokowal"
+    no-console: "&cThis command is only for players"
+
+messages:
+    reload: "&aThe &creload &awas successfull"
+    #after reply you get this message: (%t is the player you sended to)
+    #reply-success: "&aYour reply has been send to: &f%t"
+    #reply-success -> replaced!!! use lay-out:sender:
+    
+lay-out:
+    # %s = sender (player who sends the message).
+    receiver: "&a%s &7=> &aYou&8: &f"
+    # %t = target (player who receive the message)
+    sender: "&aYou &7=> &a%t&8: &f"
+
+block:
+   already-blocked: "Gracz jest juz zablokowany"
+   success-blocked: "Poprawnie zablokowano"
+   
+unblock:
+   already-unblocked: "Gracz jest juz odblokowany"
+   success-unblocked: "Poprawnie odblokowano"
+
+usage: 
+    command: "&cUsage: /msg <player> <message>"
+    reply: "&cUsage: /reply <message>"
+    block: "&cUsage: /msgblock <player>"
+    unblock: "&cUsage: /msgunblock <player>"
+
+#to get the sounds of 1.14.4
+#go to: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+sounds:
+    msg: "ENTITY_ARROW_SHOOT"
+    reply: "ENTITY_ARROW_SHOOT"
+#the pitch of the sound
+pitch:
+    msg: 1
+    reply: 1
+#the volume of the sound
+volume:
+    msg: 10
+    reply: 10
+    
+#Duration is in seconds
+duration:
+    msg-actionbar: 1
+    reply-actionbar: 1
+    
+#actionbar messages for the player who gets the message.
+actionbar:
+    msg: "&cSomeone just &ctexted &ayou"
+    reply: "&aThere's a &cnew reply"
+    

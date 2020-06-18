@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;mkproject.maskat.ChatManager.Task&apos; to &apos;TaskAsyncTimer&apos;&#x0D;&#x0A;- Original project: &apos;ChatManager_MKProject&apos;&#x0D;&#x0A;- Original element: &apos;mkproject.maskat.ChatManager.Task&apos;&#x0D;&#x0A;- Renamed element: &apos;mkproject.maskat.ChatManager.TaskAsyncTimer&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Task&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;mkproject.maskat.ChatManager{Task.java[Task" matchStrategy="1" name="TaskAsyncTimer" qualified="false" references="true" similarDeclarations="false" stamp="1592323339480" textual="false" version="1.0"/>
+</session>

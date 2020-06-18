@@ -1,0 +1,14 @@
+package me.maskat.MonsterEvent;
+
+import mkproject.maskat.Papi.Scheduler.PapiScheduler;
+
+public class SchedulerTask implements PapiScheduler {
+
+	@Override
+	public void runTaskThread() {
+		// TODO Auto-generated method stub
+		Task.checkMobsEventStart(apiArena, Task.checkTimeRepeatingSecondsDefault);
+		
+	}
+
+}

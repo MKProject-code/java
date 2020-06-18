@@ -1,0 +1,118 @@
+
+allowCommands:
+   /sklep:
+      default:
+         - world
+         - world_nether
+         - world_the_end
+         - world_spawncenter
+   /shop:
+      inherit: /sklep
+         
+   /pomoc:
+      all: all
+   /help:
+      inherit: /pomoc
+   /?:
+      inherit: /pomoc
+      
+   /arena:
+      inherit: /pomoc
+   /spawn:
+      inherit: /pomoc
+      
+   /register:
+      inherit: /pomoc
+   /reg:
+      inherit: /pomoc
+   /login:
+      inherit: /pomoc
+   /l:
+      inherit: /pomoc
+#   /changepassword: | /changepass
+#      inherit: /pomoc
+
+   /tpa:
+      default:
+         - world
+         - world_nether
+         - world_the_end
+         - world_spawncenter
+   /tpyes:
+      inherit: /tpa
+   /tpaccept:
+      inherit: /tpa
+   /tpno:
+      inherit: /pomoc
+   /tpdeny:
+      inherit: /pomoc
+   /tpcancel:
+      inherit: /pomoc
+   /tpon:
+      inherit: /pomoc
+   /tpoff:
+      inherit: /pomoc
+   
+   /trade:
+      inherit: /tpa
+      
+   /pw:
+      inherit: /pomoc
+   /msg:
+      inherit: /pomoc
+   /skin:
+      inherit: /pomoc
+   /bed:
+      inherit: /pomoc
+   /home:
+      inherit: /home
+   /r:
+      inherit: /pomoc
+   /pwblock:
+      inherit: /pomoc
+      
+
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+/pwblock, /pwunblock, /msgblock, /msgunblock, /msgblock, /msgunblock, /reply, /wolf, /c, /ogloszenia, /spawn, /exp, /spawn, /mute, /unmute, /promo, /arena]
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

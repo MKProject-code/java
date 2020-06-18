@@ -1,0 +1,31 @@
+package me.maskat.ArenaPVP;
+
+import java.util.List;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
+import me.maskat.ArenaManager.ArenaAPI.ArenaAPI;
+import me.maskat.ArenaManager.ArenaPlugin.ArenaPluginManager;
+import me.maskat.ArenaPVP.enums.Team;
+
+public class Plugin extends JavaPlugin {
+	public static Plugin plugin;
+	
+	@Override
+	public void onEnable() {
+		plugin = this;
+		
+		Event eventHandler = new Event();
+		
+		getServer().getPluginManager().registerEvents(eventHandler, this);
+		ArenaPluginManager.registerArenaPlugin(null, "MonsterEvent", List.of(Team.MONSTERS.name()), null);
+		
+		getLogger().info("Has been enabled!");
+		
+		Task.checkMobsEventStart(ArenaAPI.getModelArena("MonsterEvent"), Task.checkTimeRepeatingTicksDefault);
+	}
+	
+	public static Plugin getPlugin() {
+		return plugin;
+	}
+}

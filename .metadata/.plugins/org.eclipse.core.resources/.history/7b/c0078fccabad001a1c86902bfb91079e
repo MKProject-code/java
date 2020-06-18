@@ -1,0 +1,17 @@
+package me.maskat.MoneyManager;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.bukkit.entity.Player;
+
+public class MapiModel {
+	
+	Map<Player, MapiPlayer> mapiPlayers = new HashMap<>();
+	
+	protected MapiPlayer getPlayer(Player player) {
+		return mapiPlayers.get(player);
+	}
+	
+	
+}

@@ -1,0 +1,9 @@
+package me.maskat.MoneyManager;
+
+import org.bukkit.entity.Player;
+
+public class MapiAPI {
+	public MapiPlayer getPlayer(Player player) {
+		return MapiModel.getPlayer(player);
+	}
+}

@@ -1,0 +1,14 @@
+
+MySQL:
+   Table:
+      Users: "MKP_PromoManager_Users"
+
+# Time is in secounds!
+
+#Player:
+#   CheckAfkStatusTime: 30
+#   GoAfkAfterTime: 60
+#   
+#Server:
+#   SpawnWorldName: world_spawncenter
+#   SurvivalWorldName: world

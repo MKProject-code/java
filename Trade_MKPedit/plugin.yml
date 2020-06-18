@@ -1,0 +1,8 @@
+name: Trade
+author: Phloxz
+version: 0.0.7
+main: Trade.Main
+api-version: 1.13
+
+commands:
+  trade:

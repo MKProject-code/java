@@ -1,0 +1,19 @@
+
+MySQL:
+   Hostname: '192.168.1.10'
+   Port: '6736'
+   Username: 'minecraft_server'
+   Password: '69Uri6Us4cSnpZ0W'
+   Database: 'minecraft_server'
+   SSL: True
+   DebugConsole: True
+
+# Time is in secounds!
+
+Player:
+   CheckAfkStatusTime: 30
+   GoAfkAfterTime: 60
+   
+Server:
+   SpawnWorldName: world_spawncenter
+   SurvivalWorldName: world

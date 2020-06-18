@@ -1,0 +1,9 @@
+package mkproject.maskat.ChatManager;
+
+import org.jetbrains.annotations.NotNull;
+
+public class Task {
+	public static Runnable AsyncTimer() {
+		
+	}
+}

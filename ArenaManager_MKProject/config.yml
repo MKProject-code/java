@@ -1,0 +1,18 @@
+
+MySQL:
+   Table:
+      Arenes: "MKP_ArenaManager_Arenes"
+      Teams: "MKP_ArenaManager_Teams"
+      Spawns: "MKP_ArenaManager_Spawns"
+      Objects: "MKP_ArenaManager_Objects"
+      ObjectsGroups: "MKP_ArenaManager_ObjectsGroups"
+
+# Time is in secounds!
+
+#Player:
+#   CheckAfkStatusTime: 30
+#   GoAfkAfterTime: 60
+#   
+#Server:
+#   SpawnWorldName: world_spawncenter
+#   SurvivalWorldName: world

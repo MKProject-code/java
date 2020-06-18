@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;CmdFeed.java&apos; to &apos;AdminUtils/src/mkproject.maskat.AdminUtils.Cmds&apos;&#x0D;&#x0A;- Original project: &apos;AdminUtils&apos;&#x0D;&#x0A;- Destination element: &apos;AdminUtils/src/mkproject.maskat.AdminUtils.Cmds&apos;&#x0D;&#x0A;- Original element: &apos;mkproject.maskat.AdminUtils.Cmds.CmdFeed.java&apos;" description="Copy compilation unit" destination="/src&lt;mkproject.maskat.AdminUtils.Cmds" element1="/src&lt;mkproject.maskat.AdminUtils.Cmds{CmdFeed.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1591662068423" units="1" version="1.0"/>
+</session>

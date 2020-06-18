@@ -1,0 +1,11 @@
+package me.maskat.ArenaManager.ArenaPlugin;
+
+import me.maskat.ArenaManager.Models.ModelArena;
+
+public class AbortArenaGameEvent {
+	//private ModelArena modelArena;
+	
+	public AbortArenaGameEvent(ModelArena modelArena) {
+		//this.modelArena = modelArena;
+	}
+}

@@ -1,0 +1,26 @@
+# LandSecurity plugin for 1.15.2
+# Made by MasKAT
+
+Player:
+   LoginInfoRepeatMessage: "\n&cTwój nick jest zarejestrowany na naszym serwerze!\n&eJeśli nie Ty jesteś właścicelem konta, proszę zmień nick :)\n \n&2Proszę się zalogować przy użyciu &6/login <hasło>"
+   RegisterInfoRepeatMessage: "\n&bWitaj przybyszu! Dołącz do nas i walcz o przetrwanie!\n \n&2Proszę się zarejestrować przy użyciu:\n&6/register <hasło> <powtórz_hasło>"
+   KickMessage:
+      Timeout: "&cUpłynął czas logowania."
+      WrongLoginPassword: "&cPodałeś błędne hasło."
+   AlreadyLogged: "&eJesteś już zalogowany."
+   SuccessLogged: "\n&aZostałeś zalogowany pomyślnie.\n"
+   #WrongLoginPassword: "&cPodałeś błędne hasło."
+   SuccessRegistered: "\n&aZostałeś zarejestrowany pomyślnie.\n"
+   CommandLoginWrong: "&6Zaloguj się używając &e/login <hasło>"
+   CommandRegisterWrong: "&6Zarejestruj się używając &e/register <hasło> <powtórz_hasło>"
+   CommandRegisterWrongPasswordNotEquals: "&cPodałeś dwa inne hasła!"
+   RegisterPasswordTooShort: "&cHasło musi zawierać co najmniej 5 znaków!"
+   RegisterPasswordTooLong: "&cHasło może zawierać maksymalnie 30 znaków!"
+   RegisterPasswordEqualsUserName: "&cHasło nie może być takie samo jak twój nick!"
+   RestoreLocationInfo: "&ePrzywracamy twoją poprzednią lokalizację... Bądź cierpliwy :)"
+   
+Message:
+   PlayerLogged: "&b> &6{playername} &adołącza do świata &bSkyidea&a!"
+   PlayerFirstLogged: "&b> &dPowitajmy nowego gracza! &e{playername}&d odkrył nasz świat!"
+   PlayerQuit: "&b> &6{playername} &copuszcza świat &bSkyidea&c!"
+   

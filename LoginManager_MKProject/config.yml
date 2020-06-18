@@ -1,0 +1,15 @@
+
+MySQL:
+   Table:
+      Users: 'MKP_LoginManager'
+
+# Time is in secounds!
+
+Player:
+   UnloggedSendMessageTime: 9.5
+   
+EntitySpawnLocation:
+   World: world_spawncenter
+   X: -278.0
+   Y: 84.0
+   Z: -135.0

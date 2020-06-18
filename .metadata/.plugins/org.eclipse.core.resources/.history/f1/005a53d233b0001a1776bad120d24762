@@ -1,0 +1,7 @@
+package mkproject.maskat.Papi;
+
+public class PapiItemUtils {
+	protected addLore(ItemStack itemStack) {
+		
+	}
+}

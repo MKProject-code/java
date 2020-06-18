@@ -1,0 +1,18 @@
+package mkproject.maskat.Papi.Scheduler;
+
+import java.time.DayOfWeek;
+
+public class PapiSchedulerInstance {
+
+	private PapiScheduler papiScheduler;
+	DayOfWeek dayOfWeek;
+	int hourOfDay;
+	int minute;
+	int second;
+	
+	public PapiSchedulerInstance(PapiScheduler papiScheduler, DayOfWeek dayOfWeek, int hourOfDay, int minute,
+			int second) {
+		// TODO Auto-generated constructor stub
+	}
+
+}

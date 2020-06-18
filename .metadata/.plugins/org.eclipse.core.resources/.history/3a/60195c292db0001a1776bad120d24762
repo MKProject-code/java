@@ -1,0 +1,37 @@
+package me.maskat.ShopManager;
+
+import org.bukkit.Bukkit;
+
+import mkproject.maskat.Papi.Papi;
+import mkproject.maskat.Papi.Scheduler.PapiScheduler;
+
+public class SchedulerTask implements PapiScheduler {
+
+	@Override
+	public void runTaskThread() {
+		Bukkit.broadcastMessage("PapiScheduler");
+		Plugin.getPlugin().getServer().getLogger().warning("PapiScheduler");
+		
+		String category = "Sales";
+		
+		Plugin.getPlugin().getConfig().set("categories."+category+".items", null);
+		
+		for(String category : Plugin.getPlugin().getConfig().getConfigurationSection("categories").getKeys(false))
+		{
+			if(Papi.Function.randomInteger(0, 1) == 0)
+			{
+				for(String item : Plugin.getPlugin().getConfig().getConfigurationSection("categories."+category+".items").getKeys(false))
+				{
+					if(Papi.Function.randomInteger(0, 1) == 0)
+					{
+						int price = Plugin.getPlugin().getConfig().getInt("categories."+category+".items."+item+".buy");
+						Plugin.getPlugin().getConfig().set("salesGeneratedItems."+item+".buy", price);
+						Plugin.getPlugin().getConfig().set("salesGeneratedItems."+item+".sale", (price*(Papi.Function.randomInteger(90, 97)*0.01D)));
+					}
+				}
+			}
+		}
+		
+		Plugin.getPlugin().saveConfig();
+	}
+}

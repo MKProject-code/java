@@ -1,0 +1,7 @@
+package me.maskat.MoneyManager;
+
+public class Task {
+	public static void updatePlayersPoints() {
+		
+	}
+}

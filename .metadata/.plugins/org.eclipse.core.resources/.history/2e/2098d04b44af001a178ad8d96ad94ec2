@@ -1,0 +1,31 @@
+# VaultChatFormatter Configuration
+#
+# To reload this configuration file, run `/vaultchatformatter reload`.
+# (and make sure you have the 'vaultchatformatter.reload' permission)
+
+# The chat format.
+#
+# The following placeholders can be used in the format, and will be replaced
+# by their corresponding value when the format is applied.
+#
+# {group} ==> the players group
+# {prefix} ==> the players prefix
+# {suffix} ==> the players suffix
+# {name} ==> the players username (displayname)
+# {message} ==> the message being sent by the player
+#
+# Standard Minecraft color codes can be used in the format.
+ChatFormatter:
+   Chat: "&8[{group}&8] {prefix}{name}{suffix}&7: {prefixmessage}{message}"
+   PrefixMessage:
+      Default: "&7"
+      AdminChat: "&f"
+
+TabFormatter:
+   Header: "\n   &3Serwer Skyidea.pl&7 - &aPrawdziwy Survival   \n\n&7Graczy online: {online_players}/{max_players}"
+   PlayerBeforeLogin: "{name} łączy się..."
+   Player: "&8{group}&8 {prefix}{name} &7{afk}"
+   #Footer: "\n&7Wszystko co potrzebne znajdziesz\n&7w menu wpisując komende: &f/menu\n "
+   FooterBeforeLogin: "\n "
+   Footer: "\n&7Twoje SkyPunkty: {player_mapi_points}\n "
+    

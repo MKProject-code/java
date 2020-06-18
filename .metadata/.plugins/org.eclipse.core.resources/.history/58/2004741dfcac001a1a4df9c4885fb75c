@@ -1,0 +1,46 @@
+package me.maskat.ArenaManager.ArenaPlugin;
+
+import java.util.Collection;
+
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
+import me.maskat.ArenaManager.Models.ModelArena;
+import mkproject.maskat.Papi.Papi;
+
+public class PlayerLeaveArenaEvent {
+
+	private ModelArena modelArena;
+	private Player player;
+	private Location teleportLocation;
+	private GameMode gamemode;
+
+	public PlayerLeaveArenaEvent(Player player, ModelArena modelArena) {
+		this.player = player;
+		this.modelArena = modelArena;
+		this.teleportLocation = Papi.Server.getServerSpawnLocation();
+	}
+
+	public ArpArena getArena() {
+		return this.modelArena.getArenaPluginInstanceArpArena();
+	}
+	
+	public ArpPlayer getPlayer() {
+		return this.modelArena.getArenaPluginInstanceArpPlayer(player);
+	}
+	
+	public ArpTeam getTeam(String teamType) {
+		return this.modelArena.getArenaPluginInstanceArpTeam(teamType);
+	}
+	public Collection<ArpTeam> getTeams() {
+		return this.modelArena.getArenaPluginInstanceArpTeams();
+	}
+	
+	public Location getTeleportLocation() {
+		return this.teleportLocation;
+	}
+	public void setTeleportLocation(Location teleportLocation) {
+		this.teleportLocation = teleportLocation;
+	}
+
+}

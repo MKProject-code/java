@@ -1,0 +1,5 @@
+package me.maskat.ShopManager;
+
+public interface MapiUpdater {
+	public void onMoneyUpdate(MapiPlayer mapiPlayer);
+}

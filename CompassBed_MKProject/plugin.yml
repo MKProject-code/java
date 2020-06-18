@@ -1,0 +1,8 @@
+name: CompassBed_MKProject
+main: me.maskat.compassbed.Compass
+description: Compass navigate to bed
+version: 1.0.0
+author: MasKAT
+website: http://skyidea.pl/
+api-version: 1.15
+load: POSTWORLD

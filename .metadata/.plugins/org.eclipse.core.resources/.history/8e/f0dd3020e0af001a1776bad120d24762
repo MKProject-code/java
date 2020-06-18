@@ -1,0 +1,5 @@
+package me.maskat.ShopManager.Cmds;
+
+public class CmdShop {
+	
+}

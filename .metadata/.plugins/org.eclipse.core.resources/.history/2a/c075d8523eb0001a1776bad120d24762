@@ -1,0 +1,9 @@
+package me.maskat.ShopManager;
+
+public class Function {
+	public class Menu {
+		public String getCurrency(int amount) {
+			
+		}
+	}
+}

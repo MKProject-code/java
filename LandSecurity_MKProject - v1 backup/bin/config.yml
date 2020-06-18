@@ -1,0 +1,14 @@
+# LandSecurity plugin for 1.15.2
+# Made by MasKAT
+
+database:
+   host: '192.168.1.10'
+   port: '6736'
+   user: 'minecraft_server'
+   password: '69Uri6Us4cSnpZ0W'
+   database: 'minecraft_server'
+   ssl: True
+   table:
+      regions: "landsecurity_s1_regions"
+      users: "landsecurity_s1_users"
+      wolves: "landsecurity_s1_wolves"

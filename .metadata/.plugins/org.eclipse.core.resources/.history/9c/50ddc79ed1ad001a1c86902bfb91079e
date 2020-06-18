@@ -1,0 +1,32 @@
+package me.maskat.MoneyManager;
+
+import java.util.Collection;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import mkproject.maskat.Papi.PapiPlugin;
+import mkproject.maskat.Papi.Model.PapiModel;
+
+public class Task {
+	public static void updatePlayersPoints() {
+		
+		if(e.getPapiPlayer().isAfk()
+		
+	}
+	
+	protected static void runUpdatePlayersPointsTask(int repeatTime) {
+		Collection<? extends Player> onlinePlayers = PapiPlugin.getPlugin().getServer().getOnlinePlayers();
+		for(Player player : onlinePlayers)
+		{
+			if(PapiModel.existPlayer(player))
+				PapiModel.getPlayer(player).updateAfkStatus();
+		}
+		Bukkit.getScheduler().runTaskLater(PapiPlugin.getPlugin(), new Runnable() {
+			@Override
+			public void run() {
+				runUpdatePlayersPointsTask(repeatTime);
+			}
+		}, repeatTime*20L);
+	}
+}

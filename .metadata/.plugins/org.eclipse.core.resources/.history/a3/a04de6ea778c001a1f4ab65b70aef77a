@@ -1,0 +1,56 @@
+package me.maskat.landsecurity;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
+import me.maskat.mysql.SQL;
+
+public class Function {
+	public static int[] StringToIntegerArray(String str) {
+		int[] arr = {};
+		if(!isNullOrEmpty(str))
+			arr = Arrays.stream(str.substring(1, str.length()-1).split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
+		return arr;
+	}
+	
+	public static List<Integer> StringToIntegerArrayList(String str) {
+		List<Integer> arr = List.of(Arrays.stream(str.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray());
+		//return Arrays.stream().map(String::trim).mapToInt(Integer::parseInt);
+	}
+	
+    public static boolean isNullOrEmpty(String str) {
+        if(str != null && !str.isEmpty())
+            return false;
+        return true;
+    }
+    
+    public static boolean isInLocation(Location loc1, Location loc2) {
+    	if(loc1.getBlockX() == loc2.getBlockX() && loc1.getBlockY() == loc2.getBlockY() && loc1.getBlockZ() == loc2.getBlockZ())
+    		return true;
+    	return false;
+    }
+
+    
+	   
+//	   public static int[] StringToIntegerArray(String str) {
+//	        String[] splitArray = str.substring(1, str.length()-1).split(",");
+//	        int[] array = new int[splitArray.length];
+//	        for(int i=0;i<splitArray.length;i++)
+//	        {
+//	                try {
+//	                    array[i] = Integer.parseInt(splitArray[i].trim());
+//	                } catch (NumberFormatException e) {
+//	                    array[i]=-1;
+//	                }
+//	        }
+//	        return array;
+//	   }
+}

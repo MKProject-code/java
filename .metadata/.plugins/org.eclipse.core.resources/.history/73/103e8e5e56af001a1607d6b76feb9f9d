@@ -1,0 +1,26 @@
+package me.maskat.ArenaManager.ArenaAPI;
+
+import java.util.Collection;
+import java.util.HashMap;
+
+import me.maskat.ArenaManager.Models.ModelArena;
+import me.maskat.ArenaManager.Models.ModelArenaTeam;
+
+public class ApiTeam {
+
+	private ModelArenaTeam modelTeam;
+	private Map<String, ApiSpawn> apiLocations = new HashMap<>();
+	
+	public ApiTeam(ModelArenaTeam modelTeam) {
+		this.modelTeam = modelTeam;
+	}
+	
+	public void getTeam(String teamType) {
+		for(ModelArenaTeam modelTeam : modelArena.getTeamsMap().values())
+		{
+			if()
+			modelTeam
+		}
+	}
+	
+}

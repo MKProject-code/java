@@ -1,0 +1,316 @@
+package me.maskat.ArenaManager.ArenaManager;
+
+import java.util.List;
+import java.util.Map;
+
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+import me.maskat.ArenaManager.Plugin;
+import me.maskat.ArenaManager.ArenaPlugin.ArenaPlugin;
+import me.maskat.ArenaManager.ArenaPlugin.ArpArena;
+import me.maskat.ArenaManager.ArenaPlugin.ArpTeam;
+import me.maskat.ArenaManager.ArenaPlugin.EndGameEvent;
+import me.maskat.ArenaManager.ArenaPlugin.PlayerDamageInArenaEvent;
+import me.maskat.ArenaManager.ArenaPlugin.PlayerDeathInArenaEvent;
+import me.maskat.ArenaManager.ArenaPlugin.PlayerLeaveArenaEvent;
+import me.maskat.ArenaManager.ArenaPlugin.PlayerRespawnInArenaEvent;
+import me.maskat.ArenaManager.ArenaPlugin.PrepareArenaAsyncEvent;
+import me.maskat.ArenaManager.ArenaPlugin.PreparePlayersEvent;
+import me.maskat.ArenaManager.ArenaPlugin.StartGameEvent;
+import me.maskat.ArenaManager.Models.ArenesModel;
+import me.maskat.ArenaManager.Models.ModelArena;
+import me.maskat.ArenaManager.Models.ModelArenaPlayer;
+import me.maskat.ArenaManager.Models.ModelArenaTeam;
+import mkproject.maskat.Papi.Papi;
+import mkproject.maskat.Papi.Utils.Message;
+
+public class Manager {
+
+	public static void prepareArena(ModelArena modelArena) {
+		ArenaPlugin arenaPlugin = ArenesModel.getArenaType(modelArena.getType()).getArenaPlugin();
+		List<ModelArenaPlayer> modelArenaPlayers = modelArena.getPlayersRegistered();
+		for(ModelArenaPlayer modelArenaPlayer : modelArenaPlayers)
+		{
+			Message.sendTitle(modelArenaPlayer.getPlayer(), null, "&6Przygotuj się na arene!");
+			modelArenaPlayer.setBlockArenaMenu(true);
+			modelArenaPlayer.getPlayer().closeInventory();
+		}
+		
+		if(modelArena.isArenaPrepared())
+		{
+			modelArena.doPreparePlayers();
+			return;
+		}
+		
+		modelArena.runTaskPreparePlayersFromAsync();
+		
+        Bukkit.getScheduler().runTaskLaterAsynchronously(Plugin.getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+				arenaPlugin.onPrepareArenaAsync(new PrepareArenaAsyncEvent(modelArena));
+				modelArena.setArenaPrepared(true);
+				modelArena.doPreparePlayersFromAsync();
+            }
+        }, 40L);
+	}
+	
+	public static void sendMessageToPreparePlayersTask(List<ModelArenaPlayer> modelArenaPlayers, ArenaPlugin arenaPlugin, ModelArena modelArena, int seconds) {
+		if(seconds<=0) {
+			List<ModelArenaPlayer> modelArenaPlayersNow = modelArena.getPlayersRegistered();
+			
+			boolean equalsModels = modelArenaPlayers.equals(modelArenaPlayersNow);
+			
+			if(modelArenaPlayersNow.size() < modelArena.getMaxPlayers())
+			{
+				for(ModelArenaPlayer modelArenaPlayer : modelArenaPlayersNow)
+				{
+					Message.sendTitle(modelArenaPlayer.getPlayer(), null, "&cUczestnik opóścił grę...");
+					modelArenaPlayer.setBlockArenaMenu(false);
+				}
+				modelArena.doEndArenaClear();
+				return;
+			}
+			else if(!equalsModels) {
+				for(ModelArenaPlayer modelArenaPlayer : modelArenaPlayersNow)
+					Message.sendTitle(modelArenaPlayer.getPlayer(), null, "&cZmiana uczestników...");
+				
+		        Plugin.getPlugin().getServer().getScheduler().runTaskLater(Plugin.getPlugin(), new Runnable() {
+		            @Override
+		            public void run() {
+		            	sendMessageToPreparePlayersTask(modelArenaPlayersNow, arenaPlugin, modelArena, 10);
+		            }
+		        }, 20L);
+				return;
+			}
+			
+			for(ModelArenaPlayer modelArenaPlayer : modelArenaPlayersNow)
+			{
+	    		modelArenaPlayer.getPlayer().spigot().respawn();
+				//preparePlayerWhenSpawnInArena(modelArenaPlayer.getPlayer());
+			}
+			arenaPlugin.onPreparePlayers(new PreparePlayersEvent(modelArena));
+			return;
+		}
+		
+		for(ModelArenaPlayer modelArenaPlayer : modelArenaPlayers)
+			Message.sendTitle(modelArenaPlayer.getPlayer(), null, "&c"+String.valueOf(seconds));
+
+        Plugin.getPlugin().getServer().getScheduler().runTaskLater(Plugin.getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+            	sendMessageToPreparePlayersTask(modelArenaPlayers, arenaPlugin, modelArena, seconds-1);
+            }
+        }, 20L);
+	}
+	
+	public static void doStartGame(ModelArena modelArena, ArpArena arena, Map<String, ArpTeam> teamsMap, int secondDelay) {
+		List<ModelArenaPlayer> modelArenaPlayers = modelArena.getPlayersPlayedInside();
+		
+		for(ModelArenaPlayer modelArenaPlayer : modelArenaPlayers)
+		{
+			//need when next round??
+			Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), () -> {
+				modelArenaPlayer.getPlayer().spigot().respawn();
+			}, 1L);
+			
+			Message.sendTitle(modelArenaPlayer.getPlayer(), null, null);
+		}
+		
+		if(secondDelay <= 0)
+			secondDelay = 0;
+
+        Plugin.getPlugin().getServer().getScheduler().runTaskLater(Plugin.getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+            	for(ModelArenaPlayer modelArenaPlayer : modelArenaPlayers)
+				{
+            		modelArenaPlayer.setFreeze(false);
+            		modelArenaPlayer.setGodMode(false);
+					Message.sendTitle(modelArenaPlayer.getPlayer(), null, "&aSTART", 0, 10, 10);
+				}
+            	ArenesModel.getArenaType(modelArena.getType()).getArenaPlugin().onStartGame(new StartGameEvent(modelArena, arena, teamsMap));
+            }
+        }, 20*secondDelay);
+	}
+	
+	public static void onPlayerDeathEvent(PlayerDeathEvent e) {
+		ModelArenaPlayer modelArenaPlayer = ArenesModel.getPlayer(e.getEntity());
+		ModelArena modelArena = modelArenaPlayer.getPlayedInsideArena();
+		if(modelArena==null)
+			return;
+		
+		PlayerDeathInArenaEvent event = new PlayerDeathInArenaEvent(e.getEntity(), modelArena, e);
+		
+		ArenesModel.getArenaType(modelArena.getType()).getArenaPlugin().onPlayerDeathInArena(event);
+		
+		e.setKeepInventory(event.getKeepInventory());
+		e.setKeepLevel(event.getKeepLevel());
+		
+		e.setDroppedExp(event.getDroppedExp());
+		
+		if(event.isNextRound())
+		{
+			for(ModelArenaPlayer arenaPlayer : modelArena.getPlayersPlayedInside())
+			{
+	    		Papi.Model.getPlayer(arenaPlayer.getPlayer()).setSpeedFreeze();
+	    		arenaPlayer.setFreeze(true);
+	    		arenaPlayer.setGodMode(true);
+			}
+			Bukkit.broadcastMessage("getRestartRoundDelay="+event.getRestartRoundDelay());
+			Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), () -> {
+				Bukkit.broadcastMessage("doNextRound");
+				for(ModelArenaPlayer arenaPlayer : modelArena.getPlayersPlayedInside())
+					arenaPlayer.getPlayer().spigot().respawn();
+				
+				ArenaPlugin arenaPlugin = ArenesModel.getArenaType(modelArena.getType()).getArenaPlugin();
+				arenaPlugin.onPreparePlayers(new PreparePlayersEvent(modelArena));
+				
+//				Map<String, ArpTeam> teamsMap = new HashMap<>();
+//				for(ModelArenaTeam modelArenaTeam : modelArena.getTeamsMap().values()) {
+//					if(modelArenaTeam.getType()!=null && modelArenaTeam.getType().length()>0)
+//					{
+//						ArpTeam arpTeam = new ArpTeam(modelArenaTeam, true);
+//						teamsMap.put(modelArenaTeam.getType(), arpTeam);
+//					}
+//				}
+//				
+				//Manager.doStartGame(modelArena, event.getArena(), teamsMap, event.getStartRoundDelay());
+				
+			}, 20*event.getRestartRoundDelay());
+
+		}
+		else
+		{
+			if(!event.isRespawnPlayerInArena())
+			{
+				modelArenaPlayer.setLeavePlayedInsideArena(modelArena);
+				modelArenaPlayer.unsetPlayedInsideArena();
+			}
+			
+			if(event.isRespawnWithoutDeathScreen())
+			{
+				Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), () -> {
+					e.getEntity().spigot().respawn();
+					//preparePlayerWhenSpawnInArena(e.getEntity());
+				}, 1L);
+			}
+			checkEndGameArena(modelArena);
+		}
+	}
+	
+	private static void checkEndGameArena(ModelArena modelArena) {
+		ModelArenaTeam modelArenaTeamAlive = null;
+		for(ModelArenaTeam modelArenaTeam : modelArena.getTeamsMap().values()) {
+			if(modelArenaTeam.getType()!=null && modelArenaTeam.getType().length()>0)
+			{
+				if(modelArenaTeam.getPlayersInsideTeam().size() > 0)
+				{
+					if(modelArenaTeamAlive != null)
+						return;
+					modelArenaTeamAlive = modelArenaTeam;
+				}
+			}
+		}
+		
+		if(modelArenaTeamAlive != null)
+		{
+			for(ModelArenaPlayer modelArenaPlayer : modelArenaTeamAlive.getPlayersInsideArena()) {
+				Message.sendTitle(modelArenaPlayer.getPlayer(), null, "&a-- ZWYCIĘSTWO --");
+			}
+			EndGameEvent event = new EndGameEvent(modelArena, modelArenaTeamAlive);
+			ArenesModel.getArenaType(modelArena.getType()).getArenaPlugin().onEndGame(event);
+			doKickPlayersTimeFromEndGameArena(modelArena, modelArenaTeamAlive, event.getKickPlayersTime());
+		}
+	}
+
+	private static void doKickPlayersTimeFromEndGameArena(ModelArena modelArena, ModelArenaTeam modelArenaTeamAlive, long timeDelayed) {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), () -> {
+			for(ModelArenaPlayer modelArenaPlayer : modelArenaTeamAlive.getPlayersInsideArena()) {
+				Location kickLocation = doEventPlayerLeaveArena(modelArenaPlayer, modelArena);
+				modelArenaPlayer.getPlayer().teleport(kickLocation);
+			}
+			modelArena.doEndArenaClear();
+		}, 20*timeDelayed);
+	}
+	
+	public static void onPlayerRespawnEvent(PlayerRespawnEvent e) {
+		ModelArenaPlayer modelArenaPlayer = ArenesModel.getPlayer(e.getPlayer());
+		if(modelArenaPlayer==null)
+			return;
+		
+		ModelArena modelArenaLeave = modelArenaPlayer.getLeavePlayedInsideArena();
+		if(modelArenaLeave != null)
+		{
+			Location respawnLocation = doEventPlayerLeaveArena(modelArenaPlayer, modelArenaLeave);
+			e.setRespawnLocation(respawnLocation);
+			return;
+		}
+		
+		ModelArena modelArena = modelArenaPlayer.getPlayedInsideArena();
+		if(modelArena==null)
+			return;
+		
+		PlayerRespawnInArenaEvent event = new PlayerRespawnInArenaEvent(e.getPlayer(), modelArena);
+		
+		ArenesModel.getArenaType(modelArena.getType()).getArenaPlugin().onPlayerRespawnInArena(event);
+		
+		e.setRespawnLocation(event.getRespawnPlayerInArenaLocation());
+		
+		Bukkit.getScheduler().scheduleSyncDelayedTask(Plugin.getPlugin(), () -> {
+			preparePlayerWhenSpawnInArena(e.getPlayer());
+		}, 1L);
+	}
+	
+	public static void preparePlayerWhenSpawnInArena(Player player) {
+		player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+		player.setFoodLevel(20);
+		player.setSaturation(20);
+		player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20, 10));
+	}
+
+	public static void onPlayerDamageEvent(EntityDamageEvent e, Player player) {
+		ModelArenaPlayer modelArenaPlayer = ArenesModel.getPlayer(player);
+		ModelArena modelArena = modelArenaPlayer.getPlayedInsideArena();
+		if(modelArena==null)
+			return;
+		
+		PlayerDamageInArenaEvent event = new PlayerDamageInArenaEvent(player, modelArena, e);
+		
+		ArenesModel.getArenaType(modelArena.getType()).getArenaPlugin().onPlayerDamageInArena(event);
+		
+		e.setCancelled(event.isCancelled());
+	}
+	
+	private static Location doEventPlayerLeaveArena(ModelArenaPlayer modelArenaPlayer, ModelArena modelArenaLeave) {
+		modelArenaPlayer.unsetPlayedInsideArena();
+		modelArenaPlayer.setLeavePlayedInsideArena(null);
+		PlayerLeaveArenaEvent event = new PlayerLeaveArenaEvent(modelArenaPlayer.getPlayer(), modelArenaLeave);
+		ArenesModel.getArenaType(modelArenaLeave.getType()).getArenaPlugin().onPlayerLeaveArena(event);
+		
+		modelArenaPlayer.getPlayer().setGameMode(GameMode.SURVIVAL);
+		
+		return event.getTeleportLocation();
+	}
+
+	public static void onPlayerQuitEvent(PlayerQuitEvent e) {
+		ModelArenaPlayer modelArenaPlayer = ArenesModel.getPlayer(e.getPlayer());
+		ModelArena modelArena = modelArenaPlayer.getPlayedInsideArena();
+		if(modelArena==null)
+			return;
+		
+		Location teleportLocation = doEventPlayerLeaveArena(modelArenaPlayer, modelArena);
+		e.getPlayer().teleport(teleportLocation);
+		
+		checkEndGameArena(modelArena);
+	}
+}

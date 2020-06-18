@@ -1,0 +1,5 @@
+package mkproject.maskat.Papi.Scheduler;
+
+public class PapiSchedulerThread extends Thread {
+
+}

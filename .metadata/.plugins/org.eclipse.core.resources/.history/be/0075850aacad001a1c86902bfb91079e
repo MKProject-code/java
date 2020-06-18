@@ -1,0 +1,14 @@
+package me.maskat.MoneyManager;
+
+import org.bukkit.event.Listener;
+
+public class Event implements Listener {
+	@EventHandler
+	public void onPlayerJoinEvent(PlayerJoinEvent e) {
+		
+	}
+	@EventHandler
+	public void onPlayerQuitEvent(PlayerQuitEvent e) {
+		
+	}
+}

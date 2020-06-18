@@ -1,0 +1,20 @@
+name: ShopManager
+main: me.maskat.ShopManager.Plugin
+description: Shop Manager
+version: 1.0.0
+author: MasKAT
+website: http://skyidea.pl/
+api-version: 1.15
+load: POSTWORLD
+depend: [MKProjectAPI]
+
+commands:
+   shop:
+      description: ArenaManager command
+      aliases: [sklep]
+   arenamanager:
+      description: ArenaManager command
+permissions:
+   mkp.arenamanager.*:
+      description: Allows use custom commands
+      default: op

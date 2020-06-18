@@ -1,0 +1,18 @@
+package me.maskat.MonsterEvent;
+
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+
+import me.maskat.ArenaManager.ArenaManager.Manager;
+import me.maskat.ArenaManager.Models.ArenesModel;
+
+public class Event implements Listener {
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onEntitySpawnEvent(EntitySpawnEvent e) {
+		e.setCancelled(false);
+	}
+}

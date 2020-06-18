@@ -1,0 +1,101 @@
+
+allowCommands:
+   /register:
+      all: all
+   /reg:
+      all: all
+   /login:
+      all: all
+   /l:
+      all: all
+      
+   /pomoc:
+      all: all
+   /help:
+      all: all
+   /?:
+      all: all
+   /dodatki:
+      all: all
+   
+   /arena:
+      all: all
+   /spawn:
+      all: all
+      
+   /tpa:
+      default:
+         - world
+         - world_nether
+         - world_the_end
+         - world_spawncenter
+   /tpyes:
+      inherit: /tpa
+   /tpaccept:
+      inherit: /tpa
+   /tpno:
+      inherit: /pomoc
+   /tpdeny:
+      inherit: /pomoc
+   /tpcancel:
+      inherit: /pomoc
+   /tpon:
+      inherit: /pomoc
+   /tpoff:
+      inherit: /pomoc
+   
+   /trade:
+      inherit: /tpa
+
+   /sklep:
+      inherit: /tpa
+   /shop:
+      inherit: /tpa
+
+   /pw:
+      all: all
+   /msg:
+      all: all
+   /skin:
+      all: all
+   /bed:
+      all: all
+   /home:
+      all: all
+   /r:
+      all: all
+   /reply:
+      all: all
+   /pwblock:
+      all: all
+   /pwunblock:
+      all: all
+   /msgblock:
+      all: all
+   /msgunblock:
+      all: all
+      
+   /exp:
+      all: all
+      
+   /wolf:
+      default:
+         - world
+      
+      
+   /mute:
+      mod:
+         - all
+   /unmute:
+      mod:
+         - all
+      
+   /promo:
+      all: all
+   /arena:
+      all: all
+
+
+   /c:
+      builder:
+         - all

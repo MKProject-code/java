@@ -1,0 +1,22 @@
+name: SpawnManager
+main: mkproject.maskat.SpawnManager.Plugin
+description: Spawn Manager
+version: 1.0.0
+author: MasKAT
+website: http://skyidea.pl/
+api-version: 1.15
+load: POSTWORLD
+depend: [MKProjectAPI]
+
+#commands:
+#   spawn:
+#      description: Spawn command
+#   setspawn:
+#      description: Set spawn command
+#permissions:
+#   mkp.spawnmanager.spawn:
+#      description: Allows use spawn command
+#      default: op
+#   mkp.spawnmanager.setspawn:
+#      description: Allows use spawn command
+#      default: op

@@ -1,0 +1,12 @@
+package mkproject.maskat.ChatManager;
+
+import org.jetbrains.annotations.NotNull;
+
+public class TaskAsyncTimer implements Runnable {
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+}

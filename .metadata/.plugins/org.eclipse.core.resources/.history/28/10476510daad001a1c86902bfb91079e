@@ -1,0 +1,7 @@
+package mkproject.maskat.ChatManager;
+
+import me.maskat.MoneyManager.MapiUpdater;
+
+public class Updater implements MapiUpdater {
+
+}

@@ -1,0 +1,34 @@
+1589329871662	Rename type 'MenuInventoryManager'
+1589329902210	Rename type 'MenuInventoryPage'
+1589329910164	Rename type 'MenuInvUtils'
+1589329916981	Rename type 'Manager'
+1589329940854	Rename type 'MenuManager'
+1589329945209	Rename type 'MenuPage'
+1589329949273	Rename type 'MenuUtils'
+1589329964561	Rename type 'MenuInventoryClickEvent'
+1589329981220	Rename type 'PapiMenuInventoryClickEvent'
+1589330002030	Rename type 'PapiClickEvent'
+1589330107048	Rename package 'mkproject.maskat.Papi.MenuInventory'
+1589330120128	Move compilation unit
+1589330125881	Move compilation units
+1589330146295	Rename package 'mkproject.maskat.Papi.MenuInventory'
+1589330166232	Move compilation units
+1589330173161	Move compilation unit
+1589330190986	Rename type 'Manager'
+1589330197472	Rename type 'Page'
+1589330458762	Rename type 'Utils'
+1589330496150	Delete element
+1589382727991	Move compilation unit
+1589384436148	Rename type 'PapiConfig'
+1589385484232	Delete element
+1589414218447	Rename type 'PapiPlayer'
+1589414283286	Rename type 'PapiModelPlayer'
+1589414397921	Move compilation units
+1589418995682	Rename resource 'config'
+1589419355334	Delete element
+1589460546456	Copy compilation unit
+1589460566461	Copy compilation unit
+1589461468041	Move compilation unit
+1589461470436	Delete element
+1589468609418	Rename type 'SQL'
+1589468613097	Rename type 'MySQL'

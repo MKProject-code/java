@@ -1,0 +1,11 @@
+package me.maskat.MonsterEvent;
+
+import org.bukkit.event.Listener;
+
+public class Event implements Listener {
+	
+	@EventHandler
+	public void onEvent(EntitySpawn e) {
+		
+	}
+}

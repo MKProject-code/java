@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;config.yml&apos; to &apos;MoneyManager_MKProject&apos;&#x0D;&#x0A;- Original project: &apos;WorldManager_MKProject&apos;&#x0D;&#x0A;- Destination element: &apos;MoneyManager_MKProject&apos;&#x0D;&#x0A;- Original element: &apos;config.yml&apos;" description="Copy file" destination="=MoneyManager_MKProject" element1="config.yml" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1592075963731" units="0" version="1.0"/>
+</session>

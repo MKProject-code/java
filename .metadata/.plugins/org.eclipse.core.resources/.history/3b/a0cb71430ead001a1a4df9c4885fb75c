@@ -1,0 +1,197 @@
+package me.maskat.ArenaManager.ArenaPlugin;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
+
+import me.maskat.ArenaManager.ArenaManager.Manager;
+import me.maskat.ArenaManager.Models.ModelArena;
+import me.maskat.ArenaManager.Models.ModelArenaPlayer;
+import me.maskat.ArenaManager.Models.ModelArenaSpawn;
+import me.maskat.ArenaManager.Models.ModelArenaTeam;
+import mkproject.maskat.Papi.Utils.Message;
+
+public class ArpTeam {
+	
+	ModelArena modelArena;
+	ModelArenaTeam modelArenaTeam;
+	
+	List<Location> spawnsLocation = new ArrayList<>();
+	Collection<ArpPlayer> arpPlayers = new ArrayList<>();
+	
+	
+	public ArpTeam(ModelArenaTeam modelArenaTeam, ModelArena modelArena) {
+		this.modelArena = modelArena;
+		this.modelArenaTeam = modelArenaTeam;
+		
+		for(ModelArenaSpawn modelArenaSpawn : modelArenaTeam.getSpawnsMap().values()) {
+			spawnsLocation.add(modelArenaSpawn.getLocation());
+		}
+			
+		for(ModelArenaPlayer modelPlayer : modelArenaTeam.getPlayersRegistered())
+		{
+			arpPlayers.add(new ArpPlayer(modelPlayer, this, modelArena));
+		}
+	}
+
+	public Location getLocation(int index) {
+		return spawnsLocation.get(index);
+	}
+	
+	public Collection<ArpPlayer> getPlayers() {
+		return arpPlayers;
+	}
+	
+	public Collection<ArpPlayer> getPlayersOnline() {
+		Collection<ArpPlayer> arpPlayersOnline = new ArrayList<>();
+		for(ArpPlayer arpPlayer : this.arpPlayers) {
+			if(arpPlayer.getPlayer().isOnline() && !arpPlayer.isQuitedServer())
+				arpPlayersOnline.add(arpPlayer);
+		}
+		return arpPlayersOnline;
+	}
+	
+	public Collection<ArpPlayer> getPlayersInsideArena() {
+		Collection<ArpPlayer> arpPlayersOnlineInsideArena = new ArrayList<>();
+		for(ArpPlayer arpPlayer : this.arpPlayers) {
+			if(arpPlayer.getPlayer().isOnline() && !arpPlayer.isQuitedServer() && arpPlayer.isInsideArena())
+				arpPlayersOnlineInsideArena.add(arpPlayer);
+		}
+		return arpPlayersOnlineInsideArena;
+	}
+	
+	public String getTeamType() {
+		return this.modelArenaTeam.getType();
+	}
+	
+	public ArpRandomLocation getRandomLocation() {
+		return new ArpRandomLocation(spawnsLocation);
+	}
+	
+	public Location getOneRandomLocation() {
+		ArpRandomLocation randLoc = new ArpRandomLocation(spawnsLocation);
+		return randLoc.next();
+	}
+	
+	public List<Location> getLocations() {
+		return spawnsLocation;
+	}
+	
+	public void setPlayersGamemode(GameMode gamemode) {
+		for(ArpPlayer arpPlayer : this.getPlayersOnline())
+			arpPlayer.getPlayer().setGameMode(gamemode);
+	}
+	
+	public void teleportPlayers(Location location) {
+		for(ArpPlayer arpPlayer : this.getPlayersOnline())
+			arpPlayer.getPlayer().teleport(location);
+	}
+	
+	public void teleportPlayersToRandomLocations() {
+		ArpRandomLocation randomLocations = getRandomLocation();
+		for(ArpPlayer arpPlayer : this.getPlayersOnline())
+			arpPlayer.getPlayer().teleport(randomLocations.next());
+	}
+	
+	public void setPlayersFreeze(boolean freeze) {
+		for(ArpPlayer arpPlayer : this.getPlayersOnline())
+			arpPlayer.setFreeze(freeze);
+	}
+	
+	public void setPlayersGodmode(boolean godmode) {
+		for(ArpPlayer arpPlayer : this.getPlayersOnline())
+			arpPlayer.setGodmode(godmode);
+	}
+	
+	public void setPlayersClearInventory() {
+		for(ArpPlayer arpPlayer : this.getPlayersOnline())
+		{
+			arpPlayer.getPlayer().getInventory().clear();
+			arpPlayer.getPlayer().updateInventory();
+		}
+	}
+	public void setPlayersInventoryContent(ItemStack... contentsItems) {
+		for(ArpPlayer arpPlayer : this.getPlayersOnline())
+		{
+			arpPlayer.getPlayer().getInventory().setContents(contentsItems);
+			arpPlayer.getPlayer().updateInventory();
+		}
+	}
+	public void setPlayersInventoryArmor(ItemStack... armorContentsItems) {
+		for(ArpPlayer arpPlayer : this.getPlayersOnline())
+		{
+			arpPlayer.getPlayer().getInventory().setArmorContents(armorContentsItems);
+			arpPlayer.getPlayer().updateInventory();
+		}
+	}
+	
+	public void removePlayersPotionEffect() {
+		p.getActivePotionEffects()
+		p.removePotionEffect(arg0);
+	}
+	
+	public void doWinnerGame() {
+		for(ArpPlayer arpPlayer : this.getPlayersOnline())
+		{
+			if(arpPlayer.isInsideArena())
+				Message.sendTitle(arpPlayer.getPlayer(), null, "&a--- ZWYCIĘSTWO ---");
+			else
+				Message.sendMessage(arpPlayer.getPlayer(), "&a&oZWYCIĘSTWO !!! Twoja drużyna zwyciężyła!");
+		}
+		
+		Manager.doEndGame(modelArena, this, null);
+	}
+//
+//	public void teleportPlayersToRandomLocations(boolean freezeAfterTeleport) {
+//		teleportPlayersToRandomLocations(spawnsLocation, freezeAfterTeleport);
+//	}
+//	public void teleportPlayersToRandomLocations(List<Location> locations, boolean freezeAfterTeleport) {
+//		ArpRandomLocation randomLocation = this.getRandomLocation();
+//		
+//		List<ModelArenaPlayer> playersDone = new ArrayList<>();
+//		
+//		//execute when next round
+//		for(ModelArenaPlayer modelArenaPlayer : modelArenaTeam.getPlayersInsideArena())
+//		{
+//			if(freezeAfterTeleport)
+//				modelArenaPlayer.setFreeze(true);
+//			
+//			modelArenaPlayer.setGodMode(true);
+//			modelArenaPlayer.getPlayer().teleport(randomLocation.next());
+//			modelArenaPlayer.changeStatusToPlayedInsideArena();
+//			
+////			if(freezeAfterTeleport)
+////				Papi.Model.getPlayer(modelArenaPlayer.getPlayer()).setSpeedFreeze();
+//			
+//			Manager.preparePlayerWhenSpawnInArena(modelArenaPlayer.getPlayer());
+//			//modelArenaPlayer.changeStatusToPlayedInsideArena();
+//			
+//			playersDone.add(modelArenaPlayer);
+//		}
+//		
+//		//execute when first round
+//		for(ModelArenaPlayer modelArenaPlayer : modelArenaTeam.getPlayersRegistered())
+//		{
+//			if(playersDone.contains(modelArenaPlayer))
+//				continue;
+//			
+//			if(freezeAfterTeleport)
+//				modelArenaPlayer.setFreeze(true);
+//			
+//			modelArenaPlayer.setGodMode(true);
+//			modelArenaPlayer.getPlayer().teleport(randomLocation.next());
+//			modelArenaPlayer.changeStatusToPlayedInsideArena();
+//			
+////			if(freezeAfterTeleport)
+////				Papi.Model.getPlayer(modelArenaPlayer.getPlayer()).setSpeedFreeze();
+//			
+//			Manager.preparePlayerWhenSpawnInArena(modelArenaPlayer.getPlayer());
+//			//modelArenaPlayer.changeStatusToPlayedInsideArena();
+//		}
+//	}
+
+}

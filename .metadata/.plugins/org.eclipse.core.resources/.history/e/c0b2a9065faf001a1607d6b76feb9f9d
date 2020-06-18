@@ -1,0 +1,20 @@
+name: ArenaPlugin_MonsterEvent
+main: me.maskat.MonsterEvent.Plugin
+description: ArenaPlugin - Monster Event
+version: 1.0.0
+author: MasKAT
+website: http://skyidea.pl/
+api-version: 1.15
+load: POSTWORLD
+depend: [MKProjectAPI,ArenaManager]
+
+commands:
+   arenapluginmonsterevent:
+      description: AdminUtils command
+      
+      
+      
+permissions:
+   #/arenapluginmonsterevent reload
+   mkp.arenaplugin.monsterevent.reload:
+      default: op

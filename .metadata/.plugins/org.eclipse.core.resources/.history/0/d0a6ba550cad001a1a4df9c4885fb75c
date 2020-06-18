@@ -1,0 +1,80 @@
+package me.maskat.ArenaManager.ArenaPlugin;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.bukkit.GameMode;
+import org.bukkit.inventory.ItemStack;
+
+import me.maskat.ArenaManager.Models.ModelArena;
+
+public class ArpArena {
+
+	private ModelArena modelArena;
+	
+	public ArpArena(ModelArena modelArena) {
+		this.modelArena = modelArena;
+	}
+	
+	public String getName() {
+		return modelArena.getName();
+	}
+
+	public void setPlayersGamemode(GameMode gamemode) {
+		for(ArpTeam arpTeam : this.getTeams())
+			arpTeam.setPlayersGamemode(gamemode);
+	}
+	
+	public Collection<ArpPlayer> getPlayers() {
+		return modelArena.getArenaPluginInstanceArpPlayers();
+	}
+	
+	public Collection<ArpPlayer> getPlayersOnline() {
+		return modelArena.getArenaPluginInstanceArpPlayersOnline();
+	}
+	
+	public Collection<ArpTeam> getTeams() {
+		return modelArena.getArenaPluginInstanceArpTeams();
+	}
+	
+	public Collection<ArpTeam> getTeamsInsideArena() {
+		Collection<ArpTeam> teamsInsideArena = new ArrayList<>();
+		for(ArpTeam arpTeam : modelArena.getArenaPluginInstanceArpTeams()) {
+			if(arpTeam.getPlayersInsideArena().size() > 0)
+				teamsInsideArena.add(arpTeam);
+		}
+		return teamsInsideArena;
+	}
+	
+	public void setPlayersFreeze(boolean freeze) {
+		for(ArpTeam arpTeam : this.getTeams())
+			arpTeam.setPlayersFreeze(freeze);
+	}
+	
+	public void setPlayersGodmode(boolean godmode) {
+		for(ArpPlayer arpPlayer : this.getPlayersOnline())
+			arpPlayer.setGodmode(godmode);
+	}
+	
+	public void setPlayersClearInventory() {
+		for(ArpPlayer arpPlayer : this.getPlayersOnline())
+		{
+			arpPlayer.getPlayer().getInventory().clear();
+			arpPlayer.getPlayer().updateInventory();
+		}
+	}
+	public void setPlayersInventoryContent(ItemStack... contentsItems) {
+		for(ArpPlayer arpPlayer : this.getPlayersOnline())
+		{
+			arpPlayer.getPlayer().getInventory().setContents(contentsItems);
+			arpPlayer.getPlayer().updateInventory();
+		}
+	}
+	public void setPlayersInventoryArmor(ItemStack... armorContentsItems) {
+		for(ArpPlayer arpPlayer : this.getPlayersOnline())
+		{
+			arpPlayer.getPlayer().getInventory().setArmorContents(armorContentsItems);
+			arpPlayer.getPlayer().updateInventory();
+		}
+	}
+}

@@ -1,0 +1,16 @@
+package me.maskat.MoneyManager;
+
+import org.bukkit.entity.Player;
+
+import mkproject.maskat.Papi.Papi;
+
+public class MapiPlayer {
+	private Player player;
+	private int points;
+	
+	public MapiPlayer(Player player) {
+		this.player = player;
+		
+		Object int = Papi.MySQL.get(Database.Users.POINTS, Database.Users.NAME, "=", player.getName().toLowerCase(), Database.Users.TABLE);
+	}
+}

@@ -1,0 +1,237 @@
+# LandSecurity plugin for 1.15.2
+# Made by MasKAT
+
+actionbar:
+   deny:
+      #Can't breack block on the region
+      #You can use: %region_name%
+      break: "&cNie mozesz tutaj nic niszczyć!\nJesteś na terytorium %region_name%"
+      
+      #Can't place block on the region
+      #You can use: %region_name%
+      place: "&cNie mozesz tutaj nic postawić!\nJesteś na terytorium %region_name%"
+   
+   move:
+      #Message when player enter to the region
+      #You can use: %region_name%
+      enter:
+         owner: "&aWkraczasz na swoje terytorium"
+         other: "&eWkraczasz na terytorium %region_name%"
+      
+      #Message when player leave the region
+      #You can use: %region_name%
+      leave:
+         owner: "&cOpuszczasz swoje terytorium"
+         other: "&eOpuszczasz terytorium %region_name%"
+   
+   interact:
+      wolf:
+         owner: 
+            item_bone: "&aTrwa otwieranie menu wilka..."
+            item_other: "&eMożesz zarządzać swoim wilkiem klikając w niego kością!"
+         #other: "&cKliknąłeś w cudzego psa!"
+         
+   fix:
+      wolf:
+         teleport:
+            region: "&aTwój wilk gdzieś się zgubił, więc teleportowaliśmy go na jego terytorium"
+            owner: "&aTwój wilk gdzieś się zgubił, więc teleportowaliśmy go do Ciebie :)"
+            error: "&cTwój wilk gdzieś się zgubił :( Nie możemy go znaleźć dopuki jesteś w tym świecie!"
+         
+inventory:
+   wolfmenu:
+      plugin:
+         info:
+            slot_title: "&aPlugin autorstwa &bSkyidea\n&fJest to wersja beta!\n&7Wszelkie błędy prosimy\n&7o zgłasznie administracji."
+      #
+      wolf:
+         info:
+            #You can use: %level%, %protected_radius%
+            slot_title: "Informacje o wilku\nPoziom: %level%\nWielkość terytorum: %protected_radius%"
+         #
+         changename:
+            slot_title: "&e&lZmień nazwę wilka\n&7Nazwa ta wyświetla się\n&7zawsze nad jego ciałem"
+            input: "&bPodaj nową nazwę wilka wpisując ją w chat.\n&7Aby anulować wpisz: &ecancel"
+            done:
+               changed: "&aZmieniłeś nazwę wilka."
+               canceled: "&eAnulowałeś zmiane nazwy wilka."
+            error:
+               canceled_length: "&cAnulowano zmiane nazwy.\n&cNazwa musi mieć conajmniej 3 znaki i nie więcej niż 16 znaków!"
+               canceled_alfanumeric: "&cAnulowano zmiane nazwy.\n&cMożesz użyć tylko znaków alfanumerycznych oraz spacji!"
+         #
+         changecollarcolor:
+            slot_title: "&e&lZmień kolor obroży wilka"
+            submenu:
+               back:
+                  slot_title: "&fWróć do menu głównego"
+               white:
+                  slot_title: "&fZmień na kolor biały"
+                  done:
+                     changed: "&fZmień na kolor biały\n&aKolor został zmieniony."
+               orange:
+                  slot_title: "&fZmień na kolor pomarańczowy"
+                  done:
+                     changed: "&fZmień na kolor pomarańczowy\n&aKolor został zmieniony."
+               magenta:
+                  slot_title: "&fZmień na kolor karmazynowy"
+                  done:
+                     changed: "&fZmień na kolor karmazynowy\n&aKolor został zmieniony."
+               light_blue:
+                  slot_title: "&fZmień na kolor jasnoniebieski"
+                  done:
+                     changed: "&fZmień na kolor jasnoniebieski\n&aKolor został zmieniony."
+               yellow:
+                  slot_title: "&fZmień na kolor zółty"
+                  done:
+                     changed: "&fZmień na kolor zółty\n&aKolor został zmieniony."
+               lime:
+                  slot_title: "&fZmień na kolor jasnozielony"
+                  done:
+                     changed: "&fZmień na kolor jasnozielony\n&aKolor został zmieniony."
+               pink:
+                  slot_title: "&fZmień na kolor różowy"
+                  done:
+                     changed: "&fZmień na kolor różowy\n&aKolor został zmieniony."
+               gray:
+                  slot_title: "&fZmień na kolor szary"
+                  done:
+                     changed: "&fZmień na kolor szary\n&aKolor został zmieniony."
+               light_gray:
+                  slot_title: "&fZmień na kolor jasnoszary"
+                  done:
+                     changed: "&fZmień na kolor jasnoszary\n&aKolor został zmieniony."
+               cyan:
+                  slot_title: "&fZmień na kolor błękitny"
+                  done:
+                     changed: "&fZmień na kolor błękitny\n&aKolor został zmieniony."
+               purple:
+                  slot_title: "&fZmień na kolor fioletowy"
+                  done:
+                     changed: "&fZmień na kolor fioletowy\n&aKolor został zmieniony."
+               blue:
+                  slot_title: "&fZmień na kolor niebieski"
+                  done:
+                     changed: "&fZmień na kolor niebieski\n&aKolor został zmieniony."
+               brown:
+                  slot_title: "&fZmień na kolor brązowy"
+                  done:
+                     changed: "&fZmień na kolor brązowy\n&aKolor został zmieniony."
+               green:
+                  slot_title: "&fZmień na kolor zielony"
+                  done:
+                     changed: "&fZmień na kolor zielony\n&aKolor został zmieniony."
+               red:
+                  slot_title: "&fZmień na kolor czerwony"
+                  done:
+                     changed: "&fZmień na kolor czerwony\n&aKolor został zmieniony."
+               black:
+                  slot_title: "&fZmień na kolor czarny"
+                  done:
+                     changed: "&fZmień na kolor czarny\n&aKolor został zmieniony."
+         #
+         levelup:
+            slot_title: "&7&lZwiększ umiejętności wilka\n&7Powiększ terytorium wilka\n&7dając mu swoje 5 EXP Level"
+            done:
+               #You can use: %level%
+               raised: "&7&lZwiększ umiejętności wilka\n&7Powiększ terytorium wilka\n&7dając mu swoje 5 EXP Level\n&aPoziom został zwiększony do %level%"
+            error:
+               nomoney: "&7&lZwiększ umiejętności wilka\n&7Powiększ terytorium wilka\n&7dając mu swoje 5 EXP Level\n&cMasz niewystarczająco EXPa!"
+         #
+         managefamily:
+            #slot_title: "&e&lZarządzaj rodziną wilka\n&bWilk nie atakuje rodziny, ponadto\n&btraktuje ich jak swojego właściciela!"
+            slot_title: "&7&lZarządzaj rodziną wilka\n&7Wilk nie atakuje rodziny, ponadto\n&7traktuje ich jak swojego właściciela!\n&7* Ta opcja pojawi się w przyszłości..."
+            submenu:
+               back:
+                  slot_title: "&fWróć do menu głównego"
+               showusers:
+                  slot_title: "&bPokaż członków rodziny\n&7Możesz tutaj również\n&7usunąc graczy z rodziny"
+                  submenu:
+                     back:
+                        slot_title: "&fWróć do zarządzania rodziną"
+                     head:
+                        slot_title: "&b%player_name%\n&7Kliknij, aby usunąć tego\n&7gracza z rodziny"
+                        done:
+                           slot_title: "&b%player_name%\n&cGracz został poprawnie\n&cusunięty z rodziny"
+               addusers:
+                  slot_title: "&bDodaj graczy do rodziny"
+                  submenu:
+                     back:
+                        slot_title: "&fWróć do zarządzania rodziną"
+                     head:
+                        slot_title: "&b%player_name%\n&7Kliknij, aby dodać tego\n&7gracza do rodziny"
+                        done:
+                           slot_title: "&b%player_name%\n&aGracz został poprawnie\n&adodany do rodziny"
+         #
+         managefriends:
+            slot_title: "&e&lZarządzaj przyjaciółmi wilka\n&aWilk nie atakuje przyjaciół"
+            submenu:
+               back:
+                  slot_title: "&fWróć do menu głównego"
+               showusers:
+                  slot_title: "&aPokaż przyjaciół\n&7Możesz tutaj również\n&7usunąc graczy z przyjaciół"
+                  submenu:
+                     back:
+                        slot_title: "&fWróć do zarządzania przyjaciółmi"
+                     head:
+                        slot_title: "&b%player_name%\n&7Kliknij, aby usunąć tego\n&7gracza z przyjaciół"
+                        done:
+                           slot_title: "&b%player_name%\n&cGracz został poprawnie\n&cusunięty z przyjaciół"
+               addusers:
+                  slot_title: "&aDodaj graczy do przyjacół"
+                  submenu:
+                     back:
+                        slot_title: "&fWróć do zarządzania przyjaciółmi"
+                     head:
+                        slot_title: "&b%player_name%\n&7Kliknij, aby dodać tego\n&7gracza do przyjaciół"
+                        done:
+                           slot_title: "&b%player_name%\n&aGracz został poprawnie\n&adodany do przyjaciół"
+         #
+         manageenemies:
+            #slot_title: "&e&lZarządzaj wrogami wilka\n&cWilk atakuje wrogów gdy\n&cstaną na jego terytorium!"
+            slot_title: "&7&lZarządzaj wrogami wilka\n&7Wilk atakuje wrogów gdy\n&7staną na jego terytorium!\n&7* Ta opcja pojawi się w przyszłości..."
+            submenu:
+               back:
+                  slot_title: "&fWróć do menu głównego"
+               showusers:
+                  slot_title: "&cPokaż wrogów\n&7Możesz tutaj również\n&7usunąc graczy z wrogów"
+                  submenu:
+                     back:
+                        slot_title: "&fWróć do zarządzania wrogami"
+                     head:
+                        slot_title: "&b%player_name%\n&7Kliknij, aby usunąć tego\n&7gracza z wrogów"
+                        done:
+                           slot_title: "&b%player_name%\n&cGracz został poprawnie\n&cusunięty z wrogów"
+               addusers:
+                  slot_title: "&cDodaj graczy do wrogów"
+                  submenu:
+                     back:
+                        slot_title: "&fWróć do zarządzania wrogami"
+                     head:
+                        slot_title: "&b%player_name%\n&7Kliknij, aby dodać tego\n&7gracza do wrogów"
+                        done:
+                           slot_title: "&b%player_name%\n&aGracz został poprawnie\n&adodany do wrogów"
+      #
+      region:
+         claim:
+            slot_title: "&a&lZajmij to terytorium\n&7Wilk będzie chronił swoje terytorium"
+            done:
+               claimed: "&aZająłeś to terytorium. Twój wilk od teraz będzie go pilnować!"
+            error:
+               nearotherregion: "&cNie możesz zająć tego terytorium! W pobliżu znaleziono inne!"
+         #
+         unclaim:
+            slot_title: "&e&lZwolnij to terytorium\n&7Wilk nie będzie już chronić tego terytorim"
+            done:
+               unclaimed: "&eZwolniłeś to terytorium. Twój wilk nie będzie go już pilnować!"
+         #
+         showborders:
+            slot_title: "&e&lPokaż granice terytorium"
+            done:
+               showing: "&eGranice twojego terytorium są teraz widoczne dla Ciebie.\n&7Aby wyłączyć, kliknij gdziekolwiek w powietrze."
+               
+         #
+         changemessage:
+            #slot_title: "&e&lZmień wiadomość dla przybyszów\n&7Nieznajomi, którzy wkroczą na to\n&7terytorium zobaczą tę wiadomość"
+            slot_title: "&7&lZmień wiadomość dla przybyszów\n&7Nieznajomi, którzy wkroczą na to\n&7terytorium zobaczą tę wiadomość\n&7* Ta opcja pojawi się w przyszłości..."
+            
+            

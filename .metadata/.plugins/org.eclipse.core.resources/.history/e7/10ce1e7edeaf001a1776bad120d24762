@@ -1,0 +1,114 @@
+package me.maskat.ShopManager;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import me.maskat.ArenaManager.Database;
+import me.maskat.ArenaManager.Plugin;
+import me.maskat.ArenaManager.Database.Objects;
+import me.maskat.ArenaManager.Database.ObjectsGroups;
+import me.maskat.ArenaManager.Models.ArenesModel;
+import mkproject.maskat.Papi.Papi;
+
+public class Database {
+	
+	protected static void initialize() {
+		Categories.TABLE = Plugin.getPlugin().getConfig().getString("MySQL.Table.Categories")+(Papi.DEVELOPER_DATABASE ? "_develop" : "");
+		Items.TABLE = Plugin.getPlugin().getConfig().getString("MySQL.Table.Items")+(Papi.DEVELOPER_DATABASE ? "_develop" : "");
+		
+		if(Papi.DEVELOPER_DATABASE && Papi.DEVELOPER_DATABASE_AUTODELETE)
+		{
+			Papi.MySQL.deleteTable(Categories.TABLE);
+			Papi.MySQL.deleteTable(Items.TABLE);
+		}
+		
+		Papi.MySQL.createTable(Items.TABLE,
+					Papi.SQL.createColumnParse(Database.Categories.ID, Papi.SQL.ValType.INT, 16, true, true, true)
+				+","+Papi.SQL.createColumnParse(Database.Categories.NAME, Papi.SQL.ValType.VARCHAR, 32, false)
+				+","+Papi.SQL.createColumnParse(Database.Categories.DESCRIPTION, Papi.SQL.ValType.VARCHAR, 256, false)
+				+","+Papi.SQL.createColumnPrimary(Database.Items.ID)
+		);
+		Papi.MySQL.createTable(Items.TABLE,
+				Papi.SQL.createColumnParse(Database.Items.ID, Papi.SQL.ValType.INT, 16, true, true, true)
+				+","+Papi.SQL.createColumnParse(Database.Items.NAME, Papi.SQL.ValType.VARCHAR, 32, false)
+				+","+Papi.SQL.createColumnParse(Database.Items.DESCRIPTION, Papi.SQL.ValType.VARCHAR, 256, false)
+				+","+Papi.SQL.createColumnParse(Database.Items.PRICE, Papi.SQL.ValType.DOUBLE, -1, false)
+				+","+Papi.SQL.createColumnParse(Database.Items.CATEGORYID, Papi.SQL.ValType.INT, 16, false)
+				+","+Papi.SQL.createColumnPrimary(Database.Items.ID)
+				);
+		
+		ResultSet rsCategories = Papi.MySQL.getResultSetAll(-1, "*", Categories.TABLE);
+		if(rsCategories != null) {
+			try {
+				while (rsCategories.next()) {
+					int id = rsCategories.getInt(Database.Categories.ID);
+					String objGroupName = rsObjectsGroups.getString(Database.ObjectsGroups.NAME);
+					String objGroupType = rsObjectsGroups.getString(Database.ObjectsGroups.TYPE);
+					int arenaId = rsObjectsGroups.getInt(Database.ObjectsGroups.ARENAID);
+					
+					if(ArenesModel.existArena(arenaId)) {
+						ArenesModel.getArena(arenaId).initObjectsGroup(objGroupId, objGroupName, objGroupType);
+						Plugin.getPlugin().getLogger().info("Initialized object group: [" + objGroupId + "] " + objGroupName);
+					}
+					else
+					{
+						Papi.MySQL.deleteData(Database.ObjectsGroups.ID, "=", String.valueOf(objGroupId), Database.ObjectsGroups.TABLE);
+					}
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+
+		
+		List<Integer> objectsIdToDelete = new ArrayList<Integer>();
+		ResultSet rsObjects = Papi.MySQL.getResultSetAll(-1, "*", Objects.TABLE);
+		if(rsObjects != null) {
+			try {
+				while (rsObjects.next()) {
+					int objectId = rsObjects.getInt(Database.Objects.ID);
+					String objectName = rsObjects.getString(Database.Objects.NAME);
+					int objGroupId = rsObjects.getInt(Database.Objects.OBJ_GROUPID);
+					String objectLocation = rsObjects.getString(Database.Objects.LOCATION);
+					
+					Object arenaIdObj = Papi.MySQL.get(Database.ObjectsGroups.ARENAID, Database.ObjectsGroups.ID, "=", String.valueOf(objGroupId), Database.ObjectsGroups.TABLE);
+					int arenaId = -1;
+					if(arenaIdObj != null)
+						arenaId = Integer.parseInt(String.valueOf(arenaIdObj));
+					
+					if(ArenesModel.existArena(arenaId) && ArenesModel.getArena(arenaId).existObjectsGroup(objGroupId)) {
+						ArenesModel.getArena(arenaId).getObjectsGroup(objGroupId).initObject(objectId, objectName, Papi.Function.getLocationFromString(objectLocation));
+						Plugin.getPlugin().getLogger().info("Initialized object: [" + objectId + "] " + objectName);
+					}
+					else
+						objectsIdToDelete.add(objectId);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		for(int objectId : objectsIdToDelete)
+			Papi.MySQL.deleteData(Database.Objects.ID, "=", String.valueOf(objectId), Database.Objects.TABLE);
+	}
+	
+	protected static class Categories {
+		public static String TABLE;
+		public static final String ID = "id";
+		public static final String NAME = "name";
+		public static final String DESCRIPTION = "description";
+	}
+	protected static class Items {
+		public static String TABLE;
+		public static final String ID = "id";
+		public static final String NAME = "name";
+		public static final String DESCRIPTION = "description";
+		public static final String PRICE = "price";
+		public static final String CATEGORYID = "categoryid";
+	}
+}

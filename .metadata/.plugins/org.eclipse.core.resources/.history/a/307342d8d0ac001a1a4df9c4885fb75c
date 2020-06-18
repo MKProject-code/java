@@ -1,0 +1,26 @@
+package me.maskat.ArenaManager.ArenaPlugin;
+
+import me.maskat.ArenaManager.Models.ModelArena;
+import me.maskat.ArenaManager.Models.ModelArenaTeam;
+
+public class EndGameEvent {
+	private ModelArena modelArena;
+	private long kickPlayersTime;
+	
+	public EndGameEvent(ModelArena modelArena, ModelArenaTeam modelArenaTeamAlive) {
+		this.modelArena = modelArena;
+		this.kickPlayersTime = 5L;
+	}
+
+	public ArpArena getArena() {
+		return this.modelArena.getArenaPluginInstanceArpArena();
+	}
+
+	public void setKickPlayersTime(long kickPlayersTime) {
+		this.kickPlayersTime = kickPlayersTime;
+	}
+	
+	public long getKickPlayersTime() {
+		return this.kickPlayersTime;
+	}
+}

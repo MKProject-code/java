@@ -1,0 +1,6 @@
+package mkproject.maskat.Papi.Menu;
+
+public interface PapiMenu {
+	public void createMenu(MenuClickEvent event);
+	public void onMenuClick(MenuClickEvent event);
+}

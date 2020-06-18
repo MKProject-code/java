@@ -1,0 +1,42 @@
+1591090166963	Copy compilation unit
+1591193704827	Copy compilation unit
+1591300832364	Rename type 'Model'
+1591300862865	Rename type 'ArenesModel'
+1591303791390	Rename type 'ModelAdmin'
+1591303810339	Rename type 'MenuPlayer'
+1591303814609	Rename type 'MenuPlayerMenu'
+1591305285547	Copy compilation unit
+1591311885958	Rename type 'ArenesModels'
+1591364833793	Copy compilation unit
+1591364842478	Rename type 'ModelPlayerMenu'
+1591364847623	Rename type 'ModelPlayerMenuArena'
+1591364893405	Rename type 'ModelPlayerMenu_List'
+1591364902801	Copy compilation unit
+1591365162244	Rename type 'ModelPlayerMenu'
+1591365177015	Rename type 'ModelPlayerMenu_Arena'
+1591365179782	Rename type 'ModelPlayerMenu_List'
+1591365183223	Rename type 'ModelPlayerMenuItem'
+1591365185527	Rename type 'ModelPlayerMenuMain'
+1591455396145	Copy compilation unit
+1591460490203	Rename type 'ModelArenaObjectGroup'
+1591472189472	Delete element
+1591472210434	Move compilation units
+1591472226524	Rename package 'me.maskat.ArenaManager.MenuPlayer'
+1591472258238	Move compilation units
+1591472278562	Delete element
+1591472279951	Delete element
+1591472323031	Move compilation unit
+1591486695390	Delete element
+1591487003225	Rename type 'ArenaExecutor'
+1591487045053	Rename type 'ArenaManager'
+1591487061594	Rename type 'Arena'
+1591487730277	Rename package 'me.maskat.ArenaManager.API'
+1591487766091	Delete element
+1591489459498	Rename type 'ModelPlayer'
+1591539515876	Rename type 'ArpiTEam'
+1591539525281	Rename type 'ArpiTeam'
+1591546542383	Rename type 'ArpSpawn'
+1591546548300	Rename type 'ArpRandomSpawn'
+1591547585669	Delete element
+1591547673471	Rename compilation unit 'ArenaManager.java'
+1591548530528	Rename type 'PrepareArenaEvent'

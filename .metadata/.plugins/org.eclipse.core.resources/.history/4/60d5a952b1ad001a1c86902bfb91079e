@@ -1,0 +1,33 @@
+name: ChatManager_MKProject
+main: mkproject.maskat.ChatManager.Plugin
+description: Chat Manager by MKProject
+version: 1.0.0
+author: MasKAT
+website: http://skyidea.pl/
+api-version: 1.15
+load: POSTWORLD
+depend: [MKProjectAPI, MoneyManager]
+
+commands:
+  chatmanager:
+    description: Reload the configuration
+    permission: mkp.chatmanager.reload
+    usage: "Did you mean to run '/chatmanager reload'?"
+  broadcast:
+    description: Send broadcast message
+    permission: mkp.chatmanager.broadcast
+    usage: "Did you mean to run '/broadcast <message>'?"
+
+permissions:
+   mkp.chatmanager.adminchat.send:
+      description: Allows use Admin Chat
+      default: op
+   mkp.chatmanager.adminchat.receive:
+      description: Allows use Admin Chat
+      default: op
+   mkp.chatmanager.chatcolors:
+      description: Allows use colors on chat
+      default: op
+   mkp.chatmanager.disallowedwords.bypass:
+      description: Allows use disallowed words on chat
+      default: op

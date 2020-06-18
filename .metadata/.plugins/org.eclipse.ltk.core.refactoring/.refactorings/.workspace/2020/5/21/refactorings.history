@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;WorldEdit_WandBlocker&apos;" deleteContents="false" description="Delete resource &apos;WorldEdit_WandBlocker&apos;" element1="/WorldEdit_WandBlocker" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1589836356957"/>&#x0A;<refactoring comment="Rename resource &apos;PortalManager&apos; to &apos;PortalManager_MKProject&apos;" description="Rename resource &apos;PortalManager&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/PortalManager" name="PortalManager_MKProject" stamp="1589838589673" updateReferences="true"/>
+</session>

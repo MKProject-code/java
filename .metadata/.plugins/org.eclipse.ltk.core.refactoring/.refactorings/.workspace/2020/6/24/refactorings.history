@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename Java project &apos;ArenaManager_MKProject_OLLD&apos; to &apos;ArenaManager_MKProject_OLD&apos;&#x0D;&#x0A;- Original element: &apos;ArenaManager_MKProject_OLLD&apos;&#x0D;&#x0A;- Renamed element: &apos;ArenaManager_MKProject_OLLD&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename Java project &apos;ArenaManager_MKProject_OLLD&apos;" flags="7" id="org.eclipse.jdt.ui.rename.java.project" input="=ArenaManager_MKProject_OLLD" name="ArenaManager_MKProject_OLD" references="true" stamp="1591804474115" version="1.0"/>
+</session>

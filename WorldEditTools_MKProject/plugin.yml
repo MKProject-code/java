@@ -1,0 +1,31 @@
+name: WorldEditTools
+main: me.maskat.WorldEditTools.Plugin
+description: WorldEdit Tools
+version: 1.0.0
+author: MasKAT
+website: http://skyidea.pl/
+api-version: 1.15
+load: POSTWORLD
+softdepend: [MKProjectAPI]
+
+permissions:
+   mkp.worldedittools.use:
+      description: Allows use WorldEdit Tools
+      default: op
+      
+commands:
+   signedit:
+      description: SignEdit command
+      aliases: [editline,lineedit,linedit,editsign]
+permissions:
+   mkp.worldedittools.use:
+      description: WorldEditTool use
+      default: op
+
+   #/signedit <line> <text>
+   mkp.worldedittools.signedit.use:
+      default: op
+   mkp.worldedittools.signedit.allowworld.*:
+      default: op
+   mkp.worldedittools.signedit.allowgamemode.*:
+      default: op

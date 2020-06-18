@@ -1,0 +1,9 @@
+name: ItemID_MKPedit
+version: 1.0
+main: me.xmelvinnx.itemid.Main
+author: xMelvinnx_EditedByMasKAT
+
+permissions:
+   mkp.itemid.use:
+      description: Allows show item name and item id when gamemode is creative
+      default: op

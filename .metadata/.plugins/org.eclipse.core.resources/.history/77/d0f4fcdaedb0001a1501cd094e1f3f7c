@@ -1,0 +1,21 @@
+name: CommandBlocker
+main: me.maskat.CommandBlocker.Plugin
+description: Command Blocker
+version: 1.0.0
+author: MasKAT
+website: http://skyidea.pl/
+api-version: 1.15
+load: POSTWORLD
+depend: [MKProjectAPI]
+
+commands:
+   shop:
+      description: ShopManager command
+      aliases: [sklep,targ,targowisko]
+permissions:
+   mkp.commandblocker.default:
+      description: Allows use default commands
+      default: op
+   mkp.commandblocker.vip:
+      description: Allows use vip price
+      default: op

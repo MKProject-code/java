@@ -1,0 +1,15 @@
+package mkproject.maskat.ChatManager;
+
+import org.jetbrains.annotations.NotNull;
+
+import mkproject.maskat.Papi.Papi;
+
+public class TaskAsyncTimer implements Runnable {
+	private double LAST_TPS = 0D;
+	@Override
+	public void run() {
+		double NOW_TPS = Papi.Function.getTPS();
+		if(LAST_TPS == NOW_TPS)
+			return;
+	}
+}

@@ -1,0 +1,20 @@
+name: PromoManager
+main: me.maskat.PromoManager.Plugin
+description: Promo Manager
+version: 1.0.0
+author: MasKAT
+website: http://skyidea.pl/
+api-version: 1.15
+load: POSTWORLD
+depend: [MKProjectAPI]
+softdepend: [LoginManager, MoneyManager]
+
+commands:
+   promo:
+      description: PromoManager command
+      aliases: [promocja]
+      
+#permissions:
+   #/promo [code]
+   #mkp.promomanager.promo.use:
+   #   default: op

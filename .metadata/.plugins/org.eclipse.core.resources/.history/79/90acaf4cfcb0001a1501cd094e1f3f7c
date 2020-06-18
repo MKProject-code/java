@@ -1,0 +1,98 @@
+
+allowCommands:
+   /pomoc:
+      all: all
+   /help:
+      inherit: /pomoc
+   /?:
+      inherit: /pomoc
+      
+   /arena:
+      inherit: /pomoc
+   /spawn:
+      inherit: /pomoc
+      
+   /register:
+      inherit: /pomoc
+   /reg:
+      inherit: /pomoc
+   /login:
+      inherit: /pomoc
+   /l:
+      inherit: /pomoc
+#   /changepassword: | /changepass
+#      inherit: /pomoc
+
+   /tpa:
+      default:
+         - world
+         - world_nether
+         - world_the_end
+         - world_spawncenter
+   /tpyes:
+      inherit: /tpa
+   /tpaccept:
+      inherit: /tpa
+   /tpno:
+      inherit: /pomoc
+   /tpdeny:
+      inherit: /pomoc
+   /tpcancel:
+      inherit: /pomoc
+   /tpon:
+      inherit: /pomoc
+   /tpoff:
+      inherit: /pomoc
+   
+   /trade:
+      inherit: /tpa
+      
+   /pw:
+      inherit: /pomoc
+   /msg:
+      inherit: /pomoc
+   /skin:
+      inherit: /pomoc
+   /bed:
+      inherit: /pomoc
+   /home:
+      inherit: /pomoc
+   /r:
+      inherit: /pomoc
+   /reply:
+      inherit: /pomoc
+   /pwblock:
+      inherit: /pomoc
+   /pwunblock:
+      inherit: /pomoc
+   /msgblock:
+      inherit: /pomoc
+   /msgunblock:
+      inherit: /pomoc
+      
+   /exp:
+      inherit: /pomoc
+      
+   /wolf:
+      default:
+         - world
+      
+   /c:
+      builder:
+         - all
+      
+      
+
+      
+   /mute:
+      mod:
+         - all
+   /unmute:
+      mod:
+         - all
+      
+   /promo:
+      inherit: /pomoc
+   /arena:
+      inherit: /pomoc
+
