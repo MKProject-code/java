@@ -12,3 +12,8 @@ permissions:
    mkp.compasspoint.bypass.anotherthan.world:
       description: Allows select point in another worlds than map name - world 
       default: op
+      
+commands:
+   compass:
+      description: CompassPoint command
+      aliases: kompas

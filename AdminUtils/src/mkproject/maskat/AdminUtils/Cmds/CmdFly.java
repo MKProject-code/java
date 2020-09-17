@@ -43,7 +43,7 @@ public class CmdFly implements CommandExecutor {
 		destPlayer.setAllowFlight(enable);
 		
 		manager.setReturnMessage(destPlayer,
-				"&a&oZmieniłeś możliwość latania na &b&o"+(enable?"dozwolone":"zabronione"),
+				"&a&oZmieniłeś sobie możliwość latania na &b&o"+(enable?"dozwolone":"zabronione"),
 				"&a&oZmieniłeś możliwość latania graczowi &e&o"+destPlayer.getName() + "&a&o na &b&o"+(enable?"dozwolone":"zabronione"));
 	}
 }

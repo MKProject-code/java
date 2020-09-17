@@ -21,7 +21,7 @@ public class Message {
 	}
 	
 	public static void sendConsole(String colorMessage) {
-		System.out.println(getColorMessage(colorMessage));
+		Bukkit.getLogger().info(getColorMessage(colorMessage));
 	}
 	
 	public static void sendBroadcast(String colorMessage) {
@@ -196,17 +196,17 @@ public class Message {
 //        }
 //    }
     
-    public enum ClickAction {
-        RUN_COMMAND, SUGGEST_COMMAND, OPEN_URL
-    }
-    public enum HoverAction {
-        SHOW_TEXT
-    }
+//    public enum ClickAction {
+//        RUN_COMMAND, SUGGEST_COMMAND, OPEN_URL
+//    }
+//    public enum HoverAction {
+//        SHOW_TEXT
+//    }
     
-	public static JsonBuilder getJsonBuilder() {
-		return new JsonBuilder();
-	}
-	public static void sendMessageJson(Player player, JsonBuilder jsonBuilder) {
-		jsonBuilder.sendJson(player);
-	}
+//	public static JsonBuilder_off getJsonBuilder() {
+//		return new JsonBuilder_off();
+//	}
+//	public static void sendMessageJson(Player player, JsonBuilder_off jsonBuilder) {
+//		jsonBuilder.sendJson(player);
+//	}
 }

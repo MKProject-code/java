@@ -2,7 +2,7 @@
 <section name="Workbench">
 	<item key="org.eclipse.jdt.ui.last.selected.jre.kind2" value="2"/>
 	<item key="org.eclipse.jdt.ui.last.selected.execution.enviroment" value="JavaSE-1.8"/>
-	<item key="org.eclipse.jdt.ui.lastextjar" value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\libs"/>
+	<item key="org.eclipse.jdt.ui.lastextjar" value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins"/>
 	<item key="TypeHierarchyViewPart.hierarchyview" value="2"/>
 	<item key="TypeHierarchyViewPart.qualifiednames" value="false"/>
 	<item key="TypeHierarchyViewPart.linkeditors" value="false"/>
@@ -59,26 +59,26 @@
 		<item key="JarManifestWizardPage.MANIFEST_LOCATION" value=""/>
 		<item key="JarManifestWizardPage.SEAL_JAR" value="false"/>
 		<list key="JarPackageWizardPage.DESTINATION_NAMES_ID">
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\CommandBlocker_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\ShopManager_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\MKProjectAPI.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\ChatManager_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\ArenaPlugin_MonsterEvent_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\ArenaPlugin_ArenaPVP_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\ArenaManager_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\InventoryManager_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\LoginManager_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\AdminUtils_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\MKProjectAPI_v2.0.0.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\MiniGamesManager_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\WolfSecurity_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\MenuHelpManager_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\ShopManager_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\ChatManager_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\ArenaPlugin_PVP_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\ArenaPlugin_MonsterEvent_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\CmdBlockAdvancedManager_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\TEST.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\CompassPoint_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\WorldManager_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\CustomCommand_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\WorldEditTools_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\MoneyManager_MKProject.jar"/>
 			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\MoneyManager_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\SpawnManager_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\ArenaPlugin_PVP_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\PromoManager_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\InventoryManager_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\LoginManager_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\AdminUtils_MKProject.jar"/>
 			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\WorldManager_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\PortalManager_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\CustomCommand_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\WorldEditTools_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\CompassPoint_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\WolfSecurity_MKProject.jar"/>
 		</list>
 	</section>
 	<section name="WorkingSetModelAwareSelectionDialog">
@@ -173,5 +173,12 @@
 		<item key="DIALOG_WIDTH" value="423"/>
 		<item key="DIALOG_HEIGHT" value="597"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.75|0|WINDOWS|1|-13|0|0|0|400|0|0|0|-18|3|2|1|34|Segoe UI"/>
+	</section>
+	<section name="JavaSearchPage">
+		<item key="CASE_SENSITIVE" value="false"/>
+		<item key="INCLUDE_MASK" value="11"/>
+		<item key="HISTORY_SIZE" value="0"/>
+	</section>
+	<section name="RenameInformationPopup">
 	</section>
 </section>

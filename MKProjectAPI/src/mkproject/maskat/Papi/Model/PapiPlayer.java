@@ -1,29 +1,37 @@
 package mkproject.maskat.Papi.Model;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.bukkit.BukkitPlayer;
+import com.mojang.authlib.GameProfile;
 
 import me.maskat.InventoryManager.InventoryManagerAPI;
+import me.maskat.MoneyManager.Mapi;
 import mkproject.maskat.Papi.Papi;
 import mkproject.maskat.Papi.PapiPlugin;
 import mkproject.maskat.Papi.PapiWorldEdit;
 import mkproject.maskat.Papi.Menu.PapiMenuPage;
 import mkproject.maskat.Papi.MenuInventory.MenuPage;
+import mkproject.maskat.Papi.Utils.Message;
+import mkproject.maskat.StatsManager.API.StatsAPI;
+import net.milkbowl.vault.economy.Economy;
+import net.minecraft.server.v1_16_R1.EntityPlayer;
 
 public class PapiPlayer {
 	private Player player;
@@ -38,12 +46,16 @@ public class PapiPlayer {
 	private Location survivalLastLocation;
 	private Location globalLastLocation;
 	
-	private BukkitPlayer worldeditBukkitPlayer;
+	private Object worldeditBukkitPlayer;//BukkitPlayer
 	
 	private JavaPlugin listenChatPluginExecutor;
 	private Object listenChatEventUniqueId;
 	private Object listenChatStoreObject;
 	private boolean listenChatMovmentCancel;
+	
+	private BukkitTask teleportTask = null;
+	
+	private Map<Integer, GameProfile> tabListGameProfilesMap = new HashMap<>();
 	
 	public PapiPlayer(Player p)
 	{
@@ -56,11 +68,19 @@ public class PapiPlayer {
 		playerspawngenerated = false;
 		survivalLastLocation = null;
 		globalLastLocation = null;
-		worldeditBukkitPlayer = Papi.WorldEdit.getPlugin().wrapPlayer(player);
+		PapiPlugin.getPlugin().getLogger().warning("PapiPlugin.getWorldEditPlugin()="+PapiPlugin.getWorldEditPlugin());
+		if(PapiPlugin.getWorldEditPlugin() != null)
+			worldeditBukkitPlayer = Papi.WorldEdit.getPlugin().wrapPlayer(player);
+		else
+			worldeditBukkitPlayer = null;
 		listenChatPluginExecutor = null;
 		listenChatEventUniqueId = null;
 		listenChatStoreObject = null;
 		listenChatMovmentCancel = true;
+	}
+	
+	public Map<Integer, GameProfile> getTabListGameProfilesMap() {
+		return tabListGameProfilesMap;
 	}
 	
 	public String getNameWithPrefix() {
@@ -118,6 +138,20 @@ public class PapiPlayer {
 		}
 		else
 			lastAction = LocalDateTime.now();
+		
+		if(teleportTask != null) {
+			teleportTask.cancel();
+			teleportTask = null;
+			Message.sendMessage(player, "&c&oTeleportacja anulowana");
+		}
+	}
+	
+	public void registerDamage() {
+		if(teleportTask != null) {
+			teleportTask.cancel();
+			teleportTask = null;
+			Message.sendMessage(player, "&c&oTeleportacja anulowana");
+		}
 	}
 	
 	//////////////////////
@@ -130,7 +164,7 @@ public class PapiPlayer {
 		{
 			logged = true;
 			
-			PapiPlayerLoginEvent event = new PapiPlayerLoginEvent(this, player);
+			PapiPlayerLoginEvent event = new PapiPlayerLoginEvent(this, player, false);
 			
 			Bukkit.getServer().getPluginManager().callEvent(event);
 			
@@ -155,7 +189,7 @@ public class PapiPlayer {
 		{
 			logged = true;
 			
-			PapiPlayerLoginEvent event = new PapiPlayerLoginEvent(this, player);
+			PapiPlayerLoginEvent event = new PapiPlayerLoginEvent(this, player, true);
 			
 			Bukkit.getServer().getPluginManager().callEvent(event);
 			
@@ -252,20 +286,32 @@ public class PapiPlayer {
 		player.openInventory(menuPage.getInventory());
 	}
 	
-	public void openMenu(final PapiMenuPage papiMenuPage) {
-		player.openInventory(papiMenuPage.getInventory());
+	public boolean openMenu(final PapiMenuPage papiMenuPage) {
+		//this.player.openInventory(papiMenuPage.getInventory());
+		return papiMenuPage.openMenu(player);
+	}
+	public void closeMenu(final PapiMenuPage papiMenuPage) {
+		papiMenuPage.closeMenu(player);
 	}
 	
 	public void onInventoryClick(final InventoryClickEvent e)
 	{
 		if(e.getInventory().getHolder() instanceof PapiMenuPage)
 		{
-			if(e.getClickedInventory() != ((PapiMenuPage)e.getInventory().getHolder()).getInventory())
+			if(e.getAction() == InventoryAction.COLLECT_TO_CURSOR || e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY)
+				e.setCancelled(true);
+			
+//			if(e.getClickedInventory() != ((PapiMenuPage)e.getInventory().getHolder()).getInventory())
+//				return;
+			
+			if(e.getClickedInventory() != e.getInventory())
 				return;
 			
 			e.setCancelled(true);
-			if(e.getCurrentItem() != null)
-				((PapiMenuPage)e.getInventory().getHolder()).onInventoryClick(e, player);
+			((PapiMenuPage)e.getInventory().getHolder()).onInventoryClick(e, player);
+			
+			if(e.getAction() == InventoryAction.COLLECT_TO_CURSOR || e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY)
+				e.setCancelled(true);
 		}
 		
 		if(e.getInventory().getHolder() instanceof MenuPage)
@@ -276,7 +322,21 @@ public class PapiPlayer {
 		}
 	}
 	
+
+	public void onInventoryDrag(InventoryDragEvent e) {
+		if(e.getInventory().getHolder() instanceof PapiMenuPage)
+		{
+			for(int rawSlot : e.getRawSlots()) {
+				if(rawSlot < e.getInventory().getSize()) {
+					e.setCancelled(true);
+					return;
+				}
+			}
+		}
+	}
+	
 	public void onInventoryClose(final InventoryCloseEvent e) {
+		
 		if(e.getInventory().getHolder() instanceof PapiMenuPage)
 		{
 			((PapiMenuPage)e.getInventory().getHolder()).onInventoryClose(e, player);
@@ -294,24 +354,24 @@ public class PapiPlayer {
 		if(worldeditBukkitPlayer == null)
 				return false;
 		
-		EditSession worldeditEditSession = PapiWorldEdit.pasteSchematic(fileName, loc, pasteAir, true);
+		com.sk89q.worldedit.EditSession worldeditEditSession = PapiWorldEdit.pasteSchematic(fileName, loc, pasteAir, true);
 		
 		if(worldeditEditSession != null) {
-			worldeditBukkitPlayer.getSession().remember(worldeditEditSession, true, worldeditBukkitPlayer.getLimit().MAX_HISTORY);
+			((com.sk89q.worldedit.bukkit.BukkitPlayer)worldeditBukkitPlayer).getSession().remember(worldeditEditSession, true, ((com.sk89q.worldedit.bukkit.BukkitPlayer)worldeditBukkitPlayer).getLimit().MAX_HISTORY);
 		}
 		
 		return worldeditEditSession == null ? false : true;
 	}
 	
-	public boolean undoWorldEdit() {
-		EditSession worldeditEditSession = worldeditBukkitPlayer.getSession().undo(worldeditBukkitPlayer.getSession().getBlockBag(BukkitAdapter.adapt(player)), BukkitAdapter.adapt(player));
-		return worldeditEditSession == null ? false : true;
-	}
-	
-	public boolean redoWorldEdit() {
-		EditSession worldeditEditSession = worldeditBukkitPlayer.getSession().redo(worldeditBukkitPlayer.getSession().getBlockBag(BukkitAdapter.adapt(player)), BukkitAdapter.adapt(player));
-		return worldeditEditSession == null ? false : true;
-	}
+//	public boolean undoWorldEdit() {
+//		com.sk89q.worldedit.EditSession worldeditEditSession = ((com.sk89q.worldedit.bukkit.BukkitPlayer)worldeditBukkitPlayer).getSession().undo(((com.sk89q.worldedit.bukkit.BukkitPlayer)worldeditBukkitPlayer).getSession().getBlockBag(com.sk89q.worldedit.bukkit.BukkitAdapter.adapt(player)), com.sk89q.worldedit.bukkit.BukkitAdapter.adapt(player));
+//		return worldeditEditSession == null ? false : true;
+//	}
+//	
+//	public boolean redoWorldEdit() {
+//		com.sk89q.worldedit.EditSession worldeditEditSession = ((com.sk89q.worldedit.bukkit.BukkitPlayer)worldeditBukkitPlayer).getSession().redo(((com.sk89q.worldedit.bukkit.BukkitPlayer)worldeditBukkitPlayer).getSession().getBlockBag(com.sk89q.worldedit.bukkit.BukkitAdapter.adapt(player)), com.sk89q.worldedit.bukkit.BukkitAdapter.adapt(player));
+//		return worldeditEditSession == null ? false : true;
+//	}
 
 	public void listenChat(JavaPlugin pluginExecutor, Object eventUniqueId) {
 		 listenChat(pluginExecutor, eventUniqueId, null, true);
@@ -369,37 +429,94 @@ public class PapiPlayer {
 		if(this.mutedExpires == null)
 			return null;
 		
-		Duration duration = Duration.between(LocalDateTime.now(), this.mutedExpires);
+		String remainingTimeStr = Papi.Function.getRemainingTimeString(this.mutedExpires);
 		
-	    long seconds = duration.getSeconds();
-	    
-	    if(seconds <= 0) {
-	    	this.mutedExpires = null;
-	    	return "-";
-	    }
-	    
-	    if(duration.toDays() < 2) {
-	    	long absSeconds = Math.abs(seconds);
-	    	long iHour = absSeconds / 3600;
-	    	long iMin = (absSeconds % 3600) / 60;
-	    	long iSec = absSeconds % 60;
-	    	
-	    	String positive = "";
-	    	if(iHour > 0)
-	    		positive += iHour+"h ";
-	    	if(iMin > 0)
-	    		positive += iMin+"m ";
-	    	if(iSec > 0)
-	    		positive += iSec+"s";
-//		    
-//		    String positive = String.format(
-//		        "%dh %dm %ds",
-//		        absSeconds / 3600,
-//		        (absSeconds % 3600) / 60,
-//		        absSeconds % 60);
-		    return positive.trim();
-	    }
-	    else
-	    	return duration.toDays() + " dni";
+		if(remainingTimeStr==null)
+			return "-";
+		
+		return remainingTimeStr;
+	}
+	
+	public Economy getEconomy() {
+		return Papi.Vault.getEconomy();
+	}
+	
+	public void teleportTimer(Location location) {
+		teleportTimerExpLvl(location, 0);
+	}
+	public void teleportTimerExpLvl(Location location, int paidExpLevel) {
+    	if(paidExpLevel > 0 && player.getLevel() < paidExpLevel)
+    	{
+    		Message.sendMessage(player, "&c&oMusisz mieć conajmniej "+paidExpLevel+" EXP Level aby użyć teleportacji");
+    		return;
+    	}
+    	
+		Message.sendMessage(this.player, "&7&oTeleportacja za 5 sekund... Nie ruszaj się");
+		if(teleportTask!=null)
+			teleportTask.cancel();
+		
+		teleportTask = Bukkit.getScheduler().runTaskLater(PapiPlugin.getPlugin(), new Runnable() {
+		            @Override
+		            public void run() {
+		            	teleportTask = null;
+		            	if(!player.isOnline() || player.isDead())
+		            		return;
+		            	
+		            	if(paidExpLevel > 0 && player.getLevel() < paidExpLevel)
+		            	{
+		            		Message.sendMessage(player, "&c&oMusisz mieć conajmniej "+paidExpLevel+" EXP Level aby użyć teleportacji");
+		            	}
+		            	else
+		            	{
+		            		location.setX(location.getBlockX());
+		            		location.setZ(location.getBlockZ());
+			            	if(player.teleport(location))
+			            	{
+			            		if(paidExpLevel>0)
+			            			player.setLevel(player.getLevel()-paidExpLevel);
+			            		Message.sendMessage(player, "&a&oZostałeś przeteleportowany");
+			            	}
+			            	else
+			            		Message.sendMessage(player, "&c&oTeleportacja nieudana");
+		            	}
+		           }
+				}, 20L*5);
+	}
+	
+	public double getPoints() {
+		return Mapi.getPlayer(player).getPoints();
+	}
+	
+	public double addPoints(double points) {
+		return Mapi.getPlayer(player).addPoints(points);
+	}
+	
+	public boolean delPoints(double points) {
+		return Mapi.getPlayer(player).delPoints(points);
+	}
+	
+	public int getPing() {
+	    EntityPlayer entityPlayer = ((CraftPlayer) this.player).getHandle();
+	    return entityPlayer.ping;
+	}
+	
+	public StatsPlayer getStats() {
+		return new StatsPlayer();
+	}
+
+	public class StatsPlayer {
+		private mkproject.maskat.StatsManager.Model.StatsPlayer statsPlayer;
+		public StatsPlayer() {
+			this.statsPlayer = StatsAPI.getStatsPlayer(player);
+		}
+		public int getKills() {
+			return this.statsPlayer.getKills();
+		}
+		public int getDeaths() {
+			return this.statsPlayer.getDeaths();
+		}
+		public String getLastKiller() {
+			return this.statsPlayer.getLastKiller();
+		}
 	}
 }

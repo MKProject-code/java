@@ -7,6 +7,7 @@ website: http://skyidea.pl/
 api-version: 1.15
 load: POSTWORLD
 depend: [MKProjectAPI]
+softdepend: [MenuHelpManager]
 
 commands:
   loginmanager:
@@ -19,8 +20,20 @@ commands:
   register:
     description: Player register
     aliases: reg
+  changepassword:
+    description: Player change password
+    aliases: changepass
 
-#permissions:
-#   mkp.chatmanager.adminchat.access:
-#      description: Allows use Admin Chat
-#      default: op
+permissions:
+   mkp.loginmanager.abortremoveexpwhenjoineddead:
+      description: Abort remove EXP when joined dead
+      default: op
+   mkp.loginmanager.bypass.jointosafelastlocation:
+      description: Abort remove EXP when joined dead
+      default: op
+   mkp.loginmanager.bypass.gamemode:
+      description: Abort remove EXP when joined dead
+      default: op
+   mkp.loginmanager.info.multiaccount:
+      description: Player multiaccount info when logged
+      default: op

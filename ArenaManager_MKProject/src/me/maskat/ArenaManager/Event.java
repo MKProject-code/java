@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import me.maskat.ArenaManager.ArenaManager.Manager;
 import me.maskat.ArenaManager.Models.ArenesModel;
-import me.maskat.ArenaManager.PlayerMenu.PlayerMenuMain;
 import mkproject.maskat.Papi.Papi;
 import mkproject.maskat.Papi.MenuInventory.PapiMenuInventoryClickEvent;
 import mkproject.maskat.Papi.Model.PapiListenChatEvent;
@@ -41,8 +40,6 @@ public class Event implements Listener {
 		
 		if(ArenesModel.existAdmin(e.getPlayer()))
 			ArenesModel.getAdmin(e.getPlayer()).onPapiMenuInventoryClick(e);
-		
-		PlayerMenuMain.onPapiMenuInventoryClick(e);
 	}
 	
 	@EventHandler

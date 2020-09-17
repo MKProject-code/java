@@ -22,7 +22,7 @@ public class CmdUnmute implements CommandExecutor, TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		CommandManager manager = new CommandManager(Config.getString(ConfigKey.PermissionPrefix), sender, command, label, args);
 
-		manager.registerArgTabComplete(0, manager.getOnlinePlayersNameList());
+		manager.registerArgTabComplete(0, Database.Mutes.getMutedPlayersNamesList());
 		
 		return manager.getTabComplete();
 	}
@@ -37,15 +37,14 @@ public class CmdUnmute implements CommandExecutor, TabCompleter {
 		if(!manager.isPersmissionUse() || !manager.isPermissionAllowGameMode() || !manager.isPermissionAllowWorld())
 			return manager.doReturn();
 		
-		if(manager.hasArgs(1,2))
-		{
-			this.removeMute(manager, manager.getChosenPlayerFromArg(1, false), manager.getStringArgStart(2));
-		}
+		if(manager.hasArgStart(2))
+			this.removeUnmute(manager, manager.getChosenPlayerFromArg(1, false), manager.getStringArgStart(2));
+		
 		return manager.doReturn();
 	}
 	
 	// --------- /unmute <player> [reason]
-	public void removeMute(CommandManager manager, Player destPlayer, String reason) {
+	public void removeUnmute(CommandManager manager, Player destPlayer, String reason) {
 		if(destPlayer == null)
 			return;
 		
@@ -63,8 +62,7 @@ public class CmdUnmute implements CommandExecutor, TabCompleter {
 		if(result == 1)
 		{
 			Papi.Model.getPlayer(destPlayer).setMuted(null);
-			Message.sendBroadcast(Papi.Model.getPlayer(destPlayer).getNameWithPrefix()+" &7może już pisać. Wyciszenie zostało anulowane przez "+Papi.Model.getPlayer(manager.getPlayer()).getNameWithPrefix()+"&7."+((reason!="") ? ("\nPowód: &6"+reason) : ""));
-//			manager.setReturnMessage("&a&oWyciszyłeś gracza &e&o"+destPlayer.getName());
+			Message.sendBroadcast(Papi.Model.getPlayer(destPlayer).getNameWithPrefix()+" &7może już pisać. Wyciszenie zdjęte przez "+Papi.Model.getPlayer(manager.getPlayer()).getNameWithPrefix()+"&7."+((reason!="") ? ("\nPowód: &6"+reason) : ""));
 			manager.setReturnMessage(null);
 		}
 		else if(result == -1)

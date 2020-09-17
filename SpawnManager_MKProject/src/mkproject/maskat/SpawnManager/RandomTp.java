@@ -1,5 +1,7 @@
 package mkproject.maskat.SpawnManager;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -8,9 +10,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Chest;
+import org.bukkit.block.data.type.Bed;
+import org.bukkit.block.data.type.Bed.Part;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 
 import mkproject.maskat.Papi.Papi;
+import mkproject.maskat.Papi.Utils.Message;
 
 
 public class RandomTp {
@@ -90,45 +99,77 @@ public class RandomTp {
 			Material.AIR
 			);
 	
-	protected static void preparePlayerSpawnArea(Player player) {
+	protected static void preparePlayerSpawnArea(Player player, boolean bigZone) {
 		Location loc = Papi.Model.getPlayer(player).getPlayerSpawnLocation().clone();
-		
-		loc.setY(loc.getY()+1);
-		
-		loc.setX(loc.getX()-5);
-		loc.setZ(loc.getZ()-5);
-		for(int i1=-5; i1<=5; i1++)
-		{
-			for(int i2=-5; i2<=5; i2++)
+		if(bigZone) {
+			loc.setX(loc.getX()-5);
+			loc.setZ(loc.getZ()-5);
+			for(int i1=-5; i1<=5; i1++)
 			{
-				if(loc.getBlock().getType() != Material.AIR && isAllowedAirBlock(loc))
-					loc.getBlock().setType(Material.AIR);
-				
-				loc.setZ(loc.getZ()+1);
+				for(int i2=-5; i2<=5; i2++)
+				{
+					if(loc.getBlock().getType() != Material.AIR && isAllowedAirBlock(loc))
+						loc.getBlock().setType(Material.AIR);
+					
+					loc.setZ(loc.getZ()+1);
+				}
+				loc.setZ(loc.getZ()-11);
+				loc.setX(loc.getX()+1);
 			}
-			loc.setZ(loc.getZ()-11);
-			loc.setX(loc.getX()+1);
+		}
+		else
+		{
+			loc.setX(loc.getX()-2);
+			loc.setZ(loc.getZ()-2);
+			for(int i1=-2; i1<=2; i1++)
+			{
+				for(int i2=-2; i2<=2; i2++)
+				{
+					if(loc.getBlock().getType() != Material.AIR && isAllowedAirBlock(loc))
+						loc.getBlock().setType(Material.AIR);
+					
+					loc.setZ(loc.getZ()+1);
+				}
+				loc.setZ(loc.getZ()-5);
+				loc.setX(loc.getX()+1);
+			}
 		}
 	}
 	
 	protected static void updatePlayerSpawnLocationAsync(Player player, World world) {
-		Bukkit.getScheduler().runTaskAsynchronously(Plugin.getPlugin(), new Runnable() {
-		      @Override
-		      public void run() {
-		    	  Location loc = RandomTp.getRandomLocationTask(player, Papi.Server.getSurvivalWorld());
-		    	  if(loc == null)
-		    		  return;
-		    	  Bukkit.getScheduler().runTask(Plugin.getPlugin(), new Runnable() {
-				      @Override
-				      public void run() {
-				    	  Papi.MySQL.set(Map.of(Database.Users.PLAYER_SURVIVAL_SPAWN_LOCATION, Papi.Function.getLocationToString(loc, false, false)), Database.Users.USERNAME, "=", player.getName().toLowerCase(), Database.Users.TABLE);
-				    	  Papi.Model.getPlayer(player).initPlayerSpawnLocation(loc);
-				      }});
-		      }});
+		Thread thread = new Thread() {
+			public void run() {
+				Location loc = RandomTp.getRandomLocationTask(player, Papi.Server.getSurvivalWorld(), true);
+		    	if(loc == null)
+		    		return;
+		    	Bukkit.getScheduler().runTask(Plugin.getPlugin(), new Runnable() {
+		    		@Override
+		    		public void run() {
+		    			Papi.MySQL.set(Map.of(Database.Users.PLAYER_SURVIVAL_SPAWN_LOCATION, Papi.Function.getLocationToString(loc, false, false)), Database.Users.USERNAME, "=", player.getName().toLowerCase(), Database.Users.TABLE);
+		    			Papi.Model.getPlayer(player).initPlayerSpawnLocation(loc);
+		    		}
+		    	});
+			}
+		};
+		thread.start();
+		
+//		Bukkit.getScheduler().runTaskAsynchronously(Plugin.getPlugin(), new Runnable() {
+//		      @Override
+//		      public void run() {
+//		    	  Location loc = RandomTp.getRandomLocationTask(player, Papi.Server.getSurvivalWorld());
+//		    	  if(loc == null)
+//		    		  return;
+//		    	  Bukkit.getScheduler().runTask(Plugin.getPlugin(), new Runnable() {
+//				      @Override
+//				      public void run() {
+//				    	  Papi.MySQL.set(Map.of(Database.Users.PLAYER_SURVIVAL_SPAWN_LOCATION, Papi.Function.getLocationToString(loc, false, false)), Database.Users.USERNAME, "=", player.getName().toLowerCase(), Database.Users.TABLE);
+//				    	  Papi.Model.getPlayer(player).initPlayerSpawnLocation(loc);
+//				      }});
+//		      }});
 	}
 	
-	private static Location getRandomLocationTask(Player player, World world) {
-		if(!player.isOnline())
+	protected static Location getRandomLocationTask(Player player, World world, boolean checkFullValid) {
+		if(player != null && !player.isOnline())
 			return null;
 		//Message.sendTitle(player, null, "Szykamy bezpiecznego miejsca dla Ciebie...", 0, 1, 0);
 		
@@ -146,10 +187,12 @@ public class RandomTp {
 		
 		Location randomLocation = new Location(world, randomX+0.5, world.getHighestBlockYAt(randomX, randomZ), randomZ+0.5);
 		
-		if(checkValidLocation(randomLocation))
+		if(checkValidLocation(randomLocation, checkFullValid)) {
+			randomLocation.setY(randomLocation.getY()+1);
 			return randomLocation;
+		}
 		else
-			return getRandomLocationTask(player, world);
+			return getRandomLocationTask(player, world, checkFullValid);
 		
 /*
 - stationary_water
@@ -176,10 +219,31 @@ public class RandomTp {
 		return !spawnonmaterialStayBlackList.contains(location.getBlock().getType());
 	}
 	
-	protected static boolean checkValidLocation(Location location) {
+	protected static boolean checkValidLocation(Location location, boolean checkFullValid) {
 		
 		if(Papi.Function.isSomePlayersNear(location, MIN_OTHER_PLAYER_DISTANCE))
 			return false;
+		
+		if(!checkFullValid)
+		{
+			Location tempLocation = location.clone();
+			if(!isAllowedSpawnBlock(tempLocation))
+				return false;
+			
+			tempLocation.setY(tempLocation.getY()+1);
+			if(!isAllowedSpawnBlock(tempLocation))
+				return false;
+			
+			tempLocation.setY(tempLocation.getY()+1);
+			if(!isAllowedSpawnBlock(tempLocation))
+				return false;
+			
+			tempLocation.setY(tempLocation.getY()+1);
+			if(tempLocation.getBlock().getType() == Material.LAVA)
+				return false;
+			
+			return true;
+		}
 		
 		Location tempLocationX = location.clone();
 		//Y0
@@ -238,5 +302,57 @@ public class RandomTp {
 			}
 		}
 		return false;
+	}
+
+	public static void preparePlayerSpawnAreaWithoutPasteSchematic(Player player) {
+		Location loc = Papi.Model.getPlayer(player).getPlayerSpawnLocation().clone();
+		
+		loc.setZ(loc.getZ()+1);
+		loc.getBlock().setType(Material.CHEST);
+		
+		Chest chest =  (Chest)loc.getBlock().getState();
+		Inventory inv = chest.getInventory();
+		inv.addItem(new ItemStack(Material.WOODEN_SWORD));
+		inv.addItem(new ItemStack(Material.WOODEN_PICKAXE));
+		inv.addItem(new ItemStack(Material.WOODEN_SHOVEL));
+		inv.addItem(new ItemStack(Material.WOODEN_AXE));
+		inv.addItem(new ItemStack(Material.BREAD, 10));
+		inv.addItem(new ItemStack(Material.BONE));
+		
+		ItemStack bookItem = new ItemStack(Material.WRITTEN_BOOK, 1);
+		BookMeta bookMeta = (BookMeta)bookItem.getItemMeta();
+		bookMeta.setAuthor(Message.getColorMessage("&bSkyidea.pl"));
+		bookMeta.setTitle(Message.getColorMessage("&6Księga startowa"));
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+		bookMeta.setLore(List.of(Message.getColorMessage("&f&oWłasność: &7&o"+player.getName()),Message.getColorMessage("&f&oDnia: &7&o"+LocalDateTime.now().format(formatter))));
+		bookMeta.setUnbreakable(false);
+		bookMeta.addPage(Message.getColorMessage(
+				"&2&lWitaj przybyszu!&r\n"
+				+"&9Rozpocząłeś Prawdziwy Survival :)&r\n\n"
+				+"Spróbuj przetrwać w tym niebezpiecznym, a jakże cudownym świecie. W ciężkiej wędrówce potowarzyszy ci twój wilk, który będzie bronił twojego terytorium! Zwiedzaj, buduj, rób co chcesz!"
+				));
+		bookMeta.addPage(Message.getColorMessage(
+				"Możesz dostać się do piekła lub do \"Endu\", ale uważaj, tam może być bardzo niebezpiecznie!\n\n"
+				+ "&6Aby otworzyć menu serwera wpisz &l/menu"
+				+"\n\n&2&lPowodzenia!"
+				));
+		bookItem.setItemMeta(bookMeta);
+		inv.addItem(bookItem);
+		
+		
+		loc.setZ(loc.getZ()-2);
+		loc.setX(loc.getX()+1);
+		loc.getBlock().setType(Material.RED_BED);
+		
+		Bed bed = (Bed)loc.getBlock().getBlockData();
+		bed.setPart(Part.HEAD);
+		loc.getBlock().setBlockData(bed);
+		
+		loc.setZ(loc.getZ()+1);
+		loc.getBlock().setType(Material.RED_BED);
+		
+		bed = (Bed)loc.getBlock().getBlockData();
+		bed.setPart(Part.FOOT);
+		loc.getBlock().setBlockData(bed);
 	}
 }

@@ -1,0 +1,167 @@
+
+allowCommands:
+   /register:
+      all: all
+   /reg:
+      all: all
+   /login:
+      all: all
+   /l:
+      all: all
+   
+   /menu:
+      default:
+         - world
+         - world_nether
+         - world_the_end
+         - world_spawncenter 
+   /pomoc:
+      inherit: /menu
+   /help:
+      inherit: /menu
+
+   /wolf:
+      inherit: /menu
+   /wilk:
+      inherit: /menu
+   /compass:
+      inherit: /menu
+   /kompas:
+      inherit: /menu
+   /trade:
+      inherit: /menu
+   /sklep:
+      inherit: /menu
+   /shop:
+      inherit: /menu
+      
+   /arena:
+      all: all
+   /spawn:
+      all: all
+      
+   /tpa:
+      inherit: /menu
+   /tpyes:
+      inherit: /menu
+   /tpaccept:
+      inherit: /menu
+   /tpno:
+      inherit: /menu
+   /tpdeny:
+      inherit: /menu
+   /tpcancel:
+      inherit: /menu
+   /tpon:
+      inherit: /menu
+   /tpoff:
+      inherit: /menu
+   
+
+   /pw:
+      all: all
+   /msg:
+      all: all
+   /skin:
+      all: all
+   /bed:
+      inherit: /menu
+   /home:
+      vip:
+         - world
+         - world_nether
+         - world_the_end
+         - world_spawncenter
+   /sethome:
+      vip:
+         - world
+         - world_nether
+         - world_the_end
+         - world_spawncenter
+   /r:
+      all: all
+   /reply:
+      all: all
+   /pwblock:
+      all: all
+   /pwunblock:
+      all: all
+   /msgblock:
+      all: all
+   /msgunblock:
+      all: all
+      
+   /exp:
+      all: all
+      
+      
+   /mute:
+      mod:
+         - all
+   /unmute:
+      mod:
+         - all
+      
+   /promo:
+      all: all
+   /arena:
+      all: all
+   /party:
+      all: all
+   /p:
+      all: all
+
+
+   /c:
+      builder:
+         - all
+         
+   //wand:
+      builder:
+         - world_spawn
+         - world_build
+         - world_battleroyal
+         - world_bedwars
+   /up:
+      inherit: //wand
+   //sphere:
+      inherit: //wand
+   //redo:
+      inherit: //wand
+   //stack:
+      inherit: //wand
+   //copy:
+      inherit: //wand
+   //set:
+      inherit: //wand
+   //flip:
+      inherit: //wand
+   //expand:
+      inherit: //wand
+   //undo:
+      inherit: //wand
+   //move:
+      inherit: //wand
+   //rotate:
+      inherit: //wand
+   //cut:
+      inherit: //wand
+   //hcyl:
+      inherit: //wand
+   //shift:
+      inherit: //wand
+   //hsphere:
+      inherit: //wand
+   //pyramid:
+      inherit: //wand
+   //paste:
+      inherit: //wand
+   //hpyramid:
+      inherit: //wand
+   //replace:
+      inherit: //wand
+#   /cleanlight:
+#      inherit: //wand
+   //cyl:
+      inherit: //wand
+         

@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
+import me.maskat.InventoryManager.InventoryManagerAPI;
+import me.maskat.MenuHelpManager.API.MenuHelpAPI;
 import mkproject.maskat.Papi.Papi;
 import mkproject.maskat.Papi.Utils.Message;
 
@@ -34,6 +36,11 @@ public class PlayerRestoreManager {
 			Model.getPlayer(player).setDead(true);
 			
 			player.spigot().respawn();
+			if(!Model.getPlayer(player).isAbortedRemoveExpWhenJoinedDead() && !player.hasPermission("mkp.loginmanager.abortremoveexpwhenjoineddead"))
+			{
+				player.setLevel(0);
+				player.setExp(0);
+			}
 			
 			//Model.getPlayer(player).setJoinSpawnLocation(Papi.Model.getPlayer(player).getRespawnLocation());
 			
@@ -89,10 +96,14 @@ public class PlayerRestoreManager {
         	
     	}
     	
-    	player.teleport(Papi.Server.getServerSpawnLocation());
+    	Model.getPlayer(player).setAferLogin(true);
+    	player.teleport(Papi.Server.getServerLobbyLocation());
+    	Model.getPlayer(player).setAferLogin(false);
     	
     	player.setWalkSpeed(0);
     	player.setFlySpeed(0);
+    	
+    	InventoryManagerAPI.addPlayerModel(player);
     	
     	clearPlayer(player);
     	
@@ -129,7 +140,14 @@ public class PlayerRestoreManager {
 		String ipAddr = player.getAddress().getAddress().getHostAddress().toString();
 		Plugin.getPlugin().getLogger().info("Player '"+player.getName()+"' IP: "+ipAddr);
 		if(ipAddr.equals("192.168.1.15"))
-			Login.doRegisterSuccessLoginPlayer(player);
+		{
+			Bukkit.getScheduler().runTaskLater(Plugin.getPlugin(), new Runnable() {
+				@Override
+				public void run() {
+					Login.doSuccessLoginPlayer(player, null);
+				}
+			}, 5L);
+		}
 		
 		//player.setGameMode(GameMode.SPECTATOR);
 	}
@@ -140,7 +158,7 @@ public class PlayerRestoreManager {
     		Model.addPlayer(e.getPlayer());
     	
     	Model.getPlayer(e.getPlayer()).setDead(e.getPlayer().isDead());
-    	
+    	Plugin.getPlugin().getLogger().info("Player logging '"+e.getPlayer().getName()+"': isDead="+e.getPlayer().isDead());
 //    	if(Model.getPlayer(e.getPlayer()).isDead())
 //    	{
 //    		Model.getPlayer(e.getPlayer()).setJoinSpawnLocation(null);
@@ -149,26 +167,40 @@ public class PlayerRestoreManager {
     	//Bukkit.broadcastMessage("last spawn: "+e.getSpawnLocation());
     	Model.getPlayer(e.getPlayer()).setJoinSpawnLocation(e.getSpawnLocation());
     	
-    	Plugin.getPlugin().getLogger().warning("Player '"+e.getPlayer().getName()+"' join location: " + e.getSpawnLocation());
+    	Plugin.getPlugin().getLogger().info("Player '"+e.getPlayer().getName()+"' join location: " + e.getSpawnLocation());
+    	
+    	if(e.getSpawnLocation().getWorld() == Papi.Server.getServerSpawnWorld())
+    		Model.getPlayer(e.getPlayer()).abortRemoveExpWhenJoinedDead();
     	
 //    	e.getSpawnLocation().getWorld().loadChunk(e.getSpawnLocation().getWorld().getChunkAt(e.getSpawnLocation()));
 //    	Bukkit.broadcastMessage("load chunk pre");
-		e.setSpawnLocation(Papi.Server.getServerSpawnLocation());
+
+		//e.setSpawnLocation(Papi.Server.getServerSpawnLocation());
+		e.setSpawnLocation(Papi.Server.getServerLobbyLocation());
 	}
 	
-	public static void onPlayerLogin(Player player) {
+	public static void onPlayerLogin(Player player, boolean firstLogged) {
 		
 		//player.setGameMode(Model.getPlayer(player).getGameMode());
 		
-		player.setWalkSpeed(0.2f);
-		player.setFlySpeed(0.1f);
+		//TODO: this is fix for first release Spigot 1.16.1
+		Bukkit.getScheduler().runTaskLater(Plugin.getPlugin(), new Runnable() {
+			@Override
+			public void run() {
+				if(player.isOnline()) {
+					player.setWalkSpeed(0.2f);
+					player.setFlySpeed(0.1f);
+				}
+			}
+		}, 1L);
+
 //		player.removePotionEffect(PotionEffectType.JUMP);
 //		player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
 //		player.removePotionEffect(PotionEffectType.INVISIBILITY);
 		
 		//player.showPlayer(Plugin.getPlugin(), player);
 		
-		restorePlayer(player);
+		restorePlayer(player, firstLogged);
 		
 		if(!Model.getPlayer(player).isVehicleScheduler())
 			Model.removePlayer(player);
@@ -196,7 +228,7 @@ public class PlayerRestoreManager {
 			return;
 		
 		Model.getPlayer(player).setQuitBeforeLogin(true);
-		restorePlayer(player);
+		restorePlayer(player, false);
 		
 		Model.removePlayer(player);
 	}
@@ -206,29 +238,59 @@ public class PlayerRestoreManager {
 		//player.setExp(0); // Update FIX 2.0
 		//Model.getPlayer(player).setInventoryContents(player.getInventory().getContents()); // Update FIX 2.0
 		//Model.getPlayer(player).setInventoryArmorContents(player.getInventory().getArmorContents()); // Update FIX 2.0
-		//player.getInventory().clear(); // Update FIX 2.0
+		player.getInventory().clear(); // Update FIX 3.0
 
 		//player.updateInventory(); // Update FIX 2.0
 	}
 	
-	private static void restorePlayer(Player player) {
+	private static void restorePlayer(Player player, boolean firstLogged) {
 		//Bukkit.broadcastMessage("restorePlayer gamemode to: "+Model.getPlayer(player).getGameMode());
 		if(!player.hasPermission("mkp.loginmanager.bypass.gamemode")) // Update FIX 2.0
 			player.setGameMode(GameMode.SURVIVAL); // Update FIX 2.0
 		else
 			player.setGameMode(Model.getPlayer(player).getGameMode());
 		
-		if(Model.getPlayer(player).isDead())
+		if(firstLogged || !player.hasPlayedBefore()) {
+			player.teleport(Papi.Server.getServerSpawnLocation());
+			player.setLevel(5);
+			
+			Bukkit.getScheduler().runTaskLater(Plugin.getPlugin(), new Runnable() {
+				@Override
+				public void run() {
+					if(player.isOnline())
+						MenuHelpAPI.openMenuHelp(player);
+				}
+			}, 1L);
+		}
+		else if(Model.getPlayer(player).isDead())
 		{
 			Plugin.getPlugin().getLogger().info("Player '"+player.getName()+"' teleporting to respawn location: " + Papi.Model.getPlayer(player).getRespawnLocation());
+			
+			//timeout bug - exp 2x fix - gdy gracz dostanie timeout z wodzie, zginie, po ponownym zalogowaniu nadal ma expa bez itemkow (itemki i exp w miejscu zgonu)
+			player.setLevel(0);
+			player.setExp(0);
+			player.setTotalExperience(0);
+			
 			player.teleport(Papi.Model.getPlayer(player).getRespawnLocation());
 		}
 		else if(Model.getPlayer(player).getVehicle() == null)
 		{
 			if(Model.getPlayer(player).getJoinSpawnLocation() != null && Bukkit.getServer().getOfflinePlayer(player.getUniqueId()).hasPlayedBefore())
 			{
-				Plugin.getPlugin().getLogger().info("Player '"+player.getName()+"' teleporting to last location: " + Model.getPlayer(player).getJoinSpawnLocation());
-				player.teleport(Model.getPlayer(player).getJoinSpawnLocation());
+				if(player.hasPermission("mkp.loginmanager.bypass.jointosafelastlocation")
+						|| Model.getPlayer(player).getJoinSpawnLocation().getWorld() == Papi.Server.getServerSpawnWorld()
+						|| Model.getPlayer(player).getJoinSpawnLocation().getWorld() == Papi.Server.getSurvivalWorld()
+						|| Model.getPlayer(player).getJoinSpawnLocation().getWorld() == Papi.Server.getNetherWorld()
+						|| Model.getPlayer(player).getJoinSpawnLocation().getWorld() == Papi.Server.getTheEndWorld())
+				{
+					Plugin.getPlugin().getLogger().info("Player '"+player.getName()+"' teleporting to last location: " + Model.getPlayer(player).getJoinSpawnLocation());
+					player.teleport(Model.getPlayer(player).getJoinSpawnLocation());
+				}
+				else
+				{
+					Plugin.getPlugin().getLogger().info("Player '"+player.getName()+"' teleporting to server spawn");
+					player.teleport(Papi.Server.getServerSpawnLocation());
+				}
 			}
 		}
 		else if(!Model.getPlayer(player).getVehicle().isValid())

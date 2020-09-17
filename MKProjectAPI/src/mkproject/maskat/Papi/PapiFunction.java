@@ -1,17 +1,26 @@
 package mkproject.maskat.Papi;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
+
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 
 public class PapiFunction {
 	protected static boolean isNumeric(String strNum) {
@@ -197,9 +206,15 @@ public class PapiFunction {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		return LocalDateTime.now().format(formatter);
 	}
-	protected static LocalDateTime getLocalDateTimeFromString(String datetime) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		return LocalDateTime.parse(datetime.substring(0, datetime.indexOf(".")), formatter);
+	protected static LocalDateTime getLocalDateTimeFromString(String datetime, String pattern) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern==null ? "yyyy-MM-dd HH:mm:ss" : pattern);
+		if(pattern==null) {
+			int milisec = datetime.indexOf(".");
+			if(milisec >= 0)
+				datetime = datetime.substring(0, milisec);
+		}
+		
+		return LocalDateTime.parse(datetime, formatter);
 	}
 	protected static String getLocalDateTimeToString(LocalDateTime datetime) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -243,4 +258,54 @@ public class PapiFunction {
         // Return the item even if it doesn't have any enchantments
         return item;
     }
+	
+	public static ItemStack getCustomSkull(String headBase64) {
+		ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+		if (headBase64.isEmpty()) return head;
+		SkullMeta skullMeta = (SkullMeta) head.getItemMeta();
+		GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+		profile.getProperties().put("textures", new Property("textures", headBase64));
+		try {
+			Method mtd = skullMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
+			mtd.setAccessible(true);
+			mtd.invoke(skullMeta, profile);
+		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+			ex.printStackTrace();
+		}
+		head.setItemMeta(skullMeta);
+		return head;
+	}
+	
+	public static String getRemainingTimeString(LocalDateTime datetimeExpires) {
+		Duration duration = Duration.between(LocalDateTime.now(), datetimeExpires);
+		
+	    long seconds = duration.getSeconds();
+	    
+	    if(seconds <= 0)
+	    	return null;
+	    
+	    if(duration.toDays() < 2) {
+	    	long absSeconds = Math.abs(seconds);
+	    	long iHour = absSeconds / 3600;
+	    	long iMin = (absSeconds % 3600) / 60;
+	    	long iSec = absSeconds % 60;
+	    	
+	    	String positive = "";
+	    	if(iHour > 0)
+	    		positive += iHour+"h ";
+	    	if(iMin > 0)
+	    		positive += iMin+"m ";
+	    	if(iSec > 0)
+	    		positive += iSec+"s";
+//		    
+//		    String positive = String.format(
+//		        "%dh %dm %ds",
+//		        absSeconds / 3600,
+//		        (absSeconds % 3600) / 60,
+//		        absSeconds % 60);
+		    return positive.trim();
+	    }
+	    else
+	    	return duration.toDays() + " dni";
+	}
 }

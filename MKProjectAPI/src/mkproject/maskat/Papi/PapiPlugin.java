@@ -1,9 +1,12 @@
 package mkproject.maskat.Papi;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,6 +14,7 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 import mkproject.maskat.Papi.MySQL.MySQL_Config;
 import mkproject.maskat.Papi.MySQL.PapiMySQL;
+import mkproject.maskat.Papi.Utils.ItemGlow;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -21,10 +25,22 @@ public class PapiPlugin extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		
+		getLogger().info("Initializing API for MKProject by MasKAT...");
+		
+		this.saveDefaultConfig();
+		
 		plugin = this;
 		worldEditPlugin = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
 		
-		getLogger().info("Initializing API for MKProject by MasKAT...");
+		if(this.getConfig().getBoolean("Plugin.UseWorldEdit") && worldEditPlugin == null)
+		{
+        	getLogger().warning("*********************************************************************");
+        	getLogger().warning("******* ERROR: Disabled due to no WorldEdit dependency found! *******");
+        	getLogger().warning("*********************************************************************");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+		}
 		
 		getServer().getPluginManager().registerEvents(new PapiEvent(), this);
 		
@@ -37,29 +53,29 @@ public class PapiPlugin extends JavaPlugin {
 			}
 		}
 		
-		this.saveDefaultConfig();
-		
-        if (!setupEconomy() ) {
-        	getLogger().warning("*********************************************************************");
-        	getLogger().warning("********* ERROR: Disabled due to no Vault dependency found! *********");
-        	getLogger().warning("*********************************************************************");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-        if (!setupPermissions() ) {
-        	getLogger().warning("*********************************************************************");
-        	getLogger().warning("********* ERROR: Disabled due to no Vault dependency found! *********");
-        	getLogger().warning("*********************************************************************");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-        if (!setupChat() ) {
-        	getLogger().warning("*********************************************************************");
-        	getLogger().warning("********* ERROR: Disabled due to no Vault dependency found! *********");
-        	getLogger().warning("*********************************************************************");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
+		if(this.getConfig().getBoolean("Plugin.UseVault")) {
+	        if (!setupEconomy() ) {
+	        	getLogger().warning("*********************************************************************");
+	        	getLogger().warning("********* ERROR: Disabled due to no Vault dependency found! *********");
+	        	getLogger().warning("*********************************************************************");
+	            getServer().getPluginManager().disablePlugin(this);
+	            return;
+	        }
+	        if (!setupPermissions() ) {
+	        	getLogger().warning("*********************************************************************");
+	        	getLogger().warning("********* ERROR: Disabled due to no Vault dependency found! *********");
+	        	getLogger().warning("*********************************************************************");
+	            getServer().getPluginManager().disablePlugin(this);
+	            return;
+	        }
+	        if (!setupChat() ) {
+	        	getLogger().warning("*********************************************************************");
+	        	getLogger().warning("********* ERROR: Disabled due to no Vault dependency found! *********");
+	        	getLogger().warning("*********************************************************************");
+	            getServer().getPluginManager().disablePlugin(this);
+	            return;
+	        }
+		}
         
         MySQL_Config.init(getConfig().getString("MySQL.Hostname"),
         		getConfig().getString("MySQL.Port"),
@@ -83,6 +99,7 @@ public class PapiPlugin extends JavaPlugin {
 		
         PapiTask.runCheckAfkPlayersTask(getConfig().getInt("Player.CheckAfkStatusTime"));
         
+        PapiServer.initServerLobbyWorld(Bukkit.getServer().getWorld(getConfigValueString("Server.LobbyWorldName")));
         PapiServer.initServerSpawnWorld(Bukkit.getServer().getWorld(getConfigValueString("Server.SpawnWorldName")));
         PapiServer.initSurvivalWorld(Bukkit.getServer().getWorld(getConfigValueString("Server.SurvivalWorldName")));
         
@@ -90,6 +107,8 @@ public class PapiPlugin extends JavaPlugin {
         
         new PapiThread().start();
         
+        this.registerGlow();
+
 		getLogger().info("Has been enabled!");
 	}
 	
@@ -143,5 +162,27 @@ public class PapiPlugin extends JavaPlugin {
         }
         PapiVault.chat = rsp.getProvider();
         return PapiVault.chat != null;
+    }
+    
+    private void registerGlow() {
+        try {
+            Field f = Enchantment.class.getDeclaredField("acceptingNew");
+            f.setAccessible(true);
+            f.set(null, true);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+         NamespacedKey key = new NamespacedKey(this, getDescription().getName());
+           
+            ItemGlow glow = new ItemGlow(key);
+            Enchantment.registerEnchantment(glow);
+        }
+        catch (IllegalArgumentException e){
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

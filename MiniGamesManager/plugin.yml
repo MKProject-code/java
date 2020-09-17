@@ -1,0 +1,29 @@
+name: MiniGamesManager
+main: mkproject.maskat.MiniGamesManager.Plugin
+description: MiniGamesManager by MKProject
+version: 1.0.0
+author: MasKAT
+website: http://skyidea.pl/
+api-version: 1.16
+load: POSTWORLD
+depend: [MKProjectAPI]
+
+commands:
+  minigames:
+    description: Open MiniGames Menu
+    permission: mkp.minigamesmanager.menu
+    aliases: [minigame,games,game,mg,minigra,minigry]
+  minigamesmanager:
+    description: Reload the configuration
+    permission: mkp.minigamesmanager.reload
+    usage: "Did you mean to run '/minigamesmanager reload' or '/minigamesmanager restart'?"
+  
+  #MiniGames
+  colormix:
+    description: Join to MiniGame
+    permission: mkp.minigamesmanager.menu
+
+#permissions:
+#   mkp.loginmanager.abortremoveexpwhenjoineddead:
+#      description: Abort remove EXP when joined dead
+#      default: op

@@ -1,6 +1,0 @@
-package me.maskat.ShopManager.PlayerMenu;
-
-public enum Page {
-	MainMenu,
-	ItemsMenu;
-}

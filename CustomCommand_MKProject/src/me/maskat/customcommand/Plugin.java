@@ -1,90 +1,31 @@
 package me.maskat.customcommand;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import mkproject.maskat.Papi.Papi;
+import mkproject.maskat.Papi.Utils.CommandManager;
 
 public class Plugin extends JavaPlugin {
 	
-    private File db = null;
-    public YamlConfiguration database = new YamlConfiguration();
-    
-    
-    @Override
+    private static Plugin plugin;
+
+	@Override
     public void onEnable() {
-        getCommand("c").setExecutor(new ExecuteCommand(this));
+		plugin = this;
+		
+		this.saveDefaultConfig();
+        Config.init(this.getConfig());
         
-        this.db = new File(this.getDataFolder(), "database.yml");
-        this.mkdir();
-        this.loadYamls();
+        CommandManager.initCommand(this, "konkurs", new ExecuteCommand(), true);
+        CommandManager.initCommand(this, "konkursreload", new ExecuteCommandReload(), false);
+        
+        if(Papi.Scheduler.registerTimerTask(new SchedulerTask(), Config.EndYear, Config.EndMonth, Config.EndDay, 23, 59, 59))
+        	this.getLogger().info("Scheduled task: "+String.format("%04d.%02d.%02d", Config.EndYear, Config.EndMonth, Config.EndDay)+"23:59:59");
+        else
+        	this.getLogger().info("********** WARNING!!! Task not sheduled at "+String.format("%04d.%02d.%02d", Config.EndYear, Config.EndMonth, Config.EndDay)+" 23:59:59");
     }
     
-    public void onDisable() {
-    	this.saveDatabase();
-    }
-    
-    private void mkdir() {
-        if (!this.db.exists()) {
-        	this.saveResource("database.yml", false);
-        }
-    }
-    
-    private void loadYamls() {
-        try {
-        	this.database.load(this.db);
-        }
-        catch (IOException e1) {
-        	e1.printStackTrace();
-        }
-        catch (InvalidConfigurationException e2) {
-        	e2.printStackTrace();
-        }
-    }
-    
-    public YamlConfiguration getDatabase() {
-        return this.database;
-    }
-    
-    public void saveDatabase() {
-    	try {
-    		this.database.save(this.db);
-    	}
-    	catch (IOException e) {
-    		e.printStackTrace();
-    	}
-    }
-    
-    public boolean putDatabasePlayerLastLocation(Player player, Location location) {
-    	String saveWorldName = location.getWorld().getName();
-    	if(location.getWorld().getName().equalsIgnoreCase("world_nether") || location.getWorld().getName().equalsIgnoreCase("world_the_end") || location.getWorld().getName().equalsIgnoreCase("world_spawncenter"))
-    		saveWorldName = "world";
-    	
-    	String playerName = player.getName().toLowerCase();
-    	String locationCoords = location.getX()+","+location.getY()+","+location.getZ()+","+location.getWorld().getName()+","+location.getYaw()+","+location.getPitch();
-    	database.set(playerName+".lastlocation."+saveWorldName, locationCoords);
-    	
-    	return true;
-    }
-    
-    public Location getDatabasePlayerLastLocation(Player player, String worldName) {
-    	String data = database.getString(player.getName().toLowerCase()+".lastlocation."+worldName);
-    	if(data == null)
-    		return null;
-    	String[] lastlocation = data.split(",");
-    	
-    	String world = worldName;
-    	if(lastlocation.length >= 4)
-    		world = lastlocation[3];
-    	
-    	if(lastlocation.length == 6)
-    		return new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(lastlocation[0]), Double.parseDouble(lastlocation[1]), Double.parseDouble(lastlocation[2]), Float.parseFloat(lastlocation[4]), Float.parseFloat(lastlocation[5]));
-    	
-    	return new Location(Bukkit.getServer().getWorld(world), Double.parseDouble(lastlocation[0]), Double.parseDouble(lastlocation[1]), Double.parseDouble(lastlocation[2]));
+    public static Plugin getPlugin() {
+    	return plugin;
     }
 }

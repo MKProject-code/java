@@ -1,8 +1,8 @@
 package me.maskat.WorldEditTools.models;
 
 import java.io.File;
-import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -19,6 +19,7 @@ public class ModelPlayer {
 		WORLDEDIT_SCHEMATIC,
 		WORLDEDIT_FAST_UNDO_REDO,
 		SIGN_EDITOR,
+		RELATIVE_DISTANCE_CALCULATOR,
 	}
 	
 	private Player player;
@@ -26,11 +27,29 @@ public class ModelPlayer {
 	private Tool toolEnabled = null;
 	private String selectedSchemat = null;
 	String[] signLines = null;
+	Location selectedRelativeDistanceLoc1 = null;
+	Location selectedRelativeDistanceLoc2 = null;
 	
 	public ModelPlayer(Player player) {
 		this.player = player;
 	}
 
+	public void setSelectedRelativeDistanceLoc1(Location location) {
+		this.selectedRelativeDistanceLoc1 = location;
+	}
+	
+	public void setSelectedRelativeDistanceLoc2(Location location) {
+		this.selectedRelativeDistanceLoc2 = location;
+	}
+	
+	public Location getSelectedRelativeDistanceLoc1() {
+		return this.selectedRelativeDistanceLoc1;
+	}
+	
+	public Location getSelectedRelativeDistanceLoc2() {
+		return this.selectedRelativeDistanceLoc2;
+	}
+	
 	public void onPapiMenuInventoryClick(PapiMenuInventoryClickEvent e) {
 		if(!e.existSlotStoreObject())
 			return;
@@ -69,31 +88,45 @@ public class ModelPlayer {
 				Message.sendMessage(player, "&a&oAktywne narzędzie: " + toolEnabled);
 			}
 		}
+		else if(objectArr[0] == Tool.RELATIVE_DISTANCE_CALCULATOR && objectArr[1] == null) {
+			if(objectArr[1] == null) {
+				signLines = null;
+				toolEnabled = Tool.RELATIVE_DISTANCE_CALCULATOR;
+				Message.sendMessage(player, "&a&oAktywne narzędzie: " + toolEnabled);
+			}
+		}
     	e.closeInventory();
 	}
 
 	public void openInvnetoryMenu() {
 		MenuPage inventoryMenuPage = Papi.Model.getPlayer(player).createMenu(Plugin.getPlugin(), 6, "&cWybierz narzędzie");
-		File folder = new File(Plugin.getWorldEditPlayerSchemFolder(player));
-		if(!folder.exists()) {
-			Message.sendMessage(player, "&c&oBrak schematów");
-			return;
-		}
-		
+
 		inventoryMenuPage.setItem(InventorySlot.valueOf(0), Material.BARRIER, "&cWyłącz narzędzie: " + toolEnabled, new Object[] { null });
-		inventoryMenuPage.setItem(InventorySlot.valueOf(1), Material.WOODEN_AXE, "&aWorldEdit Schematic Tool", new Object[] { Tool.WORLDEDIT_SCHEMATIC, null });
+		
 		inventoryMenuPage.setItem(InventorySlot.valueOf(2), Material.WOODEN_SHOVEL, "&aWorldEdit Fast Undo and Redo Tool", new Object[] { Tool.WORLDEDIT_FAST_UNDO_REDO, null });
 		inventoryMenuPage.setItem(InventorySlot.valueOf(3), Material.ACACIA_SIGN, "&aSignEditor", new Object[] { Tool.SIGN_EDITOR, null });
-	    int i=InventorySlot.ROW2_COLUMN1.getValue();
-		for (final File fileEntry : folder.listFiles()) {
-			inventoryMenuPage.setItem(InventorySlot.valueOf(i), Material.PAPER, fileEntry.getName(), new Object[] { Tool.WORLDEDIT_SCHEMATIC, fileEntry.getName() });
-	    	i++;
-	    }
+		inventoryMenuPage.setItem(InventorySlot.valueOf(4), Material.RAIL, "&aRelative distance calculator", new Object[] { Tool.RELATIVE_DISTANCE_CALCULATOR, null });
 		
-		if(i==0) {
-			Message.sendMessage(player, "&c&oBrak schematów");
-			return;
+		File folder = new File(Plugin.getWorldEditPlayerSchemFolder(player));
+		
+		if(folder.exists()) {
+			int i=InventorySlot.ROW2_COLUMN1.getValue();
+		    for (final File fileEntry : folder.listFiles()) {
+				inventoryMenuPage.setItem(InventorySlot.valueOf(i), Material.PAPER, fileEntry.getName(), new Object[] { Tool.WORLDEDIT_SCHEMATIC, fileEntry.getName() });
+		    	i++;
+		    }
+			if(i==0) {
+				inventoryMenuPage.setItem(InventorySlot.valueOf(1), Material.WOODEN_AXE, "&aWorldEdit Schematic Tool\n&cBrak schematów");
+			}
+			else
+				inventoryMenuPage.setItem(InventorySlot.valueOf(1), Material.WOODEN_AXE, "&aWorldEdit Schematic Tool", new Object[] { Tool.WORLDEDIT_SCHEMATIC, null });
+	    }
+		else
+		{
+			inventoryMenuPage.setItem(InventorySlot.valueOf(1), Material.WOODEN_AXE, "&aWorldEdit Schematic Tool\n&cBrak schematów");
 		}
+		
+
 		
 		Papi.Model.getPlayer(player).openMenu(inventoryMenuPage);
 	}
@@ -107,6 +140,9 @@ public class ModelPlayer {
 		}
 		else if(tool == Tool.WORLDEDIT_FAST_UNDO_REDO) {
 			return (toolEnabled == Tool.WORLDEDIT_FAST_UNDO_REDO);
+		}
+		else if(tool == Tool.RELATIVE_DISTANCE_CALCULATOR) {
+			return (toolEnabled == Tool.RELATIVE_DISTANCE_CALCULATOR);
 		}
 		return false;
 	}

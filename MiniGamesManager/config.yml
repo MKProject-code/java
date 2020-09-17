@@ -1,0 +1,27 @@
+
+MySQL:
+   Table:
+      Users: 'MKP_LoginManager_Users'
+      Users_Logs: 'MKP_LoginManager_Logs'
+
+# Time is in secounds!
+
+Games:
+#   ColorMix:
+#      Worlds:
+#         world:
+#            PlayersNeed: 5
+#            PlayersMax: 20
+#            Platform:
+#               Default:
+#                  World: world
+#                  X1: -25
+#                  Y1: 75
+#                  Z1: 10
+#                  X2: -18
+#                  Y2: 75
+#                  Z2: 1
+#               Play:
+#                  X1: -30
+#                  Y1: 100
+#                  Z1: 20

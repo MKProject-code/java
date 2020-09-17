@@ -1,0 +1,25 @@
+# Custom commands - Create your own command names that will call other commands.
+
+#List of custom commands
+#- Add your custom command names here, as the examples provided.
+CustomCommands: #Do not change
+#  example1: #This is the custom command that the player can type in: /example1
+#    command: 'help' #This is the actual command that will be used: /buy (Optional) (Do not put / before command)
+#    message: 'Example message'  #This is the message that will be sent to the player (Optional)
+#    messageprefix:
+#
+#  example2: #This is the custom command that the player can type in: /example2
+#    command: 'help'
+#    message: 'Example message'
+#    messageprefix:
+#
+#  example3: #This is the custom command that the player can type in: /example3 or /example4
+#    aliases: [example4]
+#    message: |-
+#      Join discord at .......
+#      and have fun!
+#    messageprefix: '&6[&bDiscord&6]'
+
+
+      ### Internal - Do not touch. Can set to 0 to reset config to default values on reload.
+Config Version: 3

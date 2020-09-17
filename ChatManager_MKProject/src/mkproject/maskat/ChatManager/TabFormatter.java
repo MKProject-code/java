@@ -30,8 +30,8 @@ public class TabFormatter {
 		}
 		onlinePlayersSize = onlinePlayersSize_update;
 
-    	e.getPlayer().setPlayerListName(Message.getMessageConfig(Plugin.getPlugin().getConfig(), "TabFormatter.PlayerBeforeLogin", ImmutableMap.of(
-    			"name", e.getPlayer().getName())));
+		updatePlayerListName(e.getPlayer(), false);
+		
     	e.getPlayer().setPlayerListFooter(Message.getMessageConfig(Plugin.getPlugin().getConfig(), "TabFormatter.FooterBeforeLogin"));
     	
     	updateHeader(e.getPlayer());
@@ -57,20 +57,34 @@ public class TabFormatter {
 		onlinePlayersSize = onlinePlayersSize_update;
 		
 		for(Player onlinePlayer : onlinePlayers) {
-			updateHeader(onlinePlayer);
+			if(Papi.Model.getPlayer(onlinePlayer).isLogged())
+				updateHeader(onlinePlayer);
 //				onlinePlayer.setPlayerListHeader(Message.getMessageConfig(Plugin.getPlugin().getConfig(), "TabFormatter.Header", ImmutableMap.of(
 //						"online_players", String.valueOf(onlinePlayersSize),
 //						"max_players", String.valueOf(Plugin.getPlugin().getServer().getMaxPlayers())
 //						)));
 		}
-    	e.getPlayer().setPlayerListName(Message.getMessageConfig(Plugin.getPlugin().getConfig(), "TabFormatter.Player", ImmutableMap.of(
-				"group", Vault.getChat().getPrimaryGroup(e.getPlayer()),
-				"prefix", Vault.getChat().getPlayerPrefix(e.getPlayer()),
-				"name", e.getPlayer().getName(),
-    			"afk", ""
-				)));
+		updatePlayerListName(e.getPlayer(), true);
     	
     	setPlayerListFooter(e.getPlayer(), Mapi.getPlayer(e.getPlayer()).getPoints());
+	}
+	
+	protected static void updatePlayerListName(Player player, boolean isLogged) {
+		if(isLogged)
+		{
+			player.setPlayerListName(Message.getMessageConfig(Plugin.getPlugin().getConfig(), "TabFormatter.Player", ImmutableMap.of(
+					"group", Vault.getChat().getPrimaryGroup(player),
+					"prefix", Vault.getChat().getPlayerPrefix(player),
+					"name", player.getName(),
+		    		"afk", Papi.Model.getPlayer(player).isAfk() ? "AFK" : ""
+				)));
+		}
+		else
+		{
+			player.setPlayerListName(Message.getMessageConfig(Plugin.getPlugin().getConfig(), "TabFormatter.PlayerBeforeLogin", ImmutableMap.of(
+					"name", player.getName()
+    			)));
+		}
 	}
 
 	protected static void onPapiPlayerChangeAfk(PapiPlayerChangeAfkEvent e) {
@@ -86,27 +100,27 @@ public class TabFormatter {
 		
 		Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
 		
-		int onlinePlayersSize = 0;
-		
+		int onlinePlayersSize_update = 0;
 		for(Player onlineP : onlinePlayers) {
-			if(!e.getPlayer().equals(onlineP) && Papi.Model.getPlayer(onlineP).isLogged())
-				onlinePlayersSize++;
+			if(!e.getPlayer().getName().equals(onlineP.getName()) && Papi.Model.getPlayer(onlineP).isLogged())
+				onlinePlayersSize_update++;
 		}
+		onlinePlayersSize = onlinePlayersSize_update;
 		
 		for(Player onlinePlayer : onlinePlayers) {
-			if(onlinePlayer.equals(e.getPlayer()))
-				continue;
-			
-			onlinePlayer.setPlayerListHeader(Message.getMessageConfig(Plugin.getPlugin().getConfig(), "TabFormatter.Header", ImmutableMap.of(
-					"online_players", String.valueOf(onlinePlayersSize),
-					"max_players", String.valueOf(Plugin.getPlugin().getServer().getMaxPlayers())
-					)));
+			if(!onlinePlayer.getName().equals(e.getPlayer().getName()))
+				updateHeader(onlinePlayer);
+//			onlinePlayer.setPlayerListHeader(Message.getMessageConfig(Plugin.getPlugin().getConfig(), "TabFormatter.Header", ImmutableMap.of(
+//					"online_players", String.valueOf(onlinePlayersSize),
+//					"max_players", String.valueOf(Plugin.getPlugin().getServer().getMaxPlayers())
+//					)));
 		}
 	}
 	
 	protected static void setPlayerListFooter(Player player, double mapiPoints) {
 		player.setPlayerListFooter(Message.getMessageConfig(Plugin.getPlugin().getConfig(), "TabFormatter.Footer", ImmutableMap.of(
-				"player_mapi_points", String.valueOf((int)mapiPoints)
+				"player_mapi_points", String.valueOf((int)mapiPoints),
+				"daily_quest", "brak"
 				)));
 	}
 	

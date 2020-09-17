@@ -1,5 +1,0 @@
-package mkproject.maskat.Papi.Menu;
-
-public interface PapiMenu {
-	public void onMenuClick();
-}

@@ -1,0 +1,4 @@
+MySQL:
+   Table:
+      Guilds: 'MKP_GuildsManager_Guilds'
+      Users: 'MKP_GuildsManager_Users'

@@ -7,7 +7,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,6 +22,7 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import com.alessiodp.parties.api.interfaces.PartyPlayer;
 
+import me.maskat.compasspoint.inventories.MainMenuV2;
 import me.maskat.compasspoint.models.Model;
 
 public class Event implements Listener {
@@ -92,9 +92,10 @@ public class Event implements Listener {
 				Message.sendActionBar(player, "&cMożesz używać kompasu tylko w świecie Survival");
 				return;
 			}
-			Model.Player(player).setInventoryMenu();
-			Model.Player(player).initInventoryMenu();
-			Model.Player(player).openMainMenu();
+//			Model.Player(player).setInventoryMenu();
+//			Model.Player(player).initInventoryMenu();
+//			Model.Player(player).openMainMenu();
+			new MainMenuV2().initOpenMenu(player, null);
 		}
 	}
 	

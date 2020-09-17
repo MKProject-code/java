@@ -1,7 +1,0 @@
-package mkproject.maskat.Papi.Scheduler;
-
-public class PapiSchedulerThread extends Thread {
-    public void run(){
-        System.out.println("MyThread running");
-     }
-}

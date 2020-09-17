@@ -20,6 +20,8 @@ public class PapiMenuCloseEvent {
     	this.menuInvPage = menuInvPage;
         this.player = player;
         this.slotStoreObjectMap = slotStoreObjectMap;
+        
+        this.menuInvPage.removePlayerOpenedMenu(player);
     }
 
     public PapiMenuPage getPapiMenuPage() {

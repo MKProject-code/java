@@ -1,20 +1,20 @@
 package config;
 
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.InvalidConfigurationException;
+import java.io.File;
 import java.io.IOException;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.ChatColor;
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import java.io.File;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class config extends JavaPlugin

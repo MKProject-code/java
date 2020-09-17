@@ -15,7 +15,7 @@ public class Task {
 				for(Player player : PapiPlugin.getPlugin().getServer().getOnlinePlayers())
 				{
 					if(Papi.Model.getPlayer(player).isLogged() && !Papi.Model.getPlayer(player).isAfk() && player.getGameMode() != GameMode.SPECTATOR)
-						Mapi.getPlayer(player).addPoints(1);
+						Mapi.getPlayer(player).addPoints(player.hasPermission("mkp.moneymanager.doublepointsreward") ? 3 : 1);
 				}
 				runUpdatePlayersPointsTask(repeatTime);
 			}

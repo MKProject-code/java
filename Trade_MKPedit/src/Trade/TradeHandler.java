@@ -4,28 +4,28 @@
 
 package Trade;
 
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.Material;
-import org.bukkit.event.Event;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.EventPriority;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import java.util.Set;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.entity.Player;
-import java.util.Iterator;
-import org.bukkit.Bukkit;
-import java.util.UUID;
-import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class TradeHandler implements Listener
 {
@@ -273,7 +273,8 @@ public class TradeHandler implements Listener
                             tradeInventoryValue = tradeInventoryCopy;
                         }
                     }
-                    if (tradeInventoryValue != null && e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY) {
+                    if (tradeInventoryValue != null) {
+                    	if(e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY || e.getAction() != InventoryAction.PICKUP_ALL)
                         e.setCancelled(true);
                         e.setResult(Event.Result.DENY);
                         return;

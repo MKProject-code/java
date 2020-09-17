@@ -7,6 +7,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+import me.maskat.wolfsecurity.api.WolfSecurityApi;
 import mkproject.maskat.Papi.Papi;
 import mkproject.maskat.Papi.Utils.Message;
 import mkproject.maskat.PortalManager.ModelPortal;
@@ -41,8 +42,8 @@ public class Portal {
 				return;
 			}
 			
-			
 			Location playerSpawnLocation = Papi.Model.getPlayer(player).getPlayerSpawnLocation();
+			
 			if(playerSpawnLocation == null)
 			{
 				Message.sendMessage(player, "&cTrwa szukanie bezpiecznego miejsca dla ciebie...\n&6To może chwilę potrwać, prosimy o cierpliwość :)\n&bWróć tu za kilka chwil i spróbuj ponownie!");
@@ -72,8 +73,13 @@ public class Portal {
 							Papi.Model.getPlayer(player).setSpeedDefault();
 							return;
 						}
+						
+						player.teleport(playerSpawnLocation);
+						if(WolfSecurityApi.giveWolf(player) == 1)
+							Message.sendMessage(player, "&a&lWitaj w świecie Survival!\n&aWilk jest twoim kompanem, który będzie bronić twojego terytorium!\n&b&oMożesz zarządzać wilkiem klikając w niego kością :)");
 					}
-					player.teleport(playerSpawnLocation);
+					else
+						player.teleport(playerSpawnLocation);
 					
 					firstTeleportToGeneratedPlayerSpawn(player);
 					
@@ -82,6 +88,7 @@ public class Portal {
 				}
 				else
 				{
+					Plugin.getPlugin().getLogger().info("****not checkValidLocation");
 					Message.sendMessage(player, "&cTrwa szukanie bezpiecznego miejsca dla ciebie...\n&6To może chwilę potrwać, prosimy o cierpliwość :)\n&bWróć tu za kilka chwil i spróbuj ponownie!");
 					SpawnManagerAPI.updatePlayerSpawnLocationAsync(player);
 					return;

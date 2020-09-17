@@ -1,0 +1,111 @@
+package mkproject.maskat.Papi.TabList;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public enum TabListFourSlot {
+	COLUMN1_ROW1(0),
+	COLUMN1_ROW2(1),
+	COLUMN1_ROW3(2),
+	COLUMN1_ROW4(3),
+	COLUMN1_ROW5(4),
+	COLUMN1_ROW6(5),
+	COLUMN1_ROW7(6),
+	COLUMN1_ROW8(7),
+	COLUMN1_ROW9(8),
+	COLUMN1_ROW10(9),
+	COLUMN1_ROW11(10),
+	COLUMN1_ROW12(11),
+	COLUMN1_ROW13(12),
+	COLUMN1_ROW14(13),
+	COLUMN1_ROW15(14),
+	COLUMN1_ROW16(15),
+	COLUMN1_ROW17(16),
+	COLUMN1_ROW18(17),
+	COLUMN1_ROW19(18),
+	COLUMN1_ROW20(19),
+	
+	COLUMN2_ROW1(20),
+	COLUMN2_ROW2(21),
+	COLUMN2_ROW3(22),
+	COLUMN2_ROW4(23),
+	COLUMN2_ROW5(24),
+	COLUMN2_ROW6(25),
+	COLUMN2_ROW7(26),
+	COLUMN2_ROW8(27),
+	COLUMN2_ROW9(28),
+	COLUMN2_ROW10(29),
+	COLUMN2_ROW11(30),
+	COLUMN2_ROW12(31),
+	COLUMN2_ROW13(32),
+	COLUMN2_ROW14(33),
+	COLUMN2_ROW15(34),
+	COLUMN2_ROW16(35),
+	COLUMN2_ROW17(36),
+	COLUMN2_ROW18(37),
+	COLUMN2_ROW19(38),
+	COLUMN2_ROW20(39),
+	
+	COLUMN3_ROW1(40),
+	COLUMN3_ROW2(41),
+	COLUMN3_ROW3(42),
+	COLUMN3_ROW4(43),
+	COLUMN3_ROW5(44),
+	COLUMN3_ROW6(45),
+	COLUMN3_ROW7(46),
+	COLUMN3_ROW8(47),
+	COLUMN3_ROW9(48),
+	COLUMN3_ROW10(49),
+	COLUMN3_ROW11(50),
+	COLUMN3_ROW12(51),
+	COLUMN3_ROW13(52),
+	COLUMN3_ROW14(53),
+	COLUMN3_ROW15(54),
+	COLUMN3_ROW16(55),
+	COLUMN3_ROW17(56),
+	COLUMN3_ROW18(57),
+	COLUMN3_ROW19(58),
+	COLUMN3_ROW20(59),
+	
+	COLUMN4_ROW1(60),
+	COLUMN4_ROW2(61),
+	COLUMN4_ROW3(62),
+	COLUMN4_ROW4(63),
+	COLUMN4_ROW5(64),
+	COLUMN4_ROW6(65),
+	COLUMN4_ROW7(66),
+	COLUMN4_ROW8(67),
+	COLUMN4_ROW9(68),
+	COLUMN4_ROW10(69),
+	COLUMN4_ROW11(70),
+	COLUMN4_ROW12(71),
+	COLUMN4_ROW13(72),
+	COLUMN4_ROW14(73),
+	COLUMN4_ROW15(74),
+	COLUMN4_ROW16(75),
+	COLUMN4_ROW17(76),
+	COLUMN4_ROW18(77),
+	COLUMN4_ROW19(78),
+	COLUMN4_ROW20(79);
+	
+	private int value;
+	private static Map<Integer, TabListFourSlot> map = new HashMap<>();
+	
+    private TabListFourSlot(final int value) {
+        this.value = value;
+    }
+    
+    static {
+        for (TabListFourSlot inventorySlot : TabListFourSlot.values()) {
+            map.put(inventorySlot.value, inventorySlot);
+        }
+    }
+    
+    public static TabListFourSlot valueOf(final int slotId) {
+        return (TabListFourSlot) map.get(slotId);
+    }
+    
+    public int getValue() {
+        return value;
+    }
+}

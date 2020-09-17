@@ -71,7 +71,7 @@ public class CmdPromo implements CommandExecutor, TabCompleter {
 				int promoCodeOther = Database.Users.getPromoCodeOther(player, manager.getArg(1));
 				if(promoCodeOther > 0)
 				{
-					Plugin.getPlugin().getLogger().info("Player '"+manager.getPlayer().getName()+"' used promo code: " + promoCodeUsed);
+					Plugin.getPlugin().getLogger().info("Player '"+manager.getPlayer().getName()+"' used promo code: " + manager.getArg(1));
 					if(Database.Users.setPromoCodeUsed(player, manager.getArg(1)))
 					{
 						PromoGift.doGivePromoGift(player);

@@ -6,7 +6,8 @@ author: MasKAT
 website: http://skyidea.pl/
 api-version: 1.15
 load: POSTWORLD
-depend: [MKProjectAPI]
+depend: [MKProjectAPI,CommandAPI]
+softdepend: [LoginManager,SpawnManager]
 
 commands:
    tpposition:
@@ -17,9 +18,8 @@ commands:
    inventory:
       description: AdminUtils command
       aliases: inv
-   gamemode:
+   gm:
       description: AdminUtils command
-      aliases: gm
    head:
       description: AdminUtils command
    fly:
@@ -39,9 +39,20 @@ commands:
    playerinfo:
       description: AdminUtils command
       aliases: [pinfo]
+   playerhistory:
+      description: AdminUtils command
+      aliases: [phistory]
    mute:
       description: AdminUtils command
    unmute:
+      description: AdminUtils command
+   kick:
+      description: AdminUtils command
+   ban:
+      description: AdminUtils command
+   banoffline:
+      description: AdminUtils command
+   unban:
       description: AdminUtils command
    tpworld:
       description: AdminUtils command
@@ -49,6 +60,32 @@ commands:
       description: AdminUtils command
    respawn:
       description: AdminUtils command
+   bed:
+      description: AdminUtils command
+   spawn:
+      description: AdminUtils command
+   near:
+      description: AdminUtils command
+   randomtp:
+      description: AdminUtils command
+      aliases: [rtp]
+   plugin:
+      description: AdminUtils command
+   titletext:
+      description: AdminUtils command
+   eventspawnchestitems:
+      description: AdminUtils command
+   chat:
+      description: AdminUtils command
+   collision:
+      description: AdminUtils command
+   survival:
+      description: AdminUtils command
+   rename:
+      description: AdminUtils command
+   enderchest:
+      description: AdminUtils command
+      aliases: [ec]
       
       
       
@@ -75,7 +112,7 @@ permissions:
       default: op
    
    
-   #/inventory get|set|clear <[player]>
+   #/inventory see|get|set|clear <[player]>
    mkp.adminutils.inventory.use:
       default: op
    mkp.adminutils.inventory.allowworld.*:
@@ -83,6 +120,10 @@ permissions:
    mkp.adminutils.inventory.allowgamemode.*:
       default: op
       
+   mkp.adminutils.inventory.see.use:
+      default: op
+   mkp.adminutils.inventory.see.otherplayer:
+      default: op
    mkp.adminutils.inventory.get.use:
       default: op
    mkp.adminutils.inventory.get.otherplayer:
@@ -97,29 +138,29 @@ permissions:
       default: op
    
    
-   #/gamemode 0|1|2|3 [player]
-   mkp.adminutils.gamemode.use:
+   #/gm 0|1|2|3 [player]
+   mkp.adminutils.gm.use:
       default: op
-   mkp.adminutils.gamemode.allowworld.*:
+   mkp.adminutils.gm.allowworld.*:
       default: op
-   mkp.adminutils.gamemode.allowgamemode.*:
+   mkp.adminutils.gm.allowgamemode.*:
       default: op
       
-   mkp.adminutils.gamemode.survival.use:
+   mkp.adminutils.gm.survival.use:
       default: op
-   mkp.adminutils.gamemode.survival.otherplayer:
+   mkp.adminutils.gm.survival.otherplayer:
       default: op
-   mkp.adminutils.gamemode.creative.use:
+   mkp.adminutils.gm.creative.use:
       default: op
-   mkp.adminutils.gamemode.creative.other:
+   mkp.adminutils.gm.creative.other:
       default: op
-   mkp.adminutils.gamemode.adventure.otherplayer:
+   mkp.adminutils.gm.adventure.otherplayer:
       default: op
-   mkp.adminutils.gamemode.adventure.use:
+   mkp.adminutils.gm.adventure.use:
       default: op
-   mkp.adminutils.gamemode.spectator.use:
+   mkp.adminutils.gm.spectator.use:
       default: op
-   mkp.adminutils.gamemode.spectator.otherplayer:
+   mkp.adminutils.gm.spectator.otherplayer:
       default: op
    
    
@@ -138,11 +179,21 @@ permissions:
    #/fly 0|1 [player]
    mkp.adminutils.fly.use:
       default: op
-   mkp.adminutils.head.allowworld.*:
+   mkp.adminutils.fly.allowworld.*:
       default: op
-   mkp.adminutils.head.allowgamemode.*:
+   mkp.adminutils.fly.allowgamemode.*:
+      default: op
+   mkp.adminutils.fly.otherplayer:
       default: op
       
+      
+   #/collision 0|1 [player]
+   mkp.adminutils.fly.use:
+      default: op
+   mkp.adminutils.fly.allowworld.*:
+      default: op
+   mkp.adminutils.fly.allowgamemode.*:
+      default: op
    mkp.adminutils.fly.otherplayer:
       default: op
       
@@ -225,7 +276,7 @@ permissions:
       default: op
       
       
-   #/playerinfo [player]
+   #/playerinfo [player] | /pinfo [player]
    mkp.adminutils.playerinfo.use:
       default: op
    mkp.adminutils.playerinfo.allowworld.*:
@@ -233,6 +284,14 @@ permissions:
    mkp.adminutils.playerinfo.allowgamemode.*:
       default: op
    mkp.adminutils.playerinfo.otherplayer:
+      default: op
+      
+   #/playerhistory [player] [page] | /phistory [player] [page]
+   mkp.adminutils.playerhistory.use:
+      default: op
+   mkp.adminutils.playerhistory.allowworld.*:
+      default: op
+   mkp.adminutils.playerhistory.allowgamemode.*:
       default: op
       
       
@@ -258,6 +317,52 @@ permissions:
       default: op
    mkp.adminutils.unmute.otherplayer:
       default: op
+       
+            
+   #/kick <player|*> [reason]
+   mkp.adminutils.kick.use:
+      default: op
+   mkp.adminutils.kick.all.use:
+      default: op
+   mkp.adminutils.kick.allowworld.*:
+      default: op
+   mkp.adminutils.kick.allowgamemode.*:
+      default: op
+   mkp.adminutils.kick.otherplayer:
+      default: op
+   mkp.adminutils.kick.immunitet:
+      default: op
+      
+   #/ban <player> <time|perm> [timeformat] [reason]
+   mkp.adminutils.ban.use:
+      default: op
+   mkp.adminutils.ban.allowworld.*:
+      default: op
+   mkp.adminutils.ban.allowgamemode.*:
+      default: op
+   mkp.adminutils.ban.otherplayer:
+      default: op
+   mkp.adminutils.ban.immunitet:
+      default: op
+      
+   #/banoffline <player> <time|perm> [timeformat] [reason]
+   mkp.adminutils.banoffline.use:
+      default: op
+   mkp.adminutils.banoffline.allowworld.*:
+      default: op
+   mkp.adminutils.banoffline.allowgamemode.*:
+      default: op
+      
+      
+   #/unban <player> [reason]
+   mkp.adminutils.unban.use:
+      default: op
+   mkp.adminutils.unban.allowworld.*:
+      default: op
+   mkp.adminutils.unban.allowgamemode.*:
+      default: op
+   mkp.adminutils.unban.otherplayer:
+      default: op
       
       
    #/tpworld <world> [player]
@@ -271,6 +376,8 @@ permissions:
       default: op
    mkp.adminutils.tpworld.otherworld:
       default: op
+   mkp.adminutils.tpworld.accessworld.*:
+      default: op
       
 
    #/top <amount>
@@ -281,6 +388,138 @@ permissions:
    mkp.adminutils.top.allowgamemode.*:
       default: op
       
+      
+   #/bed <player>
+   mkp.adminutils.bed.use:
+      default: op
+   mkp.adminutils.bed.allowworld.*:
+      default: op
+   mkp.adminutils.bed.allowgamemode.*:
+      default: op
+   mkp.adminutils.bed.otherplayer:
+      default: op
+   mkp.adminutils.bed.bypass.payment:
+      default: op
+      
+
+   #/spawn
+   mkp.adminutils.spawn.use:
+      default: op
+   mkp.adminutils.spawn.allowworld.*:
+      default: op
+   mkp.adminutils.spawn.allowgamemode.*:
+      default: op
+   mkp.adminutils.survival.otherplayer.*:
+      default: op
+      
+
+   #/survival
+   mkp.adminutils.survival.use:
+      default: op
+   mkp.adminutils.survival.allowworld.*:
+      default: op
+   mkp.adminutils.survival.allowgamemode.*:
+      default: op
+   mkp.adminutils.survival.otherplayer.*:
+      default: op
+      
+
+   #/near [player] [range]
+   mkp.adminutils.near.use:
+      default: op
+   mkp.adminutils.near.allowworld.*:
+      default: op
+   mkp.adminutils.near.allowgamemode.*:
+      default: op
+   mkp.adminutils.near.otherplayer:
+      default: op
+      
+
+   #/randomtp /rtp
+   mkp.adminutils.randomtp.use:
+      default: op
+   mkp.adminutils.randomtp.allowworld.*:
+      default: op
+   mkp.adminutils.randomtp.allowgamemode.*:
+      default: op
+      
+      
+   #/plugin list|restart|enable|disable <[plugin]>
+   mkp.adminutils.plugin.use:
+      default: op
+   mkp.adminutils.plugin.allowworld.*:
+      default: op
+   mkp.adminutils.plugin.allowgamemode.*:
+      default: op
+      
+      
+   #/titletext <player|*> <<title>%nl%<subtitle>>
+   mkp.adminutils.titletext.use:
+      default: op
+   mkp.adminutils.titletext.allowworld.*:
+      default: op
+   mkp.adminutils.titletext.allowgamemode.*:
+      default: op
+   mkp.adminutils.titletext.otherplayer:
+      default: op
+      
+      
+      
+   #/eventspawnchestitems
+   mkp.adminutils.eventspawnchestitems.use:
+      default: op
+   mkp.adminutils.eventspawnchestitems.allowworld.*:
+      default: op
+   mkp.adminutils.eventspawnchestitems.allowgamemode.*:
+      default: op
+      
+      
+   #/chat clear
+   mkp.adminutils.chat.use:
+      default: op
+   mkp.adminutils.chat.allowworld.*:
+      default: op
+   mkp.adminutils.chat.allowgamemode.*:
+      default: op
+   mkp.adminutils.chat.clear.use:
+      default: op
+      
+      
+   #/collision 0|1 [player]
+   mkp.adminutils.collision.use:
+      default: op
+   mkp.adminutils.collision.allowworld.*:
+      default: op
+   mkp.adminutils.collision.allowgamemode.*:
+      default: op
+   mkp.adminutils.collision.otherplayer.*:
+      default: op
+      
+      
+   #/rename name|lore <new_item_name>
+   mkp.adminutils.rename.use:
+      default: op
+   mkp.adminutils.rename.allowworld.*:
+      default: op
+   mkp.adminutils.rename.allowgamemode.*:
+      default: op
+      
+      
+      
+   #/skypoints set|add|remove <value>
+   mkp.adminutils.skypoints.use:
+      default: op
+      
+   
+   #/enderchest [player]
+   mkp.adminutils.enderchest.use:
+      default: op
+   mkp.adminutils.enderchest.allowworld.*:
+      default: op
+   mkp.adminutils.enderchest.allowgamemode.*:
+      default: op
+   mkp.adminutils.enderchest.otherplayer.*:
+      default: op
       
       
       

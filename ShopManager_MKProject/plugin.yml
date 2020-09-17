@@ -10,6 +10,10 @@ depend: [MKProjectAPI]
 softdepend: [MoneyManager]
 
 commands:
+   shopmanager:
+      description: Reload the configuration
+      permission: mkp.shopmanager.reload
+      usage: "Did you mean to run '/shopmanager reload'?"
    shop:
       description: ShopManager command
       aliases: [sklep,targ,targowisko]
@@ -18,5 +22,11 @@ permissions:
       description: Allows use custom commands
       default: op
    mkp.shopmanager.vip:
-      description: Allows use vip price
+      description: Allows use vip price in promo
+      default: op
+   mkp.shopmanager.svip:
+      description: Allows use vip price in all
+      default: op
+   mkp.shopmanager.vipzone:
+      description: Access to vip zone
       default: op

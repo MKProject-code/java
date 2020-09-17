@@ -4,9 +4,10 @@
 
 package Trade;
 
-import org.bukkit.ChatColor;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.bukkit.ChatColor;
 
 public class Configuration
 {

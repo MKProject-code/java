@@ -1,7 +1,6 @@
 package me.hexedhero.br;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
@@ -9,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedEnterEvent;
-import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;

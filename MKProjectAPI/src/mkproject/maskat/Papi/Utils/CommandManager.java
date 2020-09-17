@@ -11,6 +11,7 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
@@ -34,7 +35,6 @@ public class CommandManager {
 		if(tabCompleter)
 			pluginCommand.setTabCompleter((TabCompleter)listener);
 	}
-	
 	
 	private static final boolean ACCESS_DENIED_PERMISSION_SHOW_IN_CONSOLE = true;
 	private static final boolean ACCESS_DENIED_PERMISSION_SHOW_FOR_SENDER = false;
@@ -67,7 +67,7 @@ public class CommandManager {
 		return USAGE_PREFIX+getFullUsage();
 	}
 	
-	private CommandSender sender;
+	private ConsoleCommandSender console;
 	private Player player;
 	private Command command;
 	private String label;
@@ -81,8 +81,12 @@ public class CommandManager {
 	
 	public CommandManager(String PERMISSION_PREFIX, CommandSender sender, Command command, String label, String[] args, List<String> defaultUsageList) {
 		this.PERMISSION_PREFIX = PERMISSION_PREFIX+".";
+		this.lastCheckedPermission = this.PERMISSION_PREFIX+command.getName();
 		
-		this.sender = sender;
+		if(sender instanceof ConsoleCommandSender)
+			this.console = (ConsoleCommandSender)sender;
+		else
+			this.console = null;
 		
 		if(sender instanceof Player)
 			this.player = (Player)sender;
@@ -101,8 +105,12 @@ public class CommandManager {
 	
 	public CommandManager(String PERMISSION_PREFIX, CommandSender sender, Command command, String label, String[] args) {
 		this.PERMISSION_PREFIX = PERMISSION_PREFIX+".";
+		this.lastCheckedPermission = this.PERMISSION_PREFIX+command.getName();
 		
-		this.sender = sender;
+		if(sender instanceof ConsoleCommandSender)
+			this.console = (ConsoleCommandSender)sender;
+		else
+			this.console = null;
 		
 		if(sender instanceof Player)
 			this.player = (Player)sender;
@@ -261,7 +269,6 @@ public class CommandManager {
 //	}
 	
 	public boolean isPersmissionUse() {
-		lastCheckedPermission = PERMISSION_PREFIX+command.getName();
 		if(player.hasPermission(PERMISSION_PREFIX+command.getName()+".use"))
 			return true;
 		
@@ -302,13 +309,16 @@ public class CommandManager {
 	}
 
 	public boolean hasArgAndPermission(int intArg, String argument) {
+		return hasArgAndPermission(intArg, argument, argument);
+	}
+	public boolean hasArgAndPermission(int intArg, String argument, String customArgForPermission) {
 		if(args[intArg-1].equalsIgnoreCase(argument))
 		{
-			lastCheckedPermission = PERMISSION_PREFIX+command.getName()+"."+argument;
-			if(player.hasPermission(PERMISSION_PREFIX+command.getName()+"."+argument+".use"))
+			lastCheckedPermission = PERMISSION_PREFIX+command.getName()+"."+customArgForPermission;
+			if(!this.isPlayer() || player.hasPermission(PERMISSION_PREFIX+command.getName()+"."+customArgForPermission+".use"))
 				return true;
 			else
-				setReturnMessage(getDenyMessage(PERMISSION_PREFIX+command.getName()+"."+argument+".use"));
+				setReturnMessage(getDenyMessage(PERMISSION_PREFIX+command.getName()+"."+customArgForPermission+".use"));
 		}
 		return false;
 	}
@@ -352,7 +362,11 @@ public class CommandManager {
 	public boolean doReturn() {
 		if(returnMessage == null)
 			return false;
-		Message.sendMessage(player, returnMessage);
+		if(this.isPlayer())
+			Message.sendMessage(player, returnMessage);
+		else if(this.isConsole())
+			Message.sendConsole(returnMessage);
+		
 		return false;
 	}
 
@@ -416,6 +430,15 @@ public class CommandManager {
 		return true;
 	}
 	
+	public boolean isConsole() {
+		if(player == null)
+		{
+			setReturnMessage(COMMAND_USE_ONLY_PLAYER);
+			return false;
+		}
+		return true;
+	}
+	
 	public Player getPlayer() {
 		return player;
 	}
@@ -431,28 +454,37 @@ public class CommandManager {
 		
 		if(otherPlayer != null)
 		{
-			if(otherPlayer.equals(player))
-			{
-				if(canChoseSelf)
-					return player;
-				else
-					setReturnMessage(CHOSEN_YOURSELF);
-				return null;
-			}
-			else if(!player.hasPermission(lastCheckedPermission+".otherplayer"))
-			{
-				setReturnMessage(getDenyMessage(lastCheckedPermission+".otherplayer"));
-				return null;
-			}
-			else if(otherPlayer.hasPermission(lastCheckedPermission+".immunitet"))
-			{
-				setReturnMessage(getDenyMessage(lastCheckedPermission+".immunitet"));
-				return null;
-			}
-			
-			if(otherPlayer.isOnline())
-				return otherPlayer;
+			Player resultPlayer = getChosenPlayer(otherPlayer, canChoseSelf, checkImmunitet);
+			if(resultPlayer != null)
+				return resultPlayer;
 		}
+		else
+			setReturnMessage(CHOOSE_PLAYER_NOT_FOUND);
+		
+		return null;
+	}
+	private Player getChosenPlayer(Player otherPlayer, boolean canChoseSelf, boolean checkImmunitet) {
+		if(otherPlayer.equals(player))
+		{
+			if(canChoseSelf)
+				return player;
+			else
+				setReturnMessage(CHOSEN_YOURSELF);
+			return null;
+		}
+		else if(this.isPlayer() && !player.hasPermission(lastCheckedPermission+".otherplayer"))
+		{
+			setReturnMessage(getDenyMessage(lastCheckedPermission+".otherplayer"));
+			return null;
+		}
+		else if(this.isPlayer() && checkImmunitet && otherPlayer.hasPermission(lastCheckedPermission+".immunitet") && !player.hasPermission(lastCheckedPermission+".bypass.immunitet"))
+		{
+			setReturnMessage(getDenyMessage(lastCheckedPermission+".immunitet"));
+			return null;
+		}
+		
+		if(otherPlayer.isOnline())
+			return otherPlayer;
 		
 		setReturnMessage(CHOOSE_PLAYER_NOT_FOUND);
 		return null;
@@ -576,9 +608,21 @@ public class CommandManager {
 	}
 
 	public List<String> getOnlinePlayersNameList() {
+		return getOnlinePlayersNameList(true);
+	}
+	public List<String> getOnlinePlayersNameList(boolean withSelf) {
 		List<String> onlinePlayersNameList = new ArrayList<>();
 		for(Player player : Bukkit.getOnlinePlayers()) {
-			onlinePlayersNameList.add(player.getName());
+			if(withSelf || player != this.player)
+				onlinePlayersNameList.add(player.getName());
+		}
+		return onlinePlayersNameList;
+	}
+	public List<String> getOnlinePlayersCanChooseNameList(boolean canChoseSelf, boolean checkImmunitet) {
+		List<String> onlinePlayersNameList = new ArrayList<>();
+		for(Player player : Bukkit.getOnlinePlayers()) {
+			if(this.getChosenPlayer(player, canChoseSelf, checkImmunitet) != null)
+				onlinePlayersNameList.add(player.getName());
 		}
 		return onlinePlayersNameList;
 	}
@@ -608,6 +652,11 @@ public class CommandManager {
 		return false;
 	}
 
+	public int getUsePrice(int priceWithoutBypass) {
+		if(player.hasPermission(PERMISSION_PREFIX+command.getName()+".bypass.payment"))
+			return 0;
+		return priceWithoutBypass;
+	}
 	
 //	private String getPermissinCommandUse() {
 //		return "mkp.adminutils."

@@ -4,21 +4,21 @@
 
 package Trade;
 
-import java.util.Map;
-import java.util.HashMap;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.inventory.InventoryView;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.inventory.ItemStack;
-import java.util.Iterator;
-import org.bukkit.Material;
-import java.util.Arrays;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.Bukkit;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import org.bukkit.inventory.Inventory;
+import java.util.Map;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class TradeInventory
 {

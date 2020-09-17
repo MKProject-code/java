@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import mkproject.maskat.Papi.PapiPlugin;
 import mkproject.maskat.Papi.Utils.Message;
@@ -205,6 +208,23 @@ public class PapiSQL
 		return result;
     }
     
+    public static boolean setMultiOrderBy(int limit, String changeSet, final String column, final String logic_gate, Object data, final String orderByColumn, final String OrderType, final String table) {
+    	if (data != null) {
+    		data = "'" + data.toString().replace("'","\\'") + "'";
+    	}
+    	
+    	String sql = "UPDATE " + table + " SET " + changeSet + " WHERE " + column + logic_gate + data;
+    	if(orderByColumn.length() > 0)
+    		sql += " ORDER BY `"+orderByColumn + "` DESC";
+    	if(limit > 0)
+    		sql += " LIMIT "+limit;
+    	
+    	Message.debugMessage(PapiPlugin.getPlugin(), sql + ";");
+    	boolean result = PapiMySQL.update(sql  + ";");
+    	Message.debugMessage(PapiPlugin.getPlugin(), " --- SQL DEBUG --- Query result (boolean): "+result);
+    	return result;
+    }
+    
     public static boolean set(final String selected, Object object, final String[] where_arguments, final String table) {
         String arguments = "";
         for (final String argument : where_arguments) {
@@ -271,6 +291,51 @@ public class PapiSQL
         catch (Exception ex) {}
         return null;
     }
+
+	public static ResultSet getResultSetAllOrderBy(int limit, List<String> selects, String orderByColumn, String orderType, String table) {
+        try {
+        	Message.debugMessage(PapiPlugin.getPlugin(), "SELECT "+String.join(",", selects)+" FROM " + table + " ORDER BY `"+orderByColumn+"` "+orderType+ (limit > 0  ? " LIMIT "+String.valueOf(limit) : "")+";");
+        	final ResultSet rs = PapiMySQL.query("SELECT "+String.join(",", selects)+" FROM " + table + " ORDER BY `"+orderByColumn+"` "+orderType+ (limit > 0  ? " LIMIT "+String.valueOf(limit) : "")+";");
+            if (rs.next()) {
+            	rs.beforeFirst();
+                return rs;
+            }
+        }
+        catch (Exception ex) {}
+        return null;
+	}
+	public static ResultSet getResultSetAllOrderBy(int limit, List<String> selects, String getWhereObject, List<String> orderByColumn, List<String> OrderType, String table) {
+		String orders = "";
+		for(int i=0;i<orderByColumn.size();i++) {
+			orders += "`"+orderByColumn.get(i)+"` "+OrderType.get(i) + ", ";
+		}
+		
+		if(orders.length() > 0)
+			orders = orders.substring(0, orders.length()-2);
+		
+        try {
+        	Message.debugMessage(PapiPlugin.getPlugin(), "SELECT "+String.join(",", selects)+" FROM " + table + " WHERE " + getWhereObject + " ORDER BY "+orders+ (limit > 0  ? " LIMIT "+String.valueOf(limit) : "")+";");
+        	final ResultSet rs = PapiMySQL.query("SELECT "+String.join(",", selects)+" FROM " + table + " WHERE " + getWhereObject + " ORDER BY "+orders+ (limit > 0  ? " LIMIT "+String.valueOf(limit) : "")+";");
+            if (rs.next()) {
+            	rs.beforeFirst();
+                return rs;
+            }
+        }
+        catch (Exception ex) {}
+        return null;
+	}
+	public static ResultSet getResultSetAllOrderBy(int limit, List<String> selects, String getWhereObject, String orderByColumn, String orderType, String table) {
+        try {
+        	Message.debugMessage(PapiPlugin.getPlugin(), "SELECT "+String.join(",", selects)+" FROM " + table + " WHERE " + getWhereObject + " ORDER BY `"+orderByColumn+"` "+orderType+ (limit > 0  ? " LIMIT "+String.valueOf(limit) : "")+";");
+        	final ResultSet rs = PapiMySQL.query("SELECT "+String.join(",", selects)+" FROM " + table + " WHERE " + getWhereObject + " ORDER BY `"+orderByColumn+"` "+orderType+ (limit > 0  ? " LIMIT "+String.valueOf(limit) : "")+";");
+            if (rs.next()) {
+            	rs.beforeFirst();
+                return rs;
+            }
+        }
+        catch (Exception ex) {}
+        return null;
+	}
     
     public static ResultSet getResultSetAll(final int limit, final String select, final String where_arguments, final String table) {
     	try {
@@ -347,4 +412,8 @@ public class PapiSQL
         catch (Exception ex) {}
         return i;
     }
+
+
+
+
 }

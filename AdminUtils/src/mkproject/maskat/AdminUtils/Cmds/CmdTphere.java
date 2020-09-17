@@ -30,6 +30,6 @@ public class CmdTphere implements CommandExecutor {
 			return;
 		
 		if(manager.playerTeleport(destPlayer, manager.getPlayer().getLocation()))
-			manager.setReturnMessage("&a&oTeleportowałeś gracza &e&o"+destPlayer+"&a&o do siebie");
+			manager.setReturnMessage("&a&oTeleportowałeś gracza &e&o"+destPlayer.getName()+"&a&o do siebie");
 	}
 }

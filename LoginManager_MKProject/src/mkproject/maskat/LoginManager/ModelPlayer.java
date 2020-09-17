@@ -32,6 +32,7 @@ public class ModelPlayer {
 	private boolean isQuitBeforeLogin;
 	private boolean isVehicleScheduler;
 	private boolean isTeleportedWhenIsLogged;
+	private boolean abortRemoveExpWhenJoinedDead;
 	
 	public ModelPlayer(Player p) {
 		registered = Papi.MySQL.exists(
@@ -40,15 +41,16 @@ public class ModelPlayer {
 		
 		registered_byAuthme = false;
 		
-		if(registered == false) {
-			if(Papi.MySQL.exists(
-					Papi.SQL.getWhereObject("username", "=", p.getName().toLowerCase()),
-					"authme"))
-			{
-				registered = true;
-				registered_byAuthme = true;
-			}
-		}
+//		AuthMe Verifier
+//		if(registered == false) {
+//			if(Papi.MySQL.exists(
+//					Papi.SQL.getWhereObject("username", "=", p.getName().toLowerCase()),
+//					"authme"))
+//			{
+//				registered = true;
+//				registered_byAuthme = true;
+//			}
+//		}
 		
 		executedFirstCmd = false;
 		beforeVehicle = null;
@@ -58,6 +60,7 @@ public class ModelPlayer {
 		isQuitBeforeLogin = false;
 		isVehicleScheduler = false;
 		isTeleportedWhenIsLogged = false;
+		this.abortRemoveExpWhenJoinedDead = false;
 	}
 	public boolean isTeleportedWhenIsLogged() {
 		return isTeleportedWhenIsLogged;
@@ -182,6 +185,12 @@ public class ModelPlayer {
 	}
 	public Collection<PotionEffect> getActivePotionEffects() {
 		return beforeActivePotionEffects;
+	}
+	public void abortRemoveExpWhenJoinedDead() {
+		this.abortRemoveExpWhenJoinedDead = true;
+	}
+	public boolean isAbortedRemoveExpWhenJoinedDead() {
+		return this.abortRemoveExpWhenJoinedDead;
 	}
 
 //	public void setInventory(PlayerInventory inventory) {

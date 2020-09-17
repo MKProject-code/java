@@ -9,5 +9,6 @@ package me.maskat.compasspoint.enums;
 public enum NavLocation {
 	BED,
 	WOLF,
+	PLAYERSPAWN,
 	PLAYER;
  }

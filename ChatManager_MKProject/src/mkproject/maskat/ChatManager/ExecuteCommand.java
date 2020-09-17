@@ -12,7 +12,8 @@ public class ExecuteCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length != 0 && label.equalsIgnoreCase("broadcast"))
 		{
-			Message.sendBroadcast(Message.getCommandMessage(args, 0));
+			String message = Message.getCommandMessage(args, 0);
+			Message.sendBroadcast(message.replace("%nl%", "\n"));
 			return true;
 		}
 		else if (args.length != 0 && args[0].equalsIgnoreCase("reload")) {

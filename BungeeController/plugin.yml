@@ -1,0 +1,4 @@
+name: BungeeController
+main: mkproject.maskat.BungeeController.BungeeController
+version: 1.0.0
+author: MasKAT

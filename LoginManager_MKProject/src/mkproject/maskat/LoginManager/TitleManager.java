@@ -47,7 +47,6 @@ public class TitleManager {
     		Message.sendBroadcast(Message.getMessageLang(Plugin.getLanguageYaml(), "Message.PlayerFirstLogged", ImmutableMap.of(
     			"playername", player.getName()
     			)));
-    		player.giveExpLevels(5);
     	}
     	
         Plugin.getAuthorizedAnimation().play(player.getPlayer(), p -> false);

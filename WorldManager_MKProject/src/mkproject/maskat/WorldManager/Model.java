@@ -21,4 +21,7 @@ public class Model {
 	public static ModelWorld addWorld(World world, GameMode gamemode, int borderRadius, boolean borderSquared) {//, boolean allowWeather) {
 		return worldsMap.put(world, new ModelWorld(gamemode, borderRadius, borderSquared));//, allowWeather));
 	}
+	public static void removeWorld(World world) {
+		worldsMap.remove(world);
+	}
 }

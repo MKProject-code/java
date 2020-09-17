@@ -1,0 +1,6 @@
+# LandSecurity plugin for 1.15.2
+# Made by MasKAT
+
+Player:
+   MuteDisallowedWord: "&cUżywanie słów niecenzuralnych jest zabronione!\nMasz zakaz pisania przez &630 sekund"
+   MuteSpam: "&cNie spamuj!\nMasz zakaz pisania przez &630 sekund"

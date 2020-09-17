@@ -6,6 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="F:/Projekty własne/Minecraft Server/Plugins edit/Eclipse/libs/spigot-1.15.2.jar"/>
+	<classpathentry kind="lib" path="F:/Projekty wlasne/Minecraft Server/Plugins edit/Eclipse/DebugServer/plugins/MKProjectAPI_v2.0.0.jar"/>
+	<classpathentry kind="lib" path="F:/Projekty wlasne/Minecraft Server/Plugins edit/Eclipse/libs/spigot-1.16.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

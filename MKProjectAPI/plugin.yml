@@ -6,4 +6,4 @@ author: MasKAT Project
 website: http://skyidea.pl/
 api-version: 1.15
 load: POSTWORLD
-depend: [Vault,WorldEdit,WorldManager]
+softdepend: [Vault,WorldEdit,WorldManager,StatsManager,BungeeManager]

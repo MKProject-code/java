@@ -20,3 +20,8 @@ depend: [MKProjectAPI]
 #   mkp.spawnmanager.setspawn:
 #      description: Allows use spawn command
 #      default: op
+
+permissions:
+   mkp.spawnmanager.keepexp:
+      description: Keep exp after death
+      default: op

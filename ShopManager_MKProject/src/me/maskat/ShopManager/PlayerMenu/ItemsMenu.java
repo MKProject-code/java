@@ -9,6 +9,11 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import me.maskat.ShopManager.Function;
 import me.maskat.ShopManager.Plugin;
@@ -22,19 +27,29 @@ import mkproject.maskat.Papi.Utils.Message;
 
 public class ItemsMenu implements PapiMenu {
 	class ItemsMenuSlot {
+		private String category;
 		private int price;
+		private int priceVip;
 		private int priceSale;
 		private int priceVipSale;
 		private ItemStack itemStack;
 		
-		protected ItemsMenuSlot(ItemStack itemStack, int price, int priceSale, int priceVipSale) {
+		protected ItemsMenuSlot(String category, ItemStack itemStack, int price, int priceVip, int priceSale, int priceVipSale) {
+			this.category = category;
 			this.price = price;
+			this.priceVip = priceVip;
 			this.priceSale = priceSale;
 			this.priceVipSale = priceVipSale;
 			this.itemStack = itemStack;
 		}
+		protected String getCategory() {
+			return this.category;
+		}
 		protected int getPrice() {
 			return this.price;
+		}
+		protected int getPriceVip() {
+			return this.priceVip;
 		}
 		protected int getPriceSale() {
 			return this.priceSale;
@@ -47,22 +62,29 @@ public class ItemsMenu implements PapiMenu {
 		}
 	}
 	
-	private CategoriesMenu backMenu;
+//	private CategoriesMenu backMenu;
 	private String category;
+	private PapiMenuPage papiMenuPage;
 	
-	public void openMenu(CategoriesMenu backMenu, Player player, String category) {
-		if(backMenu != null)
-			this.backMenu = backMenu;
+	public PapiMenuPage getPapiMenuPage() {
+		return this.papiMenuPage;
+	}
+	
+	public void initOpenMenu(PapiMenu backMenu, Player player, String category) {
+//		if(backMenu != null)
+//			this.backMenu = backMenu;
 		if(category != null)
 			this.category = category;
 		
-		openMenu(player, 1);
+		this.initPapiMenu(player, 1, backMenu);
+		this.openPapiMenuPage(player);
 	}
 	
-	private void openMenu(Player player, int page) {
-		PapiMenuPage papiMenuPage = new PapiMenuPage(this, 6, "* * * * * * Sklep Skyidea * * * * * *");
+	@Override
+	public void initPapiMenu(Player player, int page, PapiMenu backMenu) {
+		this.papiMenuPage = new PapiMenuPage(this, 6, "* * * * * * Sklep Skyidea * * * * * *");
 
-		papiMenuPage.setItem(InventorySlot.ROW6_COLUMN5, Material.BOOK, "&7Powrót do listy kategorii", "BACK");
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN5, Material.BOOK, "&7Powrót do listy kategorii", backMenu);
 
 //		List<Enchant> enchantments = new ArrayList<Enchant>();
 //		if(this.category.equals("Enchantment")) {
@@ -76,51 +98,73 @@ public class ItemsMenu implements PapiMenu {
 //	        }
 //		}
 		
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN1, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN2, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN3, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN4, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN5, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN6, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN7, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN8, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN9, Material.GRAY_STAINED_GLASS_PANE, " ");
+		
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN1, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN2, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN3, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN4, Material.GRAY_STAINED_GLASS_PANE, " ");
+
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN6, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN7, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN8, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN9, Material.GRAY_STAINED_GLASS_PANE, " ");
+		
+		this.initPage(player, page);
+	}
+	
+	private void initPage(Player player, int page) {
 		ConfigurationSection itemsSection = Plugin.getPlugin().getConfig().getConfigurationSection("categories."+this.category+".items");
 		if(itemsSection == null)
 		{
-			Message.sendMessage(player, "&cDziś nie ma żadnych promocji :(");
+			if(this.category.equals(Plugin.CATEGORY_SALES_GENERATED))
+				Message.sendMessage(player, "&cDziś nie ma żadnych promocji :(");
+			else
+				Message.sendMessage(player, "&cBrak ofert w tej kategorii");
 			return;
 		}
 		Set<String> itemsSet = itemsSection.getKeys(false);
 		if(itemsSet.size() <= 0)
 		{
-			Message.sendMessage(player, "&cDziś nie ma żadnych promocji :(");
+			if(this.category.equals(Plugin.CATEGORY_SALES_GENERATED))
+				Message.sendMessage(player, "&cDziś nie ma żadnych promocji :(");
+			else
+				Message.sendMessage(player, "&cBrak ofert w tej kategorii");
 			return;
 		}
-		papiMenuPage.setItem(InventorySlot.ROW1_COLUMN1, Material.GRAY_STAINED_GLASS_PANE, " ");
-		papiMenuPage.setItem(InventorySlot.ROW1_COLUMN2, Material.GRAY_STAINED_GLASS_PANE, " ");
-		papiMenuPage.setItem(InventorySlot.ROW1_COLUMN3, Material.GRAY_STAINED_GLASS_PANE, " ");
-		papiMenuPage.setItem(InventorySlot.ROW1_COLUMN4, Material.GRAY_STAINED_GLASS_PANE, " ");
-		papiMenuPage.setItem(InventorySlot.ROW1_COLUMN5, Material.GRAY_STAINED_GLASS_PANE, " ");
-		papiMenuPage.setItem(InventorySlot.ROW1_COLUMN6, Material.GRAY_STAINED_GLASS_PANE, " ");
-		papiMenuPage.setItem(InventorySlot.ROW1_COLUMN7, Material.GRAY_STAINED_GLASS_PANE, " ");
-		papiMenuPage.setItem(InventorySlot.ROW1_COLUMN8, Material.GRAY_STAINED_GLASS_PANE, " ");
-		papiMenuPage.setItem(InventorySlot.ROW1_COLUMN9, Material.GRAY_STAINED_GLASS_PANE, " ");
-		
-		papiMenuPage.setItem(InventorySlot.ROW6_COLUMN1, Material.GRAY_STAINED_GLASS_PANE, " ");
-		papiMenuPage.setItem(InventorySlot.ROW6_COLUMN2, Material.GRAY_STAINED_GLASS_PANE, " ");
-		papiMenuPage.setItem(InventorySlot.ROW6_COLUMN3, Material.GRAY_STAINED_GLASS_PANE, " ");
-		papiMenuPage.setItem(InventorySlot.ROW6_COLUMN4, Material.GRAY_STAINED_GLASS_PANE, " ");
-
-		papiMenuPage.setItem(InventorySlot.ROW6_COLUMN6, Material.GRAY_STAINED_GLASS_PANE, " ");
-		papiMenuPage.setItem(InventorySlot.ROW6_COLUMN7, Material.GRAY_STAINED_GLASS_PANE, " ");
-		papiMenuPage.setItem(InventorySlot.ROW6_COLUMN8, Material.GRAY_STAINED_GLASS_PANE, " ");
-		papiMenuPage.setItem(InventorySlot.ROW6_COLUMN9, Material.GRAY_STAINED_GLASS_PANE, " ");
 		
 		int itemsPageLimit = 28;
 		
 		int iStart=0;
 		int iEnd=itemsPageLimit-1;
+		
 		if(itemsSet.size() > itemsPageLimit)
 		{
 			iStart=(page-1)*itemsPageLimit;
 			iEnd=(page*itemsPageLimit)-1;
 			if(page>1)
-				papiMenuPage.setItem(InventorySlot.ROW6_COLUMN4, Material.PAPER, "&7Poprzednia strona", "PREV_PAGE:"+(page-1));
-			if(itemsSet.size()>iEnd)
-				papiMenuPage.setItem(InventorySlot.ROW6_COLUMN6, Material.PAPER, "&7Następna strona", "NEXT_PAGE:"+(page+1));
+				this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN4, Material.MAP, "&7Poprzednia strona", "PREV_PAGE:"+(page-1));
+			else
+				this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN4, Material.GRAY_STAINED_GLASS_PANE, " ");
+			
+			if((itemsSet.size()-1)>iEnd)
+				this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN6, Material.MAP, "&7Następna strona", "NEXT_PAGE:"+(page+1));
+			else
+				this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN6, Material.GRAY_STAINED_GLASS_PANE, " ");
 		}
+		else
+			page = 1;
+		
+		for(int i=InventorySlot.ROW2_COLUMN1.getValue(); i<=InventorySlot.ROW5_COLUMN9.getValue(); i++)
+			this.papiMenuPage.removeItem(InventorySlot.valueOf(i));
 		
 	    int i=0;
 	    int iV=1;
@@ -145,16 +189,33 @@ public class ItemsMenu implements PapiMenu {
 						{
 							Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(enchantName));
 							int enchantLevel = Plugin.getPlugin().getConfig().getInt("categories."+this.category+".items."+key+".enchants."+enchantName);
-							itemStack.addUnsafeEnchantment(enchant, enchantLevel);
+							if(material == Material.ENCHANTED_BOOK) {
+				        	    EnchantmentStorageMeta esm = (EnchantmentStorageMeta)itemStack.getItemMeta();
+				        	    esm.addStoredEnchant(enchant, enchantLevel, true);
+				        	    itemStack.setItemMeta(esm);
+							}
+							else
+								itemStack.addUnsafeEnchantment(enchant, enchantLevel);
 						}
 					}
 					
-					if(this.category != Plugin.CATEGORY_SALES_GENERATED)
+					ConfigurationSection effects = Plugin.getPlugin().getConfig().getConfigurationSection("categories."+this.category+".items."+key+".effects");
+					if(effects != null)
 					{
-						ItemStack icon = Papi.ItemUtils.addLore(itemStack.clone(), List.of("","&2Kup za &a"+price+"&2 "+Function.Menu.getCurrency(price)));
-						papiMenuPage.setItem(invSlot, icon, new ItemsMenuSlot(itemStack, price, -1, -1));
+						for(String effectTypeName : effects.getKeys(false))
+						{
+							PotionEffectType effectType = PotionEffectType.getByName(effectTypeName);
+							int effectDuration = Plugin.getPlugin().getConfig().getInt("categories."+this.category+".items."+key+".effects."+effectTypeName+".time")*20;
+							int effectAmplifier = Plugin.getPlugin().getConfig().getInt("categories."+this.category+".items."+key+".effects."+effectTypeName+".level")-1;
+							if(effectDuration > 0 && effectAmplifier > 0) {
+								PotionMeta pm = (PotionMeta)itemStack.getItemMeta();
+				        	    pm.addCustomEffect(new PotionEffect(effectType, effectDuration, effectAmplifier), true);
+				        	    itemStack.setItemMeta(pm);
+							}
+						}
 					}
-					else
+					
+					if(this.category.equals(Plugin.CATEGORY_SALES_GENERATED))
 					{
 						int priceSale = Plugin.getPlugin().getConfig().getInt("categories."+this.category+".items."+key+".sale");
 						int priceSaleVip = Plugin.getPlugin().getConfig().getInt("categories."+this.category+".items."+key+".salevip");
@@ -165,7 +226,32 @@ public class ItemsMenu implements PapiMenu {
 								"&2Kup w promocji za: &a&l"+priceSale+"&2 "+Function.Menu.getCurrency(priceSale),
 								"&3&oCena dla VIP: &b&o"+priceSaleVip+"&3&o "+Function.Menu.getCurrency(priceSaleVip)
 								));
-						papiMenuPage.setItem(invSlot, icon, new ItemsMenuSlot(itemStack, price, priceSale, priceSaleVip));
+						this.papiMenuPage.setItem(invSlot, icon, new ItemsMenuSlot(this.category, itemStack, price, -1, priceSale, priceSaleVip));
+					}
+					else if(this.category.equals(Plugin.CATEGORY_ZONE_VIP_PLUS))
+					{
+						ItemStack icon = Papi.ItemUtils.addLore(itemStack.clone(), List.of(
+								"",
+								"&2Kup za &a"+price+"&2 "+Function.Menu.getCurrency(price),
+								"&3&oDostępne tylko dla VIP+"
+								));
+						this.papiMenuPage.setItem(invSlot, icon, new ItemsMenuSlot(this.category, itemStack, -1, price, -1, -1));
+					}
+					else
+					{
+						int priceVip = (int) (price*0.75);
+						ItemStack icon = Papi.ItemUtils.addLore(itemStack.clone(),
+								(priceVip<price) ? List.of(
+										"",
+										"&2Kup za &a"+price+"&2 "+Function.Menu.getCurrency(price),
+										"&3&oCena dla VIP+: &b&o"+priceVip+"&3&o "+Function.Menu.getCurrency(priceVip)
+								) : List.of(
+										"",
+										"&2Kup za &a"+price+"&2 "+Function.Menu.getCurrency(price)
+										)
+								
+								);
+						this.papiMenuPage.setItem(invSlot, icon, new ItemsMenuSlot(this.category, itemStack, price, (priceVip<price) ? priceVip : -1, -1, -1));
 					}
 					
 					if(iH >= 8) {
@@ -184,40 +270,58 @@ public class ItemsMenu implements PapiMenu {
 				Plugin.getPlugin().getLogger().warning(">>>>>>>>>> Invalid configuration: categories."+this.category+".items."+key);
 			}
 		}
-		
-		Papi.Model.getPlayer(player).openMenu(papiMenuPage);
 	}
 
 	@Override
-	public void onMenuClick(PapiMenuClickEvent event) {
-		if(!event.existSlotStoreObject())
+	public void onMenuClick(PapiMenuClickEvent e) {
+		if(!e.existSlotStoreObject())
 			return;
 		
-		if(event.getSlotStoreObject() instanceof String)
+		if(e.getSlotStoreObject() instanceof PapiMenu)
 		{
-			String key = (String)event.getSlotStoreObject();
+			((PapiMenu) e.getSlotStoreObject()).openPapiMenuPage(e.getPlayer());
+			return;
+		}
+		else if(e.getSlotStoreObject() instanceof String)
+		{
+			String key = (String)e.getSlotStoreObject();
 			
-			if(key.equals("BACK")) {
-				this.backMenu.openMenu(event.getPlayer());
-				return;
-			}
 			if(key.indexOf("PREV_PAGE") == 0) {
-				this.openMenu(event.getPlayer(), Integer.parseInt(key.split(":")[1]));
+				this.initPage(e.getPlayer(), Integer.parseInt(key.split(":")[1]));
 				return;
 			}
 			if(key.indexOf("NEXT_PAGE") == 0) {
-				this.openMenu(event.getPlayer(), Integer.parseInt(key.split(":")[1]));
+				this.initPage(e.getPlayer(), Integer.parseInt(key.split(":")[1]));
 				return;
 			}
 		}
-		else if(event.getSlotStoreObject() instanceof ItemsMenuSlot)
+		else if(e.getSlotStoreObject() instanceof ItemsMenuSlot)
 		{
-			ItemsMenuSlot itemsMenuSlot = (ItemsMenuSlot)event.getSlotStoreObject();
-			new SelectedItemMenu().openMenu(this, event.getPlayer(), itemsMenuSlot);
+			if(this.category.equals(Plugin.CATEGORY_ZONE_VIP_PLUS))
+			{
+				if(e.getPlayer().hasPermission(Plugin.PERMISSION_PREFIX+".vipzone"))
+				{
+					ItemsMenuSlot itemsMenuSlot = (ItemsMenuSlot)e.getSlotStoreObject();
+					new SelectedItemMenu().initOpenMenu(e.getPlayer(), this, itemsMenuSlot);
+					return;
+				}
+				else
+				{
+					Message.sendMessage(e.getPlayer(), "&cMusisz mieć VIP+ aby móc kupować te przedmioty");
+					return;
+				}
+			}
+			else
+			{
+				ItemsMenuSlot itemsMenuSlot = (ItemsMenuSlot)e.getSlotStoreObject();
+				new SelectedItemMenu().initOpenMenu(e.getPlayer(), this, itemsMenuSlot);
+				return;
+			}
 		}
 	}
 
 	@Override
 	public void onMenuClose(PapiMenuCloseEvent event) {
 	}
+
 }

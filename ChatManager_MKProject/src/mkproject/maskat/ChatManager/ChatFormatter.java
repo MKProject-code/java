@@ -64,6 +64,7 @@ public class ChatFormatter {
     }
 
     public static void onChatHigh(AsyncPlayerChatEvent e) {
+    	
         String format = e.getFormat();
         if (vaultChat != null && format.contains(GROUP_PLACEHOLDER)) {
             format = format.replace(GROUP_PLACEHOLDER, vaultChat.getPrimaryGroup(e.getPlayer()));
@@ -82,8 +83,10 @@ public class ChatFormatter {
         
         if(e.getPlayer().hasPermission("mkp.chatmanager.chatcolors"))
         	format = format.replace("%2$s", colorize(e.getMessage()));
+        else
+        	format = format.replace("%2$s", e.getMessage());
         
-        e.setFormat(format);
+        e.setFormat(format.replace("%", "%%"));
     }
 
     private static String colorize(String s) {

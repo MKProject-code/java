@@ -1,0 +1,19 @@
+name: CustomCommandsMessage
+author: [klaudijus]
+main: io.github.cactusburrito.customcommands.CustomCommandsMain
+version: 1.0.0
+load: POSTWORLD
+api-version: 1.14
+
+commands:
+  CustomCommands:
+    reload:
+      description: Fully reload the plugin.
+      permission: <plugin name>.reload
+      permission-message: You don't have <permission> to use this command.
+      aliases: [ccmds, ccommands]
+
+permissions:
+  customcommands.reload:
+    description: Reload the plugin.
+    default: op

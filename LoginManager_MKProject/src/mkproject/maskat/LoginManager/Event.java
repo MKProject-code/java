@@ -74,7 +74,7 @@ public class Event implements Listener {
     
     @EventHandler
     public void onAsyncPlayerPreLoginEvent(AsyncPlayerPreLoginEvent e) {
-    	if(e.getName() == null || e.getName().length() < 3 || e.getName().length() > 16 || !e.getName().matches("^[a-zA-Z0-9_]*$"))
+    	if(e.getName() == null || e.getName().length() < 3 || e.getName().length() > 16 || !e.getName().matches("^[a-zA-Z0-9_]*$") || e.getName().charAt(0) == '_' || e.getName().charAt(e.getName().length()-1) == '_')
     	{
     		e.disallow(Result.KICK_OTHER, Message.getColorMessage("&cZły nick! Zasady nicku: od &b3&c do &b16&c znaków, &bA-Z&c, &ba-z&c, &b0-9&c i &b_"));
     		return;
@@ -133,7 +133,8 @@ public class Event implements Listener {
     	
     	TitleManager.onPlayerQuit(e);
     	
-    	Database.onPlayerQuit(e.getPlayer());
+    	if(Papi.Model.getPlayer(e.getPlayer()).isLogged())
+    		Database.onPlayerQuit(e.getPlayer());
     }
     
 //    @EventHandler
@@ -141,7 +142,7 @@ public class Event implements Listener {
 //    	
 //    }
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerGameModeChangeEventHigh(PlayerGameModeChangeEvent e) {
+    public void onPlayerGameModeChangeEventLowest(PlayerGameModeChangeEvent e) {
     	if(Model.existPlayer(e.getPlayer()) && Model.getPlayer(e.getPlayer()).isQuitBeforeLogin())
     		return;
     	
@@ -199,7 +200,7 @@ public class Event implements Listener {
     
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerMoveEvent(PlayerMoveEvent e) {
-    	if(!Papi.Model.getPlayers().contains(e.getPlayer()))
+    	if(!Papi.Model.existPlayer(e.getPlayer()))
 			e.setCancelled(true);
     	
     	if(!Papi.Model.getPlayer(e.getPlayer()).isLogged())

@@ -1,0 +1,23 @@
+name: VipManager
+main: mkproject.maskat.VipManager.Plugin
+description: Vip Manager
+version: 1.0.0
+author: MasKAT
+website: http://skyidea.pl/
+api-version: 1.15
+load: POSTWORLD
+depend: [MKProjectAPI]
+softdepend: [ChatManager,WolfSecurity]
+
+
+permissions:
+   mkp.vipmanager.noarmordamage:
+      default: op
+   mkp.vipmanager.keepexp:
+      default: op
+   mkp.vipmanager.keepinv50procent:
+      default: op
+   mkp.vipmanager.keepinv100procent:
+      default: op
+   mkp.vipmanager.tradevillagerinspawn:
+      default: op

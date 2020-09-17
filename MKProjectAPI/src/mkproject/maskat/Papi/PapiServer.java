@@ -4,10 +4,14 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 public class PapiServer {
+	private static World serverLobbyWorld;
 	private static World serverSpawnWorld;
 	private static Location serverSpawnLocation = null;
 	private static World survivalWorld;
 	
+	protected static void initServerLobbyWorld(World world) {
+		serverLobbyWorld = world;
+	}
 	protected static void initServerSpawnWorld(World world) {
 		serverSpawnWorld = world;
 	}
@@ -32,6 +36,13 @@ public class PapiServer {
 	}
 	protected static World getSurvivalWorld() {
 		return survivalWorld;
+	}
+	
+	protected static Location getServerLobbyLocation() {
+		return serverLobbyWorld.getSpawnLocation();
+	}
+	protected static World getServerLobbyWorld() {
+		return serverLobbyWorld;
 	}
 
 }

@@ -7,16 +7,20 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.libs.org.apache.commons.io.FileUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import mkproject.maskat.LoginManager.Cmds.CmdChangePassword;
+import mkproject.maskat.LoginManager.Cmds.CmdLoginAndRegister;
 import mkproject.maskat.Papi.Papi;
+import mkproject.maskat.Papi.Utils.CommandManager;
+import ru.ilyahiguti.authmetitle.nms.BukkitImpl;
+import ru.ilyahiguti.authmetitle.nms.NMS;
 import ru.ilyahiguti.authmetitle.title.TitleAnimation;
 import ru.ilyahiguti.authmetitle.title.TitleDescriptionException;
-import ru.ilyahiguti.authmetitle.nms.NMS;
-import ru.ilyahiguti.authmetitle.nms.BukkitImpl;
 
 public class Plugin extends JavaPlugin {
 	private static Plugin plugin;
@@ -61,10 +65,16 @@ public class Plugin extends JavaPlugin {
 		languagYaml = Papi.Yaml.registerYaml(this, "lang.yml");
 		
 		getCommand("loginmanager").setExecutor(executeCommand);
-		getCommand("login").setExecutor(executeCommand);
-		getCommand("l").setExecutor(executeCommand);
-		getCommand("reg").setExecutor(executeCommand);
 		getCommand("register").setExecutor(executeCommand);
+		getCommand("login").setExecutor(executeCommand);
+//		getCommand("l").setExecutor(executeCommand);
+//		getCommand("reg").setExecutor(executeCommand);
+		
+		CommandManager.initCommand(this, "changepassword", new CmdChangePassword(), true);
+		
+		TabCompleter tabCompleter = new CmdLoginAndRegister();
+		this.getCommand("register").setTabCompleter(tabCompleter);
+		this.getCommand("login").setTabCompleter(tabCompleter);
 		
 		loadTitleConfigs();
 		

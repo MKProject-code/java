@@ -1,5 +1,0 @@
-package me.maskat.MoneyManager;
-
-public class MoneyAPI {
-	public MapiPlayer getPlayer()
-}

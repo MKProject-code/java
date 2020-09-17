@@ -32,9 +32,11 @@ public class CmdMute implements CommandExecutor, TabCompleter {
 		
 		this.registerArgAliases(manager);
 		
-		manager.registerArgTabComplete(0, manager.getOnlinePlayersNameList());
-		manager.registerArgTabComplete(1, null, manager.getValuesRangeList(1,60));
-		manager.registerArgTabComplete(2, null, null, List.of("seconds","minutes","hours","days"));
+		List<String> values = manager.getValuesRangeList(1,60);
+		
+		manager.registerArgTabComplete(0, manager.getOnlinePlayersCanChooseNameList(false, true));
+		manager.registerArgTabComplete(1, null, values);
+		manager.registerArgTabComplete(2, null, manager.getValuesRangeList(1,60), List.of("seconds","minutes","hours","days"));
 		
 		return manager.getTabComplete();
 	}
@@ -47,24 +49,23 @@ public class CmdMute implements CommandExecutor, TabCompleter {
 		manager.registerArgUsage(2, null,null,"<timeformat>","[reason]");
 		manager.registerArgUsage(3, null,null,null,"[reason]");
 		
-		if(!manager.isPlayer())
-			return manager.doReturn();
-		
-		if(!manager.isPersmissionUse() || !manager.isPermissionAllowGameMode() || !manager.isPermissionAllowWorld())
-			return manager.doReturn();
+		if(manager.isPlayer())
+			if(!manager.isPersmissionUse() || !manager.isPermissionAllowGameMode() || !manager.isPermissionAllowWorld())
+				return manager.doReturn();
 		
 		this.registerArgAliases(manager);
 		
-		if(manager.hasArgStart(3) && manager.hasArg(3, List.of("seconds", "minutes", "hours", "days")))
-		{
+//		if(manager.hasArgStart(2) && manager.hasArg(2, "perm"))
+//			this.mute(manager, manager.getChosenPlayerFromArg(1, false, true), 0, manager.getArg(2), manager.getStringArgStart(3));
+//		else
+		if(manager.hasArgStart(4) && manager.hasArg(3, List.of("seconds", "minutes", "hours", "days")))
 			this.mute(manager, manager.getChosenPlayerFromArg(1, false, true), manager.getIntArg(2), manager.getArg(3), manager.getStringArgStart(4));
-		}
 		return manager.doReturn();
 	}
 	
 	// --------- /mute <player> <time> <timeformat> [reason]
 	public void mute(CommandManager manager, Player destPlayer, Integer time, String timeformat, String reason) {
-		if(destPlayer == null || time == null || timeformat == null || time <= 0)
+		if(destPlayer == null || time == null || timeformat == null)
 			return;
 		
 		if(Papi.Model.getPlayer(destPlayer).isMuted())
@@ -75,12 +76,16 @@ public class CmdMute implements CommandExecutor, TabCompleter {
 		
 		LocalDateTime endDatetime = null;
 		String duration = "";
+		
+//		if(timeformat.equalsIgnoreCase("perm")) {
+//			duration = "zawsze";
+//		} else
 		if(timeformat.equalsIgnoreCase("seconds")) {
 			if(time < 30) {
 				manager.setReturnMessage("&c&oMożesz wyciszyć gracza minimalnie na 30 sekund");
 				return;
 			}
-			if(time > 59) {
+			else if(time > 59) {
 				manager.setReturnMessage("&c&oWpisałeś wartość powyżej 59 sekund! Może powinieneś użyć formatu 'minutes'?");
 				return;
 			}
@@ -94,7 +99,11 @@ public class CmdMute implements CommandExecutor, TabCompleter {
 			endDatetime = LocalDateTime.now().plusSeconds(time);
 		}
 		else if(timeformat.equalsIgnoreCase("minutes")) {
-			if(time > 59) {
+			if(time < 1) {
+				manager.setReturnMessage("&c&oWpisałeś wartość mniejszą lub równą 0 minut!");
+				return;
+			}
+			else if(time > 59) {
 				manager.setReturnMessage("&c&oWpisałeś wartość powyżej 59 minut! Może powinieneś użyć formatu 'hours'?");
 				return;
 			}
@@ -107,7 +116,11 @@ public class CmdMute implements CommandExecutor, TabCompleter {
 			endDatetime = LocalDateTime.now().plusMinutes(time);
 		}
 		else if(timeformat.equalsIgnoreCase("hours")) {
-			if(time > 23) {
+			if(time < 1) {
+				manager.setReturnMessage("&c&oWpisałeś wartość mniejszą lub równą 0 godzin!");
+				return;
+			}
+			else if(time > 23) {
 				manager.setReturnMessage("&c&oWpisałeś wartość powyżej 23 godzin! Może powinieneś użyć formatu 'days'?");
 				return;
 			}
@@ -120,7 +133,11 @@ public class CmdMute implements CommandExecutor, TabCompleter {
 			endDatetime = LocalDateTime.now().plusHours(time);
 		}
 		else if(timeformat.equalsIgnoreCase("days")) {
-			if(time == 1)
+			if(time < 1) {
+				manager.setReturnMessage("&c&oWpisałeś wartość mniejszą lub równą 0 dni!");
+				return;
+			}
+			else if(time == 1)
 				duration = time + " dzień";
 			else if(time >= 2)
 				duration = time + " dni";
@@ -141,8 +158,8 @@ public class CmdMute implements CommandExecutor, TabCompleter {
 		if(Database.Mutes.addMute(destPlayer, endDatetime, manager.getPlayer(), reason) > 0)
 		{
 			Papi.Model.getPlayer(destPlayer).setMuted(endDatetime);
-			Message.sendBroadcast(Papi.Model.getPlayer(destPlayer).getNameWithPrefix()+" &7został wyciszony na &6"+duration+"&7 przez "+Papi.Model.getPlayer(manager.getPlayer()).getNameWithPrefix()+"&7."+((reason!="") ? ("\nPowód: &6"+reason) : ""));
-//			manager.setReturnMessage("&a&oWyciszyłeś gracza &e&o"+destPlayer.getName());
+			String admin = manager.isPlayer() ? Papi.Model.getPlayer(manager.getPlayer()).getNameWithPrefix() : "serwer";
+			Message.sendBroadcast(Papi.Model.getPlayer(destPlayer).getNameWithPrefix()+" &7został wyciszony na &6"+duration+"&7 przez "+admin+"&7."+((reason!="") ? ("\nPowód: &6"+reason) : ""));
 			manager.setReturnMessage(null);
 		}
 		else

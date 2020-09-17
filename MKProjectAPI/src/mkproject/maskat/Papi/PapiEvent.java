@@ -6,8 +6,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -29,11 +32,30 @@ public class PapiEvent implements Listener {
 
     	Player player = (Player)humanentity;
     	
-//    	if(!Papi.Model.existPlayer(player))
-//    		return;
+    	if(!Papi.Model.existPlayer(player))
+    	{
+    		e.setCancelled(true);
+    		return;
+    	}
     	
     	//MenuManager.onInventoryClick(e, player);
     	Papi.Model.getPlayer(player).onInventoryClick(e);
+	}
+	@EventHandler
+	public void onInventoryDragEvent(final InventoryDragEvent e) {
+		HumanEntity humanentity = e.getWhoClicked();
+		if(!(humanentity instanceof Player))
+			return;
+		
+		Player player = (Player)humanentity;
+		
+    	if(!Papi.Model.existPlayer(player))
+    	{
+    		e.setCancelled(true);
+    		return;
+    	}
+		
+		Papi.Model.getPlayer(player).onInventoryDrag(e);
 	}
 	@EventHandler
 	public void onInventoryCloseEvent(final InventoryCloseEvent e) {
@@ -43,7 +65,6 @@ public class PapiEvent implements Listener {
     	
     	Player player = (Player)humanentity;
     	
-    	//MenuManager.onInventoryClose(e);
     	if(!Papi.Model.existPlayer(player))
     		return;
     	
@@ -104,5 +125,21 @@ public class PapiEvent implements Listener {
     public void onPlayerTeleportEvent(PlayerTeleportEvent e) {
     	if(PapiModel.existPlayer(e.getPlayer()) && PapiModel.getPlayer(e.getPlayer()).isLogged())
     		PapiModel.getPlayer(e.getPlayer()).setGlobalLastLocation(e.getFrom());
+    }
+    
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerDeathEvent(PlayerDeathEvent e) {
+    	if(PapiModel.existPlayer(e.getEntity()) && PapiModel.getPlayer(e.getEntity()).isLogged())
+    		PapiModel.getPlayer(e.getEntity()).setGlobalLastLocation(e.getEntity().getLocation());
+    }
+    
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onEntityDamageEvent(EntityDamageEvent e) {
+    	if(e.getEntity() instanceof Player)
+    	{
+    		Player player = (Player)e.getEntity();
+    		if(PapiModel.existPlayer(player))
+    			PapiModel.getPlayer(player).registerDamage();
+    	}
     }
 }

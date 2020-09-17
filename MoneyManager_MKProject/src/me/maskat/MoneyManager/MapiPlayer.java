@@ -55,6 +55,11 @@ public class MapiPlayer {
 			return false;
 		}
 	}
+	public double setPoints(Integer points) {
+		this.points = points;
+		MapiModel.doMapiUpdate(this);
+		return this.points;
+	}
 
 	protected void saveData() {
 		Papi.MySQL.set(Map.of(Database.Users.POINTS,  MapiModel.getPlayer(player).getPoints()), Database.Users.NAME, "=", player.getName().toLowerCase(), Database.Users.TABLE);

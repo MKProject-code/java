@@ -138,6 +138,8 @@ public class Manager {
 	
 	public static void onPlayerRespawnEvent(PlayerRespawnEvent e) {
 		ModelArenaPlayer modelPlayer = ArenesModel.getPlayer(e.getPlayer());
+		if(modelPlayer == null)
+			return;
 		
 		Location leaveRespawnLocation = modelPlayer.getLeaveRespawnTeleportLocation();
 		if(leaveRespawnLocation != null)

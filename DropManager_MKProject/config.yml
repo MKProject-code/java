@@ -1,0 +1,40 @@
+# use only upper case!!!
+
+MySQL:
+   Table:
+      DropsVipPotion: "MKP_DropManager_DropsVipPotion"
+      DropsVipBook: "MKP_DropManager_DropsVipBook"
+#DropChance: 0-1000
+# 0 = 0%
+# 1000 = 100%
+Drops:
+   VipPotion:
+      DropChance: 10
+      MaterialsToDrop:
+         - STONE
+         - GRANITE
+         - DIORITE
+         - ANDESITE
+         - DIRT
+         - COAL_ORE
+         - IRON_ORE
+         - GOLD_ORE
+         - DIAMOND_ORE
+         - EMERALD_ORE
+         - LAPIS_ORE
+         - REDSTONE_ORE
+   VipBook:
+      DropChance: 30
+      MaterialsToDrop:
+         - STONE
+         - GRANITE
+         - DIORITE
+         - ANDESITE
+         - DIRT
+         - COAL_ORE
+         - IRON_ORE
+         - GOLD_ORE
+         - DIAMOND_ORE
+         - EMERALD_ORE
+         - LAPIS_ORE
+         - REDSTONE_ORE

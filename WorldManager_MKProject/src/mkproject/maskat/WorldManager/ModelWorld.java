@@ -21,6 +21,9 @@ public class ModelWorld {
 	public int getBorderRadius() {
 		return this.borderRadius;
 	}
+	public boolean isBorderSquared() {
+		return this.borderSquared;
+	}
 	public int getBorderRadiusSquared() {
 		if(borderSquared)
 			return this.borderRadius*this.borderRadius;
@@ -33,5 +36,17 @@ public class ModelWorld {
 //	public boolean isAllowWeather() {
 //		return allowWeather;
 //	}
+
+	public void setGameMode(GameMode gamemode) {
+		this.gamemode = gamemode;
+	}
+
+	public void setBorderRadius(int borderRadius) {
+		this.borderRadius = borderRadius;
+	}
+
+	public void setBorderRadiusSquared(boolean borderSquared) {
+		this.borderSquared = borderSquared;
+	}
 
 }

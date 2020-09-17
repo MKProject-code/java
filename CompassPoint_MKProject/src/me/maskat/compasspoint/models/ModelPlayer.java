@@ -1,21 +1,26 @@
 package me.maskat.compasspoint.models;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import me.maskat.compasspoint.enums.NavLocation;
-import me.maskat.compasspoint.inventories.InventoryMenu;
+import me.maskat.compasspoint.inventories.InventoryMenu_old;
 import me.maskat.wolfsecurity.api.WolfSecurityApi;
+import mkproject.maskat.Papi.Papi;
 
 public class ModelPlayer {
 	private Player player = null;
-	private InventoryMenu inventoryMenu = null;
+	private InventoryMenu_old inventoryMenu = null;
 	private NavLocation navLocation = NavLocation.BED;
 	private Player navTargetPlayer = null;
 	private boolean navCompassWorking = false;
 //	private Wolf wolfEntity = null;
+//	private Location lastTargetLocation = null;
+	Wolf wolfEntity = null;
+	
 	
 	public ModelPlayer(Player p) {
 		player = p;
@@ -30,15 +35,18 @@ public class ModelPlayer {
 //		wolfEntity = WolfSecurityApi.getWolfEntity(player);
 //	}
 	
-//	public Location getWolfLocation() {
-//		return wolfEntity.getLocation();
-//	}
+	public Wolf getWolfEntity() {
+		return wolfEntity;
+	}
+	public void setWolfEntity(Wolf wolfEntity) {
+		this.wolfEntity = wolfEntity;
+	}
 	public Wolf getWolfEntityAPI() {
 		return WolfSecurityApi.getWolfEntity(player);
 	}
 
 	public void setInventoryMenu() {
-		inventoryMenu = new InventoryMenu();
+		inventoryMenu = new InventoryMenu_old();
 	}
 	
 	public void removeInventoryMenu() {
@@ -52,7 +60,7 @@ public class ModelPlayer {
 			return false;
 	}
 	
-	public InventoryMenu getInventoryMenu() {
+	public InventoryMenu_old getInventoryMenu() {
 		return inventoryMenu;
 	}
 	
@@ -119,6 +127,10 @@ public class ModelPlayer {
 			{
 				return "&bNawiguję do twojego wilka";
 			}
+			else if(navLocation == NavLocation.PLAYERSPAWN)
+			{
+				return "&bNawiguję do twojego punktu startowego";
+			}
 		}
 		return "&5Kompas rozregulowany";
 	}
@@ -126,4 +138,16 @@ public class ModelPlayer {
 	public boolean existWolfAPI() {
 		return WolfSecurityApi.existWolf(player);
 	}
+
+	public boolean existPlayerSpawnPoint() {
+		return Papi.Model.getPlayer(player).isPlayerSpawnGenerated();
+	}
+//
+//	public void setLastTargetLocation(Location currentTargetLocation) {
+//		this.lastTargetLocation = currentTargetLocation;
+//	}
+//	
+//	public Location getLastTargetLocation() {
+//		return this.lastTargetLocation;
+//	}
 }

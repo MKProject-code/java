@@ -32,7 +32,7 @@ public class CmdRepair implements CommandExecutor {
 			return;
 		
 		try {
-		destPlayer.getInventory().getItemInMainHand().setDurability((short)0);
+			destPlayer.getInventory().getItemInMainHand().setDurability((short)0);
 		}
 		catch(Exception ex) {
 			manager.setReturnMessage(destPlayer,

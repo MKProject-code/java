@@ -9,22 +9,27 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import mkproject.maskat.AdminUtils.Plugin;
+import mkproject.maskat.Papi.Utils.CommandManager;
+
 public class CmdTpworld implements CommandExecutor, TabCompleter {
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-		CommandManager_local manager = new CommandManager_local(sender, command, label, args);
+		CommandManager manager = new CommandManager(Plugin.getPlugin(), sender, command, label, args);
 		
-		manager.registerArgTabComplete(0, manager.getWorldsNameList());
-		manager.registerArgTabComplete(1, null, manager.getOnlinePlayersNameList());
+		List<String> worlds = manager.getWorldsNameListWithAccess(true);
+		
+		manager.registerArgTabComplete(0, worlds);
+		manager.registerArgTabComplete(1, worlds, manager.getOnlinePlayersCanChooseNameList(true, true));
 		
 		return manager.getTabComplete();
 	}
 	
 	@Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		CommandManager_local manager = new CommandManager_local(sender, command, label, args, List.of("<world>","[player]"));
+		CommandManager manager = new CommandManager(Plugin.getPlugin(), sender, command, label, args, List.of("<world>","[player]"));
 		
 		if(!manager.isPlayer())
 			return manager.doReturn();
@@ -38,8 +43,8 @@ public class CmdTpworld implements CommandExecutor, TabCompleter {
 		return manager.doReturn();
 	}
 	
-	private void teleportWorldSpawn(CommandManager_local manager, World world, Player destPlayer) {
-		if(destPlayer == null)
+	private void teleportWorldSpawn(CommandManager manager, World world, Player destPlayer) {
+		if(destPlayer == null || world == null)
 			return;
 		
 		if(manager.playerTeleport(destPlayer, world.getSpawnLocation()))

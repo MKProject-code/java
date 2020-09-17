@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import me.maskat.ArenaManager.ArenaPlugin.AbortArenaGameEvent;
@@ -52,7 +53,8 @@ public class PvP_ArenaInstance implements ArenaInstance {
 				Papi.Function.randomEnchantment(new ItemStack(Material.DIAMOND_SWORD, 1), false, Papi.Function.randomInteger(3, 5)),
 				new ItemStack(Material.GOLDEN_APPLE, Papi.Function.randomInteger(3, 20)),
 				(giveBow ? (Papi.Function.randomEnchantment(new ItemStack(Material.BOW, 1), false, Papi.Function.randomInteger(1, 4))) : null),
-				(giveBow ? new ItemStack(Material.SPECTRAL_ARROW, Papi.Function.randomInteger(1, 30)) : null)
+				(giveBow ? new ItemStack(Material.SPECTRAL_ARROW, Papi.Function.randomInteger(1, 30)) : null),
+				(Papi.Function.randomInteger(0, 1) == 1 ? Papi.ItemUtils.addEnchant(new ItemStack(Material.STICK, 1), Enchantment.KNOCKBACK, 10) : null)
 				);
 		
 		event.getArena().setPlayersInventoryArmor(
@@ -82,7 +84,7 @@ public class PvP_ArenaInstance implements ArenaInstance {
 
 	@Override
 	public void onPlayerDeathInArena(PlayerDeathInArenaEvent event) {
-		Plugin.getPlugin().getLogger().warning("Player '"+event.getPlayer().getPlayer().getName()+"' arena: PlayerDeathInArenaEvent");
+		//Plugin.getPlugin().getLogger().warning("Player '"+event.getPlayer().getPlayer().getName()+"' arena: PlayerDeathInArenaEvent");
 		event.getDrops().clear();
 		event.setDroppedExp(0);
 		
@@ -91,7 +93,7 @@ public class PvP_ArenaInstance implements ArenaInstance {
 
 	@Override
 	public void onPlayerRespawnInArena(PlayerRespawnInArenaEvent event) {
-		Plugin.getPlugin().getLogger().warning("Player '"+event.getPlayer().getPlayer().getName()+"' arena: PlayerRespawnInArenaEvent");
+		//Plugin.getPlugin().getLogger().warning("Player '"+event.getPlayer().getPlayer().getName()+"' arena: PlayerRespawnInArenaEvent");
 	}
 
 	@Override
@@ -100,8 +102,10 @@ public class PvP_ArenaInstance implements ArenaInstance {
 
 	@Override
 	public void onPlayerLeaveArena(PlayerLeaveArenaEvent event) {
-		event.getPlayer().getPlayer().getInventory().clear();
-		event.getPlayer().getPlayer().updateInventory();
+		if(event.getPlayer().getPlayer().getGameMode() != GameMode.SURVIVAL) {
+			event.getPlayer().getPlayer().getInventory().clear();
+			event.getPlayer().getPlayer().updateInventory();
+		}
 		
 		if(!event.getArena().isGameEnded()) {
 			Collection<ArpTeam> teamsInsideArena = event.getArena().getTeamsInsideArena();

@@ -1,5 +1,6 @@
 package mkproject.maskat.AdminUtils.Cmds;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
@@ -23,58 +24,143 @@ public class CmdPlayerInfo implements CommandExecutor {
 		if(!manager.isPersmissionUse() || !manager.isPermissionAllowWorld() || !manager.isPermissionAllowGameMode())
 			return manager.doReturn();
 		
-		if(manager.hasArgs(0,1))// /info [player]
+		if(manager.hasArgs(0,1))// /pinfo [player]
 			this.printInfo(manager, manager.getChosenPlayerFromArg(1, true));
 		
 		return manager.doReturn();
 	}
 	
-	// --------- /feed [player]StartNewProjectExample_MKProject
+	// --------- /pinfo [player]
 	public void printInfo(CommandManager_local manager, Player destPlayer) {
 		if(destPlayer == null)
 			return;
 		
-		String info = "&6Location: "+getValue(destPlayer.getLocation())+"\n"
-				+ "&6Health: "+getValue(destPlayer.getHealth())+"\n"
-				+ "&6Food: "+getValue(destPlayer.getFoodLevel())+"\n"
-				+ "&6Custom Name: "+getValue(destPlayer.getCustomName())+"\n"
-				+ "&6Display Name: "+getValue(destPlayer.getDisplayName())+"\n"
-				+ "&6Entity ID: "+getValue(destPlayer.getEntityId())+"\n"
-				+ "&6Experience in Current Level: "+getValue(destPlayer.getExp()*100)+"%\n"
-				+ "&6Experience Level: "+getValue(destPlayer.getLevel())+"\n"
-				+ "&6Require Experience to Level Up: "+getValue(destPlayer.getExpToLevel())+"\n"
-				+ "&6Current Experience Points: "+getValue(Papi.Vault.getEconomy().getBalance(destPlayer))+"\n"
-				+ "&6Total Experience Points: "+getValue(destPlayer.getTotalExperience())+"\n"
-				+ "&6First Played: "+getValueDate(destPlayer.getFirstPlayed())+"\n"
-				+ "&6Last Played: "+getValueDate(destPlayer.getLastPlayed())+"\n"
-				+ "&6Walk Speed: "+getValue(destPlayer.getWalkSpeed())+"\n"
-				+ "&6Fly Speed: "+getValue(destPlayer.getFlySpeed())+"\n"
-				+ "&6Client View Distance: "+getValue(destPlayer.getClientViewDistance())+"\n"
-				+ "&6Last Damage: "+getValue(destPlayer.getLastDamage())+"\n"
-				+ "&6Last Damage Cause: "+getValue(destPlayer.getLastDamageCause() != null ? destPlayer.getLastDamageCause().getCause() : null)+"\n"
-				+ "&6Killer: "+getValue((destPlayer.getKiller() != null ? destPlayer.getKiller().getName() : null))+"\n"
-				+ "&6Player Time: "+getValue(getValueDurationTime(destPlayer.getPlayerTime()))+"\n"
-				+ "&6Player Weather: "+getValue(destPlayer.getPlayerWeather())+"\n"
-				+ "&6Allow Flight: "+getValue(destPlayer.getAllowFlight())+"\n"
-				+ "&6Can Pickup Items: "+getValue(destPlayer.getCanPickupItems())+"\n"
-				+ "&6GameMode: "+getValue(destPlayer.getGameMode())+"\n"
-				+ "&6UniqueId: "+getValue(destPlayer.getUniqueId())+"\n"
-				+ "&6Sleeping: "+getValue(destPlayer.isSleeping())+"\n"
-				+ "&6Bed Location (if sleeping): "+getValue(destPlayer.isSleeping() ? destPlayer.getBedLocation() : null)+"\n"
-				+ "&6Bed Spawn Location: "+getValue(destPlayer.getBedSpawnLocation())+"\n"
-				+ "&6Address IP: "+getValuePlayerIP(destPlayer)+"\n"
-				+ "&6Logged: "+getValue(Papi.Model.getPlayer(destPlayer).isLogged())+"\n"
-				+ "&6Afk: "+getValue(Papi.Model.getPlayer(destPlayer).isAfk())+"\n"
-				+ "&6Muted: "+getValue(Papi.Model.getPlayer(destPlayer).isMuted())+"\n"
-				+ "&6Muted Remaining Time: "+getValue(Papi.Model.getPlayer(destPlayer).getMutedRemainingTime())+"\n"
-				+ "&6Survival Spawn Generated: "+getValue(Papi.Model.getPlayer(destPlayer).isPlayerSpawnGenerated())+"\n"
-				+ "&6Survival Spawn Location: "+getValue(Papi.Model.getPlayer(destPlayer).getPlayerSpawnLocation())+"\n"
-				+ "&6Next Respawn Location: "+getValue(Papi.Model.getPlayer(destPlayer).getRespawnLocation())+"\n"
-				+ "&6Survival Last Location: "+getValue(Papi.Model.getPlayer(destPlayer).getSurvivalLastLocation());
+		List<String> infoList = new ArrayList<>();
+		
+		try { infoList.add("&6Location: "+getValue(destPlayer.getLocation()));
+		} catch(Exception ex) { infoList.add("&6Location: &o*ERROR*"); }
+		
+		try { infoList.add("&6Health: "+getValue(destPlayer.getHealth()));
+		} catch(Exception ex) { infoList.add("&6Health: &o*ERROR*"); }
+		
+		try { infoList.add("&6Food: "+getValue(destPlayer.getFoodLevel()));
+		} catch(Exception ex) { infoList.add("&6Food: &o*ERROR*"); }
+		
+		try { infoList.add("&6Custom Name: "+getValue(destPlayer.getCustomName()));
+		} catch(Exception ex) { infoList.add("&6Custom Name: &o*ERROR*"); }
+		
+		try { infoList.add("&6Display Name: "+getValue(destPlayer.getDisplayName()));
+		} catch(Exception ex) { infoList.add("&6Display Name: &o*ERROR*"); }
+		
+		try { infoList.add("&6Entity ID: "+getValue(destPlayer.getEntityId()));
+		} catch(Exception ex) { infoList.add("&6Entity ID: &o*ERROR*"); }
+		
+		try { infoList.add("&6Experience in Current Level: "+getValue(destPlayer.getExp()*100));
+		} catch(Exception ex) { infoList.add("&6Experience in Current Level: &o*ERROR*"); }
+		
+		try { infoList.add("&6Experience Level: "+getValue(destPlayer.getLevel()));
+		} catch(Exception ex) { infoList.add("&6Experience Level: &o*ERROR*"); }
+		
+		try { infoList.add("&6Require Experience to Level Up: "+getValue(destPlayer.getExpToLevel()));
+		} catch(Exception ex) { infoList.add("&6Require Experience to Level Up: &o*ERROR*"); }
+		
+		try { infoList.add("&6Current Experience Points: "+getValue(Papi.Vault.getEconomy().getBalance(destPlayer)));
+		} catch(Exception ex) { infoList.add("&6Current Experience Points: &o*ERROR*"); }
+		
+		try { infoList.add("&6Total Experience Points: "+getValue(destPlayer.getTotalExperience()));
+		} catch(Exception ex) { infoList.add("&6Total Experience Points: &o*ERROR*"); }
+		
+		try { infoList.add("&6First Played: "+getValueDate(destPlayer.getFirstPlayed()));
+		} catch(Exception ex) { infoList.add("&6First Played: &o*ERROR*"); }
+		
+		try { infoList.add("&6Last Played: "+getValueDate(destPlayer.getLastPlayed()));
+		} catch(Exception ex) { infoList.add("&6Last Played: &o*ERROR*"); }
+		
+		try { infoList.add("&6Walk Speed: "+getValue(destPlayer.getWalkSpeed()));
+		} catch(Exception ex) { infoList.add("&6Walk Speed: &o*ERROR*"); }
+		
+		try { infoList.add("&6Fly Speed: "+getValue(destPlayer.getFlySpeed()));
+		} catch(Exception ex) { infoList.add("&6Fly Speed: &o*ERROR*"); }
+		
+		try { infoList.add("&6Client View Distance: "+getValue(destPlayer.getClientViewDistance()));
+		} catch(Exception ex) { infoList.add("&6Client View Distance: &o*ERROR*"); }
+		
+		try { infoList.add("&6Last Damage: "+getValue(destPlayer.getLastDamage()));
+		} catch(Exception ex) { infoList.add("&6Last Damage: &o*ERROR*"); }
+		
+		try { infoList.add("&6Last Damage Cause: "+getValue(destPlayer.getLastDamageCause() != null ? destPlayer.getLastDamageCause().getCause() : null));
+		} catch(Exception ex) { infoList.add("&6Last Damage Cause: &o*ERROR*"); }
+		
+		try { infoList.add("&6Killer: "+getValue((destPlayer.getKiller() != null ? destPlayer.getKiller().getName() : null)));
+		} catch(Exception ex) { infoList.add("&6Killer: &o*ERROR*"); }
+		
+		try { infoList.add("&6Player Time: "+getValue(getValueDurationTime(destPlayer.getPlayerTime())));
+		} catch(Exception ex) { infoList.add("&6Player Time: &o*ERROR*"); }
+		
+		try { infoList.add("&6Player Weather: "+getValue(destPlayer.getPlayerWeather()));
+		} catch(Exception ex) { infoList.add("&6Player Weather: &o*ERROR*"); }
+		
+		try { infoList.add("&6Allow Flight: "+getValue(destPlayer.getAllowFlight()));
+		} catch(Exception ex) { infoList.add("&6Allow Flight: &o*ERROR*"); }
+		
+		try { infoList.add("&6Can Pickup Items: "+getValue(destPlayer.getCanPickupItems()));
+		} catch(Exception ex) { infoList.add("&6Can Pickup Items: &o*ERROR*"); }
+		
+		try { infoList.add("&6GameMode: "+getValue(destPlayer.getGameMode()));
+		} catch(Exception ex) { infoList.add("&6GameMode: &o*ERROR*"); }
+		
+		try { infoList.add("&6UniqueId: "+getValue(destPlayer.getUniqueId()));
+		} catch(Exception ex) { infoList.add("&6UniqueId: &o*ERROR*"); }
+		
+		try { infoList.add("&6Sleeping: "+getValue(destPlayer.isSleeping()));
+		} catch(Exception ex) { infoList.add("&6Sleeping: &o*ERROR*"); }
+		
+		try { infoList.add("&6Bed Location (if sleeping): "+getValue(destPlayer.isSleeping() ? destPlayer.getBedLocation() : null));
+		} catch(Exception ex) { infoList.add("&6Bed Location (if sleeping): &o*ERROR*"); }
+		
+		try { infoList.add("&6Bed Spawn Location: "+getValue(destPlayer.getBedSpawnLocation()));
+		} catch(Exception ex) { infoList.add("&6Bed Spawn Location: &o*ERROR*"); }
+		
+		try { infoList.add("&6Address IP: "+getValuePlayerIP(destPlayer));
+		} catch(Exception ex) { infoList.add("&6Address IP: &o*ERROR*"); }
+		
+		try { infoList.add("&6Logged: "+getValue(Papi.Model.getPlayer(destPlayer).isLogged()));
+		} catch(Exception ex) { infoList.add("&6Logged: &o*ERROR*"); }
+		
+		try { infoList.add("&6Afk: "+getValue(Papi.Model.getPlayer(destPlayer).isAfk()));
+		} catch(Exception ex) { infoList.add("&6Afk: &o*ERROR*"); }
+		
+		try { infoList.add("&6Muted: "+getValue(Papi.Model.getPlayer(destPlayer).isMuted()));
+		} catch(Exception ex) { infoList.add("&6Muted: &o*ERROR*"); }
+		
+		try { infoList.add("&6Muted Remaining Time: "+getValue(Papi.Model.getPlayer(destPlayer).getMutedRemainingTime()));
+		} catch(Exception ex) { infoList.add("&6Muted Remaining Time: &o*ERROR*"); }
+		
+		try { infoList.add("&6Survival Spawn Generated: "+getValue(Papi.Model.getPlayer(destPlayer).isPlayerSpawnGenerated()));
+		} catch(Exception ex) { infoList.add("&6Survival Spawn Generated: &o*ERROR*"); }
+		
+		try { infoList.add("&6Survival Spawn Location: "+getValue(Papi.Model.getPlayer(destPlayer).getPlayerSpawnLocation()));
+		} catch(Exception ex) { infoList.add("&6Survival Spawn Location: &o*ERROR*"); }
+		
+		try { infoList.add("&6Next Respawn Location: "+getValue(Papi.Model.getPlayer(destPlayer).getRespawnLocation()));
+		} catch(Exception ex) { infoList.add("&6Next Respawn Location: &o*ERROR*"); }
+		
+		try { infoList.add("&6Survival Last Location: "+getValue(Papi.Model.getPlayer(destPlayer).getSurvivalLastLocation()));
+		} catch(Exception ex) { infoList.add("&6Survival Last Location: &o*ERROR*"); }
+		
+		try { infoList.add("&6SkyPoints: "+getValue(Papi.Model.getPlayer(destPlayer).getPoints()));
+		} catch(Exception ex) { infoList.add("&6SkyPoints: &o*ERROR*"); }
+		
+		try {
+			Class.forName("me.maskat.wolfsecurity.api.WolfSecurityApi");
+			infoList.add("&6Wolf Location: "+getValue(me.maskat.wolfsecurity.api.WolfSecurityApi.existWolf(destPlayer) ? (me.maskat.wolfsecurity.api.WolfSecurityApi.getWolfEntity(destPlayer) != null ? me.maskat.wolfsecurity.api.WolfSecurityApi.getWolfEntity(destPlayer).getLocation() : null) : null));
+		} catch( ClassNotFoundException e ) {
+			infoList.add("&6Wolf Location: &o*ERROR*");
+		}
 		
 		manager.setReturnMessage(destPlayer,
-				"&a&oInformacje o tobie:\n" + info,
-				"&a&oInformacje o graczu &e&o"+destPlayer.getName()+"&a&o:\n" + info);
+				"&a&oInformacje o tobie:\n" + String.join("\n", infoList),
+				"&a&oInformacje o graczu &e&o"+destPlayer.getName()+"&a&o:\n" + String.join("\n", infoList));
 	}
 	
 	private String getValue(Object object) {

@@ -3,9 +3,11 @@ package mkproject.maskat.Papi;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import mkproject.maskat.Papi.Utils.ItemGlow;
 import mkproject.maskat.Papi.Utils.Message;
 
 public class PapiItemUtils {
@@ -18,6 +20,14 @@ public class PapiItemUtils {
 		for(String lore : colorLoresList)
 			itemLores.add(Message.getColorMessage(lore));
 		itemMeta.setLore(itemLores);
+		itemStack.setItemMeta(itemMeta);
+		return itemStack;
+	}
+	protected static ItemStack addGlow(ItemStack itemStack) {
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		NamespacedKey key = new NamespacedKey(PapiPlugin.getPlugin(), PapiPlugin.getPlugin().getDescription().getName());
+		ItemGlow glow = new ItemGlow(key);
+		itemMeta.addEnchant(glow, 1, true);
 		itemStack.setItemMeta(itemMeta);
 		return itemStack;
 	}

@@ -11,21 +11,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryCreativeEvent;
-import org.bukkit.event.inventory.InventoryEvent;
-import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.md_5.bungee.api.ChatMessageType;
@@ -52,12 +44,12 @@ public class Main extends JavaPlugin implements Listener, CommandExecutor {
 ////        final Player player = Bukkit.getPlayer(sender.getName());
 ////        
 ////        if(commandEnabled.contains(player)) {
-////        	player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5[Budowniczy] &dITEM ID: &cWy³¹czono"));
+////        	player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5[Budowniczy] &dITEM ID: &cWyï¿½ï¿½czono"));
 ////        	commandEnabled.remove(player);
 ////        }
 ////        else
 ////        {
-////        	player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5[Budowniczy] &dITEM ID: &aW³¹czono"));
+////        	player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5[Budowniczy] &dITEM ID: &aWï¿½ï¿½czono"));
 ////            commandEnabled.add(player);
 ////            setInfoTask(player);
 ////        }

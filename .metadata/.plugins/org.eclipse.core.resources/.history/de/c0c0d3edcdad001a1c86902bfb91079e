@@ -1,5 +1,0 @@
-package me.maskat.MoneyManager;
-
-public interface MapiSystem {
-	public void onMoneyUpdate(MapiPlayer mapiPlayer);
-}

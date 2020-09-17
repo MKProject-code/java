@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import mkproject.maskat.Papi.Utils.Message;
@@ -29,18 +30,18 @@ public class PromoGift {
 		
 		//Tool
 		int randomNum = ThreadLocalRandom.current().nextInt(0, itemsListTool.size());
-		ItemStack itemStack = generateItem(itemsListTool.get(randomNum), false);
+		ItemStack itemStack = generateItem(itemsListTool.get(randomNum), false, false);
 		player.getInventory().addItem(itemStack);
 		
 		
 		//Armor
 		randomNum = ThreadLocalRandom.current().nextInt(0, itemsListArmor.size());
-		itemStack = generateItem(itemsListArmor.get(randomNum), false);
+		itemStack = generateItem(itemsListArmor.get(randomNum), false, false);
 		player.getInventory().addItem(itemStack);
 		
 		
 		//Book
-	    itemStack = generateItem(Material.ENCHANTED_BOOK, true);
+	    itemStack = generateItem(Material.ENCHANTED_BOOK, true, true);
 	    ItemMeta itemMetaBook = itemStack.getItemMeta();
 	    itemMetaBook.setDisplayName(Message.getColorMessage("&a&oKsięga Bogów &b&oSkyidea"));
 	    itemStack.setItemMeta(itemMetaBook);
@@ -52,19 +53,19 @@ public class PromoGift {
 		player.updateInventory();
 	}
 	
-	private static ItemStack generateItem(Material material, boolean allowAllEnchant) {
+	private static ItemStack generateItem(Material material, boolean allowAllEnchant, boolean useEnchantmentStorageMeta) {
 		ItemStack itemStack = new ItemStack(material, 1);
 		
-		itemStack = randomEnchantment(itemStack, allowAllEnchant);
-		itemStack = randomEnchantment(itemStack, allowAllEnchant);
-		itemStack = randomEnchantment(itemStack, allowAllEnchant);
-		itemStack = randomEnchantment(itemStack, allowAllEnchant);
-		itemStack = randomEnchantment(itemStack, allowAllEnchant);
+		itemStack = randomEnchantment(itemStack, allowAllEnchant, useEnchantmentStorageMeta);
+		itemStack = randomEnchantment(itemStack, allowAllEnchant, useEnchantmentStorageMeta);
+		itemStack = randomEnchantment(itemStack, allowAllEnchant, useEnchantmentStorageMeta);
+		itemStack = randomEnchantment(itemStack, allowAllEnchant, useEnchantmentStorageMeta);
+		itemStack = randomEnchantment(itemStack, allowAllEnchant, useEnchantmentStorageMeta);
 		
 		return itemStack;
 	}
 	
-    private static ItemStack randomEnchantment(ItemStack item, boolean allowAllEnchant) {
+    private static ItemStack randomEnchantment(ItemStack item, boolean allowAllEnchant, boolean useEnchantmentStorageMeta) {
         // Store all possible enchantments for the item
         List<Enchantment> possible = new ArrayList<Enchantment>();
      
@@ -83,7 +84,13 @@ public class PromoGift {
             // Get the first enchantment in the shuffled list
             Enchantment chosen = possible.get(0);
             // Apply the enchantment with a random level between 1 and the max level
-            if(!allowAllEnchant)
+            if(useEnchantmentStorageMeta)
+            {
+        	    EnchantmentStorageMeta esm = (EnchantmentStorageMeta)item.getItemMeta();
+        	    esm.addStoredEnchant(chosen, 1 + (int) (Math.random() * ((chosen.getMaxLevel() - 1) + 1)), false);
+        	    item.setItemMeta(esm);
+            }
+            else if(!allowAllEnchant)
             	item.addEnchantment(chosen, 1 + (int) (Math.random() * ((chosen.getMaxLevel() - 1) + 1)));
             else
             	item.addUnsafeEnchantment(chosen, 1 + (int) (Math.random() * ((chosen.getMaxLevel() - 1) + 1)));

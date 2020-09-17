@@ -1,20 +1,22 @@
 package config;
 
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.ArrayList;
 import java.util.List;
-import org.bukkit.plugin.Plugin;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.ChatMessageType;
-import org.bukkit.Sound;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.event.Listener;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.Plugin;
+
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class msg implements CommandExecutor, Listener
 {

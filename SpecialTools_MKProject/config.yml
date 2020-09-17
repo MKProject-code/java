@@ -1,0 +1,13 @@
+# use only upper case!!!
+#int: 0-100 [%]
+Drops:
+   SpecialBone:
+      DropProcentageChance: 100
+      MaterialsToDrop:
+         - DIORITE
+
+
+
+
+Language:
+   GetChest: '&aWykopałeś specjalną skrzynię, a w niej &b%item%'

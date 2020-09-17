@@ -44,11 +44,11 @@ public class ExecuteCommand implements CommandExecutor {
 		else if(args.length == 2)
 		{
 			if(args[0].equalsIgnoreCase("create")) {
-				if(!player.getWorld().getName().equalsIgnoreCase(Config.getString(ConfigKey.CustomPortalsWorldName)))
-				{
-					Message.sendMessage(player, "&cPortale można tworzyć tylko na dozwolonej mapie.");
-					return false;
-				}
+//				if(!player.getWorld().getName().equalsIgnoreCase(Config.getString(ConfigKey.CustomPortalsWorldName)))
+//				{
+//					Message.sendMessage(player, "&cPortale można tworzyć tylko na dozwolonej mapie.");
+//					return false;
+//				}
 					
 				if(args[1].length() > 30)
 				{

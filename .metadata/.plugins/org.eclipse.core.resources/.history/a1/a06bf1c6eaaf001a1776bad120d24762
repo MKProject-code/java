@@ -1,9 +1,0 @@
-package mkproject.maskat.ChatManager;
-
-public class TaskAsyncTimer {
-	public static Runnable AsyncTimer() {
-		return () -> {
-			
-		};
-	}
-}

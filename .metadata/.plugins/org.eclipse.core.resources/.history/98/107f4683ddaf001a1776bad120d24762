@@ -1,9 +1,0 @@
-name: MoneyManager
-main: me.maskat.MoneyManager.Plugin
-description: Money Manager
-version: 1.0.0
-author: MasKAT
-website: http://skyidea.pl/
-api-version: 1.15
-load: POSTWORLD
-depend: [MKProjectAPI]

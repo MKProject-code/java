@@ -1,6 +1,0 @@
-
-public interface PapiScheduler {
-	public void runTask() {
-		
-	}
-}

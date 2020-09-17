@@ -12,6 +12,7 @@ import mkproject.maskat.Papi.Papi;
 
 public class Plugin extends JavaPlugin {
 	public static Plugin plugin;
+	public static String PERMISSION_PREFIX = "mkp.spawnmanager";
 	
 	public void onEnable() {
 		plugin = this;

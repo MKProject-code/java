@@ -3,3 +3,7 @@
 
 Player:
    MuteDisallowedWord: "&cUżywanie słów niecenzuralnych jest zabronione!\nMasz zakaz pisania przez &630 sekund"
+   MuteDisallowedURL: "&cWysyłanie linków jest zabronione!\nMasz zakaz pisania przez &6120 sekund"
+   MuteDisallowedIP: "&cWysyłanie adresów IP jest zabronione!\nMasz zakaz pisania przez &6120 sekund"
+   MuteSpam: "&cNie spamuj!\nMasz zakaz pisania przez &630 sekund"
+   InvalidMessage: "&cPróbujesz wysłać wiadomość z błędem! Popraw ją!\n&c&oPoprawna wiadomość: {validmessage}"

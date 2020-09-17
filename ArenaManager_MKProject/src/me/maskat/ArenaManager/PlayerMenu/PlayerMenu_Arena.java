@@ -9,53 +9,85 @@ import org.bukkit.entity.Player;
 import me.maskat.ArenaManager.Models.ArenesModel;
 import me.maskat.ArenaManager.Models.ModelArenaPlayer;
 import me.maskat.ArenaManager.Models.ModelArenaTeam;
-import me.maskat.ArenaManager.PlayerMenu.PlayerMenuMain.Page;
 import me.maskat.ArenaManager.PlayerMenu.PlayerMenuMain.SlotOption;
 import mkproject.maskat.Papi.Papi;
-import mkproject.maskat.Papi.MenuInventory.InventorySlot;
-import mkproject.maskat.Papi.MenuInventory.MenuPage;
-import mkproject.maskat.Papi.MenuInventory.PapiMenuInventoryClickEvent;
+import mkproject.maskat.Papi.Menu.InventorySlot;
+import mkproject.maskat.Papi.Menu.PapiMenu;
+import mkproject.maskat.Papi.Menu.PapiMenuClickEvent;
+import mkproject.maskat.Papi.Menu.PapiMenuCloseEvent;
+import mkproject.maskat.Papi.Menu.PapiMenuPage;
 
-public class PlayerMenu_Arena {
-	public static void openMenuArena(Player player, PlayerMenuItem menuItem) {
+public class PlayerMenu_Arena implements PapiMenu {
+	private PapiMenuPage papiMenuPage;
+	private PlayerMenuItem menuItem;
+	
+	@Override
+	public PapiMenuPage getPapiMenuPage() {
+		return this.papiMenuPage;
+	}
+	
+	private PapiMenu backMenu;
+	
+	public void openMenuArena(PapiMenu backMenu, Player player, PlayerMenuItem menuItem) {
+		this.menuItem = menuItem;
+		initPapiMenu(player, 1, backMenu);
+	}
+	
+	@Override
+	public void initPapiMenu(Player player, int page, PapiMenu backMenu) {
+		if(backMenu != null)
+			this.backMenu = backMenu;
 		
-		MenuPage menuPage = PlayerMenu_Header.getMenuHeader(player, menuItem, Page.ARENA);
+		this.papiMenuPage = PlayerMenu_Header.getMenuHeader(this, player, menuItem);
 
-		menuPage.setItem(InventorySlot.ROW3_COLUMN3, Material.ENDER_PEARL, "&7Powrót", new PlayerMenuItem(menuPage, SlotOption.BACK, menuItem));
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN1, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN2, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN3, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN4, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN5, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN6, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN7, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN8, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW1_COLUMN9, Material.GRAY_STAINED_GLASS_PANE, " ");
 		
-		PlayerMenu_Header.getSlotArenaInfo(menuPage, InventorySlot.ROW3_COLUMN4, menuItem.getArenaModel());
+		//this.papiMenuPage.setItem(InventorySlot.ROW3_COLUMN3, Material.ENDER_PEARL, "&7Powrót", this.backPage);
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN1, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN2, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN3, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN4, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN5, Material.BOOK, "&7Wróć do listy aren", this.backMenu);
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN6, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN7, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN8, Material.GRAY_STAINED_GLASS_PANE, " ");
+		this.papiMenuPage.setItem(InventorySlot.ROW6_COLUMN9, Material.GRAY_STAINED_GLASS_PANE, " ");
 		
-//		String playerslist = "";
-//		List<ModelArenaPlayer> modelPlayersList = menuItem.getArenaModel().getPlayersRegistered();
-//		for(ModelArenaPlayer modelPlayer : modelPlayersList) {
-//			playerslist += "\n"+modelPlayer.getPlayer().getName();
-//		}
 		
-		//menuPage.setItem(InventorySlot.ROW3_COLUMN4, Material.PLAYER_HEAD, "Zapisani gracze: "+playerslist);
+		PlayerMenu_Header.getSlotArenaInfo(papiMenuPage, InventorySlot.ROW2_COLUMN5, menuItem.getArenaModel());
+		
 		if(ArenesModel.getPlayer(player).getRegisteredArenaId() == menuItem.getArenaModel().getId())
 		{
 			ModelArenaPlayer modelArenaPlayer = ArenesModel.getPlayer(player);
 			ModelArenaTeam modelArenaTeam = modelArenaPlayer.getRegisteredTeam();
 			String teamName = modelArenaTeam.getName();
-			menuPage.setItem(InventorySlot.ROW3_COLUMN5, Material.LIME_DYE, "&aJesteś zapisany\n&6Twoja drużyna: &e"+teamName+"\n&7Kliknij, aby się wypisać", new PlayerMenuItem(menuPage, SlotOption.UNREGISTER_IN_ARENA, menuItem));
+			this.papiMenuPage.setItem(InventorySlot.ROW3_COLUMN5, Material.LIME_DYE, "&aJesteś zapisany\n&6Twoja drużyna: &e"+teamName+"\n&7Kliknij, aby się wypisać", new PlayerMenuItem(papiMenuPage, SlotOption.UNREGISTER_IN_ARENA, menuItem));
 		}
 		else if(menuItem.getArenaModel().isAlreadyGamed() || menuItem.getArenaModel().getPlayersRegistered().size() >= menuItem.getArenaModel().getMaxPlayers())
-			menuPage.setItem(InventorySlot.ROW3_COLUMN5, Material.PINK_DYE, "&cNie możesz się teraz zapisać do tej areny");
+			this.papiMenuPage.setItem(InventorySlot.ROW3_COLUMN5, Material.PINK_DYE, "&cNie możesz się teraz zapisać do tej areny");
 		else
-			menuPage.setItem(InventorySlot.ROW3_COLUMN5, Material.NETHER_STAR, "&bZapisz się do areny\n&7Kliknij tutaj, aby wybrać losową drużynę\n&7&oUWAGA! Spowoduje to wypisanie z innych aren!", new PlayerMenuItem(menuPage, SlotOption.REGISTER_IN_ARENA, menuItem));
-		//\n&7lub wybierz ją z poniższej listy
+			this.papiMenuPage.setItem(InventorySlot.ROW3_COLUMN5, Material.NETHER_STAR, "&bZapisz się do areny\n&7Kliknij tutaj, aby wybrać losową drużynę\n&7&oUWAGA! Spowoduje to wypisanie z innych aren!", new PlayerMenuItem(papiMenuPage, SlotOption.REGISTER_IN_ARENA, menuItem));
+		
 	    int iV=3;
 	    int iH=3;
 		for (Entry<Integer, ModelArenaTeam> entry : menuItem.getArenaModel().getTeamsMap().entrySet()) {
 			if(entry.getValue().isAllowPlayers()) {
 				InventorySlot invSlot = InventorySlot.valueOf((iV*9)+iH-1);
 				List<String> playersRegisteredNames = entry.getValue().getPlayersRegisteredNames();
-				menuPage.setItem(invSlot, entry.getValue().getIcon(),
+				this.papiMenuPage.setItem(invSlot, entry.getValue().getIcon(),
 						 "&6Drużyna: &e"+entry.getValue().getName()
-						+(ArenesModel.getPlayer(player).getRegisteredTeamId() == entry.getValue().getId() ? "\n&aJesteś zapisany do tej drużyny" : menuItem.getArenaModel().isAlreadyGamed() ? "" : playersRegisteredNames.size() >= entry.getValue().getMaxPlayers() ? "" : "\n&7Kliknij tutaj, aby zapisać się to tej drużyny")
+						+(ArenesModel.getPlayer(player).getRegisteredTeamId() == entry.getValue().getId() ? "\n&aJesteś zapisany do tej drużyny" : menuItem.getArenaModel().isAlreadyGamed() ? "" : playersRegisteredNames.size() >= entry.getValue().getMaxPlayers() ? "" : "\n&7Kliknij tutaj, aby zapisać się do tej drużyny")
 						+"\n&fZapisanych: "+(playersRegisteredNames.size() == 0 ? "&7" : playersRegisteredNames.size() >= entry.getValue().getMaxPlayers() ? "&c" : "&a") + playersRegisteredNames.size() + " / " + entry.getValue().getMaxPlayers()
 						+(playersRegisteredNames.size() > 0 ? "\n&7- &o"+String.join("\n&7- &o", playersRegisteredNames) : "")
-						, new PlayerMenuItem(menuPage, SlotOption.ITEM_TEAM, menuItem.getArenaModel(), entry.getValue()));
+						, new PlayerMenuItem(this.papiMenuPage, SlotOption.ITEM_TEAM, menuItem.getArenaModel(), entry.getValue()));
 				
 				if(iH >= 7) {
 					iH=3;
@@ -67,13 +99,24 @@ public class PlayerMenu_Arena {
 		}
 		
 		
-		Papi.Model.getPlayer(player).openMenu(menuPage);
+		Papi.Model.getPlayer(player).openMenu(this.papiMenuPage);
 	}
 
-	public static void onMenuArenaClick(PapiMenuInventoryClickEvent e, PlayerMenuItem menuItem) {
+	@Override
+	public void onMenuClick(PapiMenuClickEvent e) {
+		if(e.getSlotStoreObject() == null)
+			return;
+		
+		if(e.getSlotStoreObject() instanceof PlayerMenu_List)
+		{
+			((PlayerMenu_List)e.getSlotStoreObject()).openMenuList(e.getPlayer());
+			return;
+		}
+		PlayerMenuItem menuItem = (PlayerMenuItem)e.getSlotStoreObject();
+		
 		if(menuItem.getSlotOption() == SlotOption.BACK)
 		{
-			PlayerMenu_List.openMenuList(e.getPlayer());
+			new PlayerMenu_List().openMenuList(e.getPlayer());
 			return;
 		}
 		else if(menuItem.getSlotOption() == SlotOption.REGISTER_IN_ARENA && !menuItem.getArenaModel().isAlreadyGamed() && menuItem.getArenaModel().getPlayersRegistered().size() < menuItem.getArenaModel().getMaxPlayers())
@@ -86,7 +129,7 @@ public class PlayerMenu_Arena {
 				e.getPlayer().closeInventory();
 				return;
 			}
-			openMenuArena(e.getPlayer(), menuItem);
+			this.openMenuArena(null, e.getPlayer(), menuItem);
 		}
 		else if(menuItem.getSlotOption() == SlotOption.ITEM_TEAM && !menuItem.getArenaModel().isAlreadyGamed() && menuItem.getArenaModel().getPlayersRegistered().size() < menuItem.getArenaModel().getMaxPlayers())
 		{
@@ -94,7 +137,7 @@ public class PlayerMenu_Arena {
 			{
 				//register del
 				ArenesModel.getPlayer(e.getPlayer()).unsetRegisteredArena();
-				openMenuArena(e.getPlayer(), menuItem);
+				this.openMenuArena(null, e.getPlayer(), menuItem);
 			}
 			else if(menuItem.getArenaTeamModel().getPlayersRegistered().size() < menuItem.getArenaTeamModel().getMaxPlayers())
 			{
@@ -107,14 +150,21 @@ public class PlayerMenu_Arena {
 					e.getPlayer().closeInventory();
 					return;
 				}
-				openMenuArena(e.getPlayer(), menuItem);
+				this.openMenuArena(null, e.getPlayer(), menuItem);
 			}
 		}
 		else if(menuItem.getSlotOption() == SlotOption.UNREGISTER_IN_ARENA && !menuItem.getArenaModel().isAlreadyGamed())
 		{
 			ArenesModel.getPlayer(e.getPlayer()).unsetRegisteredArena();
-			openMenuArena(e.getPlayer(), menuItem);
+			this.openMenuArena(null, e.getPlayer(), menuItem);
 		}
 	}
+
+	@Override
+	public void onMenuClose(PapiMenuCloseEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

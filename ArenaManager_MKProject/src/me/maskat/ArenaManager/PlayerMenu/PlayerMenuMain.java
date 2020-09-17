@@ -2,7 +2,7 @@ package me.maskat.ArenaManager.PlayerMenu;
 
 import org.bukkit.entity.Player;
 
-import mkproject.maskat.Papi.MenuInventory.PapiMenuInventoryClickEvent;
+import mkproject.maskat.Papi.Menu.PapiMenu;
 
 public class PlayerMenuMain {
 	
@@ -29,17 +29,10 @@ public class PlayerMenuMain {
 		EXIST
 	}
 	
-	public static void openMenu(Player player) {
-		PlayerMenu_List.openMenuList(player);
+	public static void openMenu(Player player, PapiMenu backMenu) {
+		new PlayerMenu_List().openMenuList(player, backMenu);
 	}
-	
-	public static void onPapiMenuInventoryClick(PapiMenuInventoryClickEvent e) {
-		if(!e.existSlotStoreObject() || !(e.getSlotStoreObject() instanceof PlayerMenuItem))
-			return;
-		
-		if(e.getUniquePageId() == Page.LIST)
-			PlayerMenu_List.onMenuListClick(e, (PlayerMenuItem)e.getSlotStoreObject());
-		if(e.getUniquePageId() == Page.ARENA)
-			PlayerMenu_Arena.onMenuArenaClick(e, (PlayerMenuItem)e.getSlotStoreObject());
+	public static void openMenu(Player player) {
+		new PlayerMenu_List().openMenuList(player);
 	}
 }

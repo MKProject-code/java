@@ -11,7 +11,9 @@ import mkproject.maskat.Papi.Papi;
 
 public class Plugin extends JavaPlugin {
 	private static Plugin plugin;
-	public static YamlConfiguration languagYaml;
+	private static YamlConfiguration languagYaml;
+	private static MessageFilter messageFilter;
+	private static DictionaryFilter dictionaryFilter;
 	
 	public void onEnable() {
 		plugin = this;
@@ -44,12 +46,23 @@ public class Plugin extends JavaPlugin {
 		
 		getServer().getScheduler().runTaskTimerAsynchronously(this, new TaskAsyncTimer(), 0L, 40L);
 		
+		messageFilter = new MessageFilter();
+		dictionaryFilter = new DictionaryFilter();
+		
         getLogger().info("Has been enabled!");
+	}
+	
+	public static MessageFilter getMessageFilter() {
+		return messageFilter;
+	}
+	public static DictionaryFilter getDictionaryFilter() {
+		return dictionaryFilter;
 	}
 	
 	public static void reloadAllConfigs() {
 		plugin.reloadConfig();
 		languagYaml = Papi.Yaml.registerYaml(Plugin.getPlugin(), "lang.yml");
+		dictionaryFilter.reloadDatabase();
 	}
 	
 	public static Plugin getPlugin() {

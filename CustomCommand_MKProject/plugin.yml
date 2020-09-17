@@ -6,11 +6,21 @@ author: MasKAT
 website: http://skyidea.pl/
 api-version: 1.15
 load: POSTWORLD
+depend: [MKProjectAPI]
 
 commands:
-   c:
+   konkurs:
       description: Custom Commands
+   konkursreload:
+      description: Custom Commands - Konkurs reload
+      permission: mkp.customcommand.konkursreload
 permissions:
-   mkp.customcommand.*:
-      description: Allows use custom commands
+   #/konkurs
+   mkp.adminutils.konkurs.use:
+      default: op
+   mkp.adminutils.konkurs.allowworld.*:
+      default: op
+   mkp.adminutils.konkurs.allowgamemode.*:
+      default: op
+   mkp.adminutils.konkurs.dolacz.use:
       default: op

@@ -24,6 +24,7 @@ public class Plugin extends JavaPlugin {
 		
 		getCommand("arenapluginmonsterevent").setExecutor(new ExecuteCommand());
 		
+		//SchedulerTask.allowMusicMapInitialize();
 		Papi.Scheduler.registerTimerTask(new SchedulerTask(), null, 20, 0, 0);
 		
 		getLogger().info("Has been enabled!");

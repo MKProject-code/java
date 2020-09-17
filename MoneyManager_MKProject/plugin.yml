@@ -7,3 +7,11 @@ website: http://skyidea.pl/
 api-version: 1.15
 load: POSTWORLD
 depend: [MKProjectAPI]
+
+permissions:
+   mkp.moneymanager.doublepointsreward:
+      default: op
+      
+#commands:
+#  skypoints:
+#    permission: mkp.moneymanager.skypoints.use

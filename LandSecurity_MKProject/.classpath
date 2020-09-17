@@ -8,8 +8,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="F:/Projekty własne/Minecraft Server/Plugins edit/Eclipse/libs/ProtocolLib.jar"/>
 	<classpathentry kind="lib" path="F:/Projekty własne/Minecraft Server/Plugins edit/Eclipse/libs/Vault.jar"/>
-	<classpathentry kind="lib" path="F:/Projekty własne/Minecraft Server/Plugins edit/Eclipse/libs/spigot-1.15.2.jar"/>
 	<classpathentry kind="lib" path="F:/Projekty własne/Minecraft Server/Plugins edit/Eclipse/DebugServer/plugins/MKProjectAPI.jar"/>
 	<classpathentry kind="lib" path="F:/Projekty własne/Minecraft Server/Plugins edit/Eclipse/libs/CoreProtect-2.18.2.jar"/>
+	<classpathentry kind="lib" path="F:/Projekty własne/Minecraft Server/Plugins edit/Eclipse/libs/spigot-1.16.1.jar"/>
+	<classpathentry kind="lib" path="F:/Projekty własne/Minecraft Server/Plugins edit/Eclipse/DebugServer/plugins/VipManager_MKProject.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,4 +1,4 @@
-name: ChatManager_MKProject
+name: ChatManager
 main: mkproject.maskat.ChatManager.Plugin
 description: Chat Manager by MKProject
 version: 1.0.0

@@ -19,7 +19,7 @@ public class CmdShop implements CommandExecutor {
 		if(!manager.isPersmissionUse() || !manager.isPermissionAllowGameMode() || !manager.isPermissionAllowWorld())
 			return manager.doReturn();
 		
-		new CategoriesMenu().openMenu(manager.getPlayer());
+		new CategoriesMenu().initOpenMenu(manager.getPlayer());
 		return false;
 	}
 }

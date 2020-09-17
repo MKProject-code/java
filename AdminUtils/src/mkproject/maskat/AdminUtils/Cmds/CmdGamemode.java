@@ -3,11 +3,15 @@ package mkproject.maskat.AdminUtils.Cmds;
 import java.util.List;
 
 import org.bukkit.GameMode;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+
+import mkproject.maskat.AdminUtils.Plugin;
+import mkproject.maskat.Papi.Papi;
 
 
 public class CmdGamemode implements CommandExecutor, TabCompleter  {
@@ -113,10 +117,25 @@ public class CmdGamemode implements CommandExecutor, TabCompleter  {
 		if(destPlayer == null)
 			return;
 		
-		destPlayer.setGameMode(gamemode);
+		World destPlayerWorld = destPlayer.getWorld();
+		
+		boolean protectedWorld = false;
+		
+		if(gamemode != GameMode.SURVIVAL) {
+			if(destPlayerWorld == Papi.Server.getServerLobbyWorld()
+					|| destPlayerWorld == Papi.Server.getServerSpawnWorld()
+					|| destPlayerWorld == Papi.Server.getSurvivalWorld()
+					|| destPlayerWorld == Papi.Server.getNetherWorld()
+					|| destPlayerWorld == Papi.Server.getTheEndWorld()
+					)
+				protectedWorld = true;
+		}
+		
+		if(!protectedWorld || destPlayer == manager.getPlayer())
+			destPlayer.setGameMode(gamemode);
 		
 		manager.setReturnMessage(destPlayer,
-				"&a&oZmieniłeś sobie tryb gry na &b&o"+gamemode.name(),
-				"&a&oZmieniłeś tryb gry graczowi &e&o"+destPlayer.getName() + "&a&o na &b&o"+gamemode.name());
+				"&a&oZmieniłeś sobie tryb gry na &b&o"+gamemode.name() + (!protectedWorld ? "" : "\n&c&oUWAGA! Jesteś na mapie Survival!"),
+				"&a&oZmieniłeś tryb gry graczowi &e&o"+destPlayer.getName() + "&a&o na &b&o"+gamemode.name() + (!protectedWorld ? "" : "\n&c&oUWAGA! Tryb gry nie został zmieniony! Gracz jest na mapie Survival!"));
 	}
 }

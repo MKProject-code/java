@@ -6,14 +6,19 @@ author: MasKAT
 website: http://skyidea.pl/
 api-version: 1.15
 load: POSTWORLD
+#depend: [IridiumSkyblock]
+#depend: [IridiumSkyblock,Parties]
+#loadbefore: [WorldGuard]
 
 commands:
   worldmanager:
     description: Reload the configuration
     permission: mkp.worldmanager.reload
-    usage: "Did you mean to run '/worldmanager reload'?"
     
 permissions:
    mkp.worldmanager.bypass.gamemode:
+      description: Bypass for gamemode switch when player teleport between worlds
+      default: op
+   mkp.worldmanager.bypass.spectatorteleport:
       description: Bypass for gamemode switch when player teleport between worlds
       default: op

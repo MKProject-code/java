@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -17,7 +18,6 @@ import mkproject.maskat.Papi.Model.PapiPlayerLoginEvent;
 import mkproject.maskat.Papi.Utils.Message;
 
 public class Event implements Listener {
-	
 	@EventHandler
 	public void onPlayerJoinEvent(PlayerJoinEvent e) {
 		Object userid = Papi.MySQL.get(Database.Users.ID, Database.Users.USERNAME, "=", e.getPlayer().getName().toLowerCase(), Database.Users.TABLE);
@@ -61,6 +61,16 @@ public class Event implements Listener {
 			return;
 		}
 		
+		if(Papi.Model.getPlayer(e.getPlayer()).getSurvivalLastLocation() != null && 
+				e.getPlayer().getLocation().getWorld() != Papi.Server.getSurvivalWorld() && 
+				!e.getPlayer().getLocation().getWorld().getName().equals("world_nether") && 
+				!e.getPlayer().getLocation().getWorld().getName().equals("world_the_end") && 
+				!e.getPlayer().getLocation().getWorld().getName().equals("world_lobby"))
+		{
+			e.setRespawnLocation(Papi.Model.getPlayer(e.getPlayer()).getSurvivalLastLocation());
+			return;
+		}
+		
 		if(e.getPlayer().getBedSpawnLocation() == null)
 		{
 			if(Papi.Model.getPlayer(e.getPlayer()).getPlayerSpawnLocation() != null)
@@ -97,21 +107,36 @@ public class Event implements Listener {
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Plugin.getPlugin(), new Runnable() {
 		      @Override
 		      public void run() {
-		  		if(player.getWorld() == Papi.Server.getServerSpawnWorld())
-		  		{
-		  				if(Papi.Model.getPlayer(player).getPlayerSpawnLocation() == null)
-		  				{
-							Message.sendActionBar(player, "&eSzukamy dla ciebie bezpiecznego miejsca do odrodzenia na mapie survival...");
-							onPlayerJoinTaskAsync(player);
-		  				}
-		  				else
-		  					Message.sendActionBar(player, "&aZnaleźliśmy dla ciebie bezpieczne miejsca do odrodzenia na mapie survival!");
-		  		}
+		    	  Plugin.getPlugin().getLogger().warning("Checking generate safe location for player: "+player.getName());
+		    	  if(player.getWorld() == Papi.Server.getServerSpawnWorld())
+		    	  {
+		    		  if(Papi.Model.getPlayer(player).getPlayerSpawnLocation() == null)
+		    		  {
+		    			  Message.sendActionBar(player, "&eSzukamy dla ciebie bezpiecznego miejsca do odrodzenia na mapie survival...");
+		    			  onPlayerJoinTaskAsync(player);
+		    		  }
+		    		  else
+		    		  {
+		    			  Plugin.getPlugin().getLogger().warning("Succes finded safe location for player: "+player.getName());
+		    			  Message.sendActionBar(player, "&aZnaleźliśmy dla ciebie bezpieczne miejsca do odrodzenia na mapie survival!");
+		    		  }
+		    	  }
 		      }}, 40L);
 	}
 	
 	@EventHandler
 	public void onPlayerDeathEvent(PlayerDeathEvent e) {
 		e.setDeathMessage(Message.getColorMessage("&8&o"+e.getDeathMessage()));
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPlayerDeathEventHigh(PlayerDeathEvent e) {
+		if(e.getEntity().getLocation().getWorld() == Papi.Server.getServerSpawnWorld())
+		{
+			e.setKeepInventory(true);
+			e.setKeepLevel(true);
+			e.getDrops().clear();
+			e.setDroppedExp(0);
+		}
 	}
 }

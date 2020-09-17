@@ -65,7 +65,7 @@ public class ExecuteCmd implements CommandExecutor {
 	            		return false;
 	            	}
 	            	
-	            	if(player.getWorld() != Bukkit.getServer().getWorld(Config.allowWorld))
+	            	if(player.getWorld() != Plugin.getAllowedWorld())
 	            	{
 	            		player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cNie możesz tego zrobić w tym świecie!"));
 	            		return false;

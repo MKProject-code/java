@@ -6,11 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 
 import mkproject.maskat.Papi.Papi;
-import mkproject.maskat.PortalManager.Config.ConfigKey;
 import mkproject.maskat.PortalManager.Teleport.Portal;
 
 public class Event implements Listener {
@@ -30,7 +30,7 @@ public class Event implements Listener {
 		
 		if(Model.existPlayer(e.getPlayer()))
 		{
-			Plugin.getPlugin().getLogger().info("Player '"+e.getPlayer().getName()+"' cancelled use "+e.getCause().toString());
+			//Plugin.getPlugin().getLogger().info("Player '"+e.getPlayer().getName()+"' cancelled use "+e.getCause().toString());
 			e.setCancelled(true);
 			return;
 		}
@@ -41,14 +41,20 @@ public class Event implements Listener {
 			return;
 		}
 		
-		Plugin.getPlugin().getLogger().info("Player '"+e.getPlayer().getName()+"' cancelled use "+e.getCause().toString());
+		//Plugin.getPlugin().getLogger().info("Player '"+e.getPlayer().getName()+"' cancelled use "+e.getCause().toString());
 		e.setCancelled(true);
 	}
 	
 	@EventHandler
+	public void onEntityPortalEvent(EntityPortalEvent e) {
+		if(!e.getFrom().getWorld().getName().equalsIgnoreCase("world") && !e.getFrom().getWorld().getName().equalsIgnoreCase("world_nether") && !e.getFrom().getWorld().getName().equalsIgnoreCase("world_the_end"))
+			e.setCancelled(true);
+	}
+	
+	@EventHandler
 	public void onPlayerMoveEvent(PlayerMoveEvent e) {
-		if(!e.getTo().getWorld().getName().equalsIgnoreCase(Config.getString(ConfigKey.CustomPortalsWorldName)))
-			return;
+//		if(!e.getTo().getWorld().getName().equalsIgnoreCase(Config.getString(ConfigKey.CustomPortalsWorldName)))
+//			return;
 		
 		if(Model.existPlayer(e.getPlayer()) && Model.getPlayer(e.getPlayer()).isTeleporting())
 			return;

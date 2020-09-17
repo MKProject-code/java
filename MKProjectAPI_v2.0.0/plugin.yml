@@ -1,0 +1,14 @@
+name: MKProjectAPI
+main: mkproject.maskat.Papi.PapiPlugin
+description: API for MKProject by MasKAT
+version: 1.0.0
+author: MasKAT Project
+website: http://skyidea.pl/
+api-version: 1.15
+load: POSTWORLD
+softdepend: [Vault,WorldEdit,WorldManager,StatsManager,BungeeManager]
+
+permissions:
+   mkp.papi.teleportcooldownbypass:
+      description: Allows use teleports without cooldown
+      default: op

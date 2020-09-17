@@ -1,8 +1,0 @@
-package me.maskat.CommandBlocker;
-
-public class CommandModel {
-	String command;
-	String world;
-	String groups;
-	
-}

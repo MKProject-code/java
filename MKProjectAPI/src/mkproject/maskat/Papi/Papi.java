@@ -51,6 +51,9 @@ public class Papi {
 		public static YamlConfiguration registerYaml(final JavaPlugin plugin, final String fileName) {
 			return PapiConfigManager.registerYaml(plugin, fileName);
 		}
+		public static void saveYaml(final JavaPlugin plugin, final String fileName, final YamlConfiguration yamlConfiguration) {
+			PapiConfigManager.saveYaml(plugin, fileName, yamlConfiguration);
+		}
 	}
 	public static class Vault {
 		public static Economy getEconomy() {
@@ -159,8 +162,11 @@ public class Papi {
 	    	return PapiFunction.getCurrentLocalDateTimeToString();
 		}
 	    public static LocalDateTime getLocalDateTimeFromString(String datetime) {
-	    	return PapiFunction.getLocalDateTimeFromString(datetime);
+	    	return PapiFunction.getLocalDateTimeFromString(datetime, null);
 		}
+	    public static LocalDateTime getLocalDateTimeFromString(String datetime, String pattern) {
+	    	return PapiFunction.getLocalDateTimeFromString(datetime, pattern);
+	    }
 	    public static String getLocalDateTimeToString(LocalDateTime datetime) {
 	    	return PapiFunction.getLocalDateTimeToString(datetime);
 	    }
@@ -179,10 +185,22 @@ public class Papi {
 	    public static double getTPS() {
 	    	return TPS.getTPS();
 	    }
+	    public static ItemStack getCustomSkull(String headBase64) {
+	    	return PapiFunction.getCustomSkull(headBase64);
+	    }
+	    public static ItemStack getCustomSkull(PapiHeadBase64 papiHeadBase64) {
+	    	return PapiFunction.getCustomSkull(papiHeadBase64.getValue());
+	    }
+		public static String getRemainingTimeString(LocalDateTime datetimeExpires) {
+			return PapiFunction.getRemainingTimeString(datetimeExpires);
+		}
 	}
 	public static class ItemUtils {
 		public static ItemStack addLore(ItemStack itemStack, List<String> loresList) {
 			return PapiItemUtils.addLore(itemStack, loresList);
+		}
+		public static ItemStack addGlow(ItemStack itemStack) {
+			return PapiItemUtils.addGlow(itemStack);
 		}
 	}
 	public static class Convert {
@@ -227,13 +245,13 @@ public class Papi {
 //	    public static int put(final String columns, final String values, final String table) {
 //	    	return PapiSQL.insertData(columns, values, table);
 //	    }
-	    public static int put(Map<String, String> columnsValuesMap, final String table) {
+	    public static int put(Map<String, Object> columnsValuesMap, final String table) {
 	    	String columns = "";
 	    	String values = "";
 
-	    	for (Map.Entry<String,String> entry : columnsValuesMap.entrySet()) {  
+	    	for (Map.Entry<String,Object> entry : columnsValuesMap.entrySet()) {  
 	    		columns = columns+"`"+entry.getKey().replace("`", "\\`")+"`,";
-	    		values = values+"'"+entry.getValue().replace("'", "\\'")+"',";
+	    		values = values+"'"+String.valueOf(entry.getValue()).replace("'", "\\'")+"',";
 	    	}
 	    	
 	    	if(columns.length() > 0 && values.length() > 0)
@@ -258,6 +276,23 @@ public class Papi {
 	    	else
 	    		return false;
 	    }
+	    public static boolean setOrderBy(int limit, Map<String, Object> columnsValuesMap, final String where_column, final String logic_gate, Object where_data, final String orderByColumn, final String OrderType, final String table) {
+	    	String changeSet = "";
+	    	
+	    	for (Map.Entry<String,Object> entry : columnsValuesMap.entrySet()) {
+	    		if(entry.getValue() == null || String.valueOf(entry.getValue()).length() <= 0)
+	    			changeSet = changeSet+"`"+entry.getKey().replace("`", "\\`")+"`=NULL,";
+	    		else if(entry.getValue() instanceof Boolean)
+	    			changeSet = changeSet+"`"+entry.getKey().replace("`", "\\`")+"`="+String.valueOf(entry.getValue())+",";
+	    		else
+	    			changeSet = changeSet+"`"+entry.getKey().replace("`", "\\`")+"`='"+String.valueOf(entry.getValue()).replace("'", "\\'")+"',";
+	    	}
+	    	
+	    	if(changeSet.length() > 0)
+	    		return PapiSQL.setMultiOrderBy(limit, changeSet.substring(0, changeSet.length()-1), where_column, logic_gate, where_data, orderByColumn, OrderType, table);
+	    	else
+	    		return false;
+	    }
 //	    public static boolean set(final String key, Object value, final String where_column, final String logic_gate, Object where_data, final String table) {
 //	    	return PapiSQL.set(key, value, where_column, logic_gate, where_data, table);
 //	    }
@@ -276,11 +311,23 @@ public class Papi {
 		public static boolean createTable(final String table, final String columns) {
 			return PapiSQL.createTable(table, columns);
 		}
+	    public static ResultSet getResultSetAll(final int limit, final String select, final String table) {
+	    	return PapiSQL.getResultSetAll(limit, select, table);
+	    }
 	    public static ResultSet getResultSetAll(final int limit, final String select, final String getWhereObject, final String table) {
 	    	return PapiSQL.getResultSetAll(limit, select, getWhereObject, table);
 	    }
-	    public static ResultSet getResultSetAll(final int limit, final String select, final String table) {
-	    	return PapiSQL.getResultSetAll(limit, select, table);
+	    public static ResultSet getResultSetAllOrderBy(final int limit, final List<String> selects, final String getWhereObject, final String orderByColumn, final String OrderType, final String table) {
+	    	return PapiSQL.getResultSetAllOrderBy(limit, selects, getWhereObject, orderByColumn, OrderType, table);
+	    }
+	    public static ResultSet getResultSetAllOrderBy(final int limit, final String select, final String orderByColumn, final String OrderType, final String table) {
+	    	return PapiSQL.getResultSetAllOrderBy(limit, List.of(select), orderByColumn, OrderType, table);
+	    }
+	    public static ResultSet getResultSetAllOrderBy(final int limit, final List<String> selects, final String orderByColumn, final String OrderType, final String table) {
+	    	return PapiSQL.getResultSetAllOrderBy(limit, selects, orderByColumn, OrderType, table);
+	    }
+	    public static ResultSet getResultSetAllOrderBy(final int limit, final List<String> selects, final String getWhereObject, final List<String> orderByColumn, List<String> OrderType, final String table) {
+	    	return PapiSQL.getResultSetAllOrderBy(limit, selects, getWhereObject, orderByColumn, OrderType, table);
 	    }
 	    public static boolean deleteData(final String column, final String logic_gate, String data, final String table) {
 	    	return PapiSQL.deleteData(column, logic_gate, data, table);
@@ -303,7 +350,7 @@ public class Papi {
 			if(getWhereObjects.length > 1)
 			{
 				for(String getWhereObject : getWhereObjects) {
-					args = args+getWhereObject+" AND ";
+					args = args+"("+getWhereObject+") AND ";
 				}
 				args = args.substring(0, args.length() - 5);
 			}
@@ -316,7 +363,7 @@ public class Papi {
 			if(getWhereObjects.length > 1)
 			{
 				for(String getWhereObject : getWhereObjects) {
-					args = args+getWhereObject+" OR ";
+					args = args+"("+getWhereObject+") OR ";
 				}
 				args = args.substring(0, args.length() - 4);
 			}
@@ -371,6 +418,12 @@ public class Papi {
 	public static class Server {
 		public static World getServerSpawnWorld() {
 			return PapiServer.getServerSpawnWorld();
+		}
+		public static World getServerLobbyWorld() {
+			return PapiServer.getServerLobbyWorld();
+		}
+		public static Location getServerLobbyLocation() {
+			return PapiServer.getServerLobbyLocation();
 		}
 		public static Location getServerSpawnLocation() {
 			return PapiServer.getServerSpawnLocation();
