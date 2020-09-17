@@ -169,7 +169,6 @@ public class PapiMySQL
 	    try {
 	        final Statement st = getConnection().createStatement();
 	        rs = st.executeQuery(command);
-	        st.close();
 	    }
 	    catch (Exception e) {
 	        final String message = e.getMessage();
@@ -179,7 +178,6 @@ public class PapiMySQL
 	            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Error: " + message);
 	        }
 	    }
-	    disconnect(false);
 	    return rs;
 	}
 }

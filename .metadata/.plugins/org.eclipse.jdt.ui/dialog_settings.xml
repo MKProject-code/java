@@ -59,11 +59,12 @@
 		<item key="JarManifestWizardPage.MANIFEST_LOCATION" value=""/>
 		<item key="JarManifestWizardPage.SEAL_JAR" value="false"/>
 		<list key="JarPackageWizardPage.DESTINATION_NAMES_ID">
-			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\InventoryManager_MKProject.jar"/>
-			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\LoginManager_MKProject.jar"/>
-			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\AdminUtils_MKProject.jar"/>
 			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\MKProjectAPI_v2.0.0.jar"/>
 			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\MiniGamesManager_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\InventoryManager_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\pierwszyplugin.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\LoginManager_MKProject.jar"/>
+			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\AdminUtils_MKProject.jar"/>
 			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\WolfSecurity_MKProject.jar"/>
 			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\MenuHelpManager_MKProject.jar"/>
 			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\ShopManager_MKProject.jar"/>
@@ -78,7 +79,6 @@
 			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\WorldEditTools_MKProject.jar"/>
 			<item value="F:\Projekty wlasne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\MoneyManager_MKProject.jar"/>
 			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\MoneyManager_MKProject.jar"/>
-			<item value="F:\Projekty własne\Minecraft Server\Plugins edit\Eclipse\DebugServer\plugins\WorldManager_MKProject.jar"/>
 		</list>
 	</section>
 	<section name="WorkingSetModelAwareSelectionDialog">

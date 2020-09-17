@@ -22,13 +22,14 @@ public class ModelPlayer {
 
 	public ModelPlayer(Player player) {
 		this.player = player;
-
+		Papi.Debug.setDebug(true);
 		if (!Papi.MySQL.exists(Database.Inv.NAME, "=", player.getName().toLowerCase(), Database.Inv.TABLE))
 		{
 			Papi.MySQL.put(Map.of(Database.Inv.NAME, player.getName().toLowerCase()), Database.Inv.TABLE);
 			if(player.getGameMode() == GameMode.SURVIVAL)
 				this.saveInventory(GameMode.SURVIVAL);
 		}
+		Papi.Debug.setDebug(false);
 	}
 
 	public void saveInventory(GameMode gameMode) {

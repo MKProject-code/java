@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="Region"/>
+		<item key="selection" value="exist"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="exist"/>
+			<item value="query"/>
+			<item value="quert"/>
+			<item value="update"/>
 			<item value="region"/>
 			<item value="return"/>
 			<item value="func"/>
@@ -19,10 +23,6 @@
 			<item value="logger"/>
 			<item value="position"/>
 			<item value="skypoints.use"/>
-			<item value="multi"/>
-			<item value="debug"/>
-			<item value="ACTIONS_GROUP_NOT_FOUND"/>
-			<item value="with task"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>

@@ -96,7 +96,7 @@ public class GameModel {
 	private void checkGameStart() {
 //		if(this.playersMax <= 1)
 //			return;
-		if(this.playersMax <= 0)
+		if(this.playersMax <= 0 || this.started)
 			return;
 		
 		Collection<Player> playersGame = this.getPlayers();
@@ -142,8 +142,8 @@ public class GameModel {
 			public void run() {
 				if(getPlayers().size() >= playersNeed)
 					runGame();
-				else
-					timer = null;
+				
+				timer = null;
 			}
 		}, 30L*20L);
 	}
@@ -157,6 +157,9 @@ public class GameModel {
 	}
 	
 	private void runGame() {
+		if(this.started)
+			return;
+		
 		this.started = true;
 		
 		GamesManager.deleteLobby(this.miniGame);
@@ -208,7 +211,12 @@ public class GameModel {
 	}
 	public void setGameClosed(boolean closed) {
 		this.closed = closed;
-		this.boardObjective.unregister();
+		try {
+			this.boardObjective.unregister();
+		}
+		catch(IllegalStateException e) {
+			Message.sendConsoleInfo(Plugin.getPlugin(), ">>>>>>>> Scoreboard objective undegister error -> " + e.getMessage());
+		}
 	}
 	public void quitPlayer(Player playerQuit) {
 		if(this.started) {

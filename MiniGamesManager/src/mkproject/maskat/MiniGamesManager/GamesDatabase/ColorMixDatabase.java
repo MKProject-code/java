@@ -11,31 +11,33 @@ import mkproject.maskat.Papi.Papi;
 
 public abstract class ColorMixDatabase extends GameController {
 
+	public final static MiniGame miniGame = MiniGame.ColorMix;
+	
 	protected Location locDef1;
 	protected Location locDef2;
 	protected Location locPlay1;
 	protected Location locPlay2;
 	
 	public ColorMixDatabase(World world) {
-		super(world, MiniGame.ColorMix);
+		super(world, miniGame);
 		
-		World locDefWorld = Bukkit.getWorld(Database.getPropertyString(this.miniGame, world, "Platform.Default.World"));
+		World locDefWorld = Bukkit.getWorld(Database.getPropertyString(miniGame, world, "Platform.Default.World"));
 		if(locDefWorld==null) return;
 		
 		this.locDef1 = new Location(locDefWorld,
-				Database.getPropertyInt(this.miniGame, world, "Platform.Default.X1"),
-				Database.getPropertyInt(this.miniGame, world, "Platform.Default.Y1"),
-				Database.getPropertyInt(this.miniGame, world, "Platform.Default.Z1")
+				Database.getPropertyInt(miniGame, world, "Platform.Default.X1"),
+				Database.getPropertyInt(miniGame, world, "Platform.Default.Y1"),
+				Database.getPropertyInt(miniGame, world, "Platform.Default.Z1")
 				);
 		this.locDef2 = new Location(locDefWorld,
-				Database.getPropertyInt(this.miniGame, world, "Platform.Default.X2"),
-				Database.getPropertyInt(this.miniGame, world, "Platform.Default.Y2"),
-				Database.getPropertyInt(this.miniGame, world, "Platform.Default.Z2")
+				Database.getPropertyInt(miniGame, world, "Platform.Default.X2"),
+				Database.getPropertyInt(miniGame, world, "Platform.Default.Y2"),
+				Database.getPropertyInt(miniGame, world, "Platform.Default.Z2")
 				);
 		this.locPlay1 = new Location(world,
-				Database.getPropertyInt(this.miniGame, world, "Platform.Play.X1"),
-				Database.getPropertyInt(this.miniGame, world, "Platform.Play.Y1"),
-				Database.getPropertyInt(this.miniGame, world, "Platform.Play.Z1")
+				Database.getPropertyInt(miniGame, world, "Platform.Play.X1"),
+				Database.getPropertyInt(miniGame, world, "Platform.Play.Y1"),
+				Database.getPropertyInt(miniGame, world, "Platform.Play.Z1")
 				);
 		this.locPlay2 = new Location(world,
 				this.locPlay1.getBlockX() + (Papi.Function.getDifference(this.locDef1.getBlockX(), this.locDef2.getBlockX()) * (this.locDef2.getBlockX() > this.locDef1.getBlockX() ? 1 : -1)),

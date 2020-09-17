@@ -8,6 +8,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import mkproject.maskat.MiniGamesManager.Game.GamesManager;
 import mkproject.maskat.MiniGamesManager.Game.MiniGame;
@@ -33,12 +37,16 @@ public class GameController {
 		GamesManager.closeGame(this.miniGame, this.world);
 	}
 	
-	protected void kickPlayer(Player player, boolean withTeleport) {
+	protected void kickPlayerToSpect(Player player, boolean withTeleport) {
 		player.setGameMode(GameMode.SPECTATOR);
 		if(withTeleport)
 			GamesManager.teleportSafe(player, this.world.getSpawnLocation());
 		
 		player.playSound(player.getLocation(), Sound.BLOCK_CONDUIT_DEACTIVATE, 1f, 1f);
+	}
+	
+	protected boolean teleportPlayerToStart(Player player) {
+		return GamesManager.teleportSafe(player, this.world.getSpawnLocation());
 	}
 	
 	protected void broadcastEndGame(Player winner) {
@@ -50,6 +58,38 @@ public class GameController {
 		
 		for(Player p : Bukkit.getOnlinePlayers())
 			Message.sendMessage(p, GamesManager.getMessagePrefix(this.miniGame)+"&6&lDołącz do zabawy! &e&l/"+this.miniGame.name().toLowerCase());
+	}
+	
+	protected void addPlayersEquip(ItemStack itemStack, boolean fullHotbar) {
+		for(Player player : GamesManager.getPlayers(this.world)) {
+			this.addPlayerEquip(player, itemStack, fullHotbar);
+		}
+	}
+	
+	protected void addPlayerEquip(Player player, ItemStack itemStack, boolean fullHotbar) {
+		player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1f, 1f);
+		
+		PlayerInventory playerInv = player.getInventory();
+		
+		if(fullHotbar) {
+			for(int i=0;i<9;i++)
+				playerInv.setItem(i, itemStack);
+		}
+		else
+		{
+			// TODO !!! check if eq is full?
+			playerInv.addItem(itemStack);
+		}
+	}
+	
+	protected void addPlayersPotion(PotionEffectType type, int duration, int amplifier) {
+		for(Player player : GamesManager.getPlayers(this.world)) {
+			this.addPlayerPotion(player, type, duration, amplifier);
+		}
+	}
+	
+	protected void addPlayerPotion(Player player, PotionEffectType type, int duration, int amplifier) {
+		player.addPotionEffect(new PotionEffect(type, duration, amplifier));
 	}
 	
 	//Methods to override below

@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -23,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import mkproject.maskat.MiniGamesManager.Database;
 import mkproject.maskat.MiniGamesManager.Plugin;
 import mkproject.maskat.MiniGamesManager.Game.GamesManager;
+import mkproject.maskat.MiniGamesManager.Game.MiniGame;
 import mkproject.maskat.MiniGamesManager.GamesDatabase.ColorMixDatabase;
 import mkproject.maskat.Papi.Papi;
 import mkproject.maskat.Papi.Utils.Message;
@@ -56,17 +58,15 @@ public class ColorMixController extends ColorMixDatabase {
 		if(e.getTo().getBlockY() <= 0)
 		{
 			if(this.startedGame)
-				this.kickPlayer(e.getPlayer(), true);
+				this.kickPlayerToSpect(e.getPlayer(), true);
 			else
-			{
-				GamesManager.teleportSafe(e.getPlayer(), this.world.getSpawnLocation());
-			}
+				this.teleportPlayerToStart(e.getPlayer());
 		}
 	}
 	@Override
 	public void onPlayerRespawn(PlayerRespawnEvent e) {
 		if(this.startedGame)
-			this.kickPlayer(e.getPlayer(), false);
+			this.kickPlayerToSpect(e.getPlayer(), false);
 		else if(!this.endedGame)
 			this.joinPlayer(e.getPlayer());
 		else
@@ -79,11 +79,6 @@ public class ColorMixController extends ColorMixDatabase {
 	
 	@Override
 	public void joinPlayer(Player player) {
-		List<Player> playersWorld = this.world.getPlayers();
-		
-		for(Player p : playersWorld)
-			Message.sendTitle(p, null, "&eStań na odpowiednim kolorze!");
-		
 		GamesManager.initPlayer(player, GameMode.ADVENTURE);
 	}
 	
@@ -92,12 +87,8 @@ public class ColorMixController extends ColorMixDatabase {
 		if(!super.startGame())
 			return false;
 		
-		List<Player> playersWorld = this.world.getPlayers();
-		
-		for(Player p : playersWorld)
-		{
-			Message.sendTitle(p, null, "&eStań na odpowiednim kolorze!");
-		}
+		for(Player player : this.world.getPlayers())
+			Message.sendTitle(player, null, "&eStań na odpowiednim kolorze!");
 		
 		doNextRound(null);
 		
@@ -135,12 +126,12 @@ public class ColorMixController extends ColorMixDatabase {
 		if(lastChoosenMaterial != null)
 			this.materials.add(lastChoosenMaterial);
 		
-		round++;
-		for(Player player : GamesManager.getPlayers(world)) {
-			player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1f, 1f);
+		this.round++;
+		ItemStack itemStack = new ItemStack(choosenMaterial);
+		
+		for(Player player : GamesManager.getPlayers(this.world)) {
+			this.addPlayerEquip(player, itemStack, true);
 			player.setLevel(this.round);
-			for(int i=0;i<9;i++)
-				player.getInventory().setItem(i, new ItemStack(choosenMaterial));
 		}
 		
 		this.timerMoveToColor(choosenMaterial);
@@ -240,5 +231,4 @@ public class ColorMixController extends ColorMixDatabase {
 //		long delay = 100L;
 //		timer.schedule(task, delay);
 //	}
-
 }

@@ -5,7 +5,8 @@ import org.bukkit.Material;
 import mkproject.maskat.Papi.Menu.InventorySlot;
 
 public enum MiniGame {
-	ColorMix(InventorySlot.ROW2_COLUMN1, Material.GREEN_CONCRETE);
+	ColorMix(InventorySlot.ROW2_COLUMN1, Material.GREEN_CONCRETE),
+	Sumo(InventorySlot.ROW2_COLUMN2, Material.STICK);
 
 	private InventorySlot menuSlot;
 	private Material menuIcon;

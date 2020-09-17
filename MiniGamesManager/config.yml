@@ -9,12 +9,12 @@ MySQL:
 Games:
 #   ColorMix:
 #      Worlds:
-#         world:
+#         world_colormix:
 #            PlayersNeed: 5
 #            PlayersMax: 20
 #            Platform:
 #               Default:
-#                  World: world
+#                  World: world_colormix_default
 #                  X1: -25
 #                  Y1: 75
 #                  Z1: 10
@@ -25,3 +25,11 @@ Games:
 #                  X1: -30
 #                  Y1: 100
 #                  Z1: 20
+#   Sumo:
+#      Worlds:
+#         world_sumo:
+#            PlayersNeed: 5
+#            PlayersMax: 20
+#            Platform:
+#               Play:
+#                  Y: 100

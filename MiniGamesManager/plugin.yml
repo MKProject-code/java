@@ -22,6 +22,9 @@ commands:
   colormix:
     description: Join to MiniGame
     permission: mkp.minigamesmanager.menu
+  sumo:
+    description: Join to MiniGame
+    permission: mkp.minigamesmanager.menu
 
 #permissions:
 #   mkp.loginmanager.abortremoveexpwhenjoineddead:

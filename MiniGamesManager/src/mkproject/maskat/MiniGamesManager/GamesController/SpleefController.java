@@ -57,7 +57,7 @@ public class SpleefController extends SpleefDatabase {
 		if(e.getTo().getBlockY() <= 0)
 		{
 			if(this.startedGame)
-				this.kickPlayer(e.getPlayer(), true);
+				this.kickPlayerToSpect(e.getPlayer(), true);
 			else
 			{
 				GamesManager.teleportSafe(e.getPlayer(), this.world.getSpawnLocation());
@@ -67,7 +67,7 @@ public class SpleefController extends SpleefDatabase {
 	@Override
 	public void onPlayerRespawn(PlayerRespawnEvent e) {
 		if(this.startedGame)
-			this.kickPlayer(e.getPlayer(), false);
+			this.kickPlayerToSpect(e.getPlayer(), false);
 		else if(!this.endedGame)
 			this.joinPlayer(e.getPlayer());
 		else

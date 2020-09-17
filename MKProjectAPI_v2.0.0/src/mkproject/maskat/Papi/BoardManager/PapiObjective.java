@@ -31,7 +31,7 @@ public class PapiObjective {
 		this.objective = papiBoard.board.registerNewObjective(name, criteria, Message.getColorMessage(displayNameColor), renderType);
 		this.objective.setDisplaySlot(displaySlot);
 	}
-	public void unregister() {
+	public void unregister() throws IllegalStateException {
 		this.objective.unregister();
 	}
 
