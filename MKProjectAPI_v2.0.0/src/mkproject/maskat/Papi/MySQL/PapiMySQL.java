@@ -117,7 +117,7 @@ public class PapiMySQL
 	    try {
 	        final Statement st = getConnection().createStatement();
 	        st.executeUpdate(command);
-	        st.close();
+	        //st.close();
 	    }
 	    catch (Exception e) {
 	        final String message = e.getMessage();
@@ -127,7 +127,7 @@ public class PapiMySQL
 	            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Error: " + message);
 	        }
 	    }
-	    disconnect(false);
+	    //disconnect(false);
 	    return true;
 	}
 	
@@ -146,7 +146,7 @@ public class PapiMySQL
 			if (rs.next()) {
 				generatedKey = rs.getInt(1);
 			}
-			st.close();
+			//st.close();
 		}
 		catch (Exception e) {
 			final String message = e.getMessage();
@@ -156,7 +156,7 @@ public class PapiMySQL
 				Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Error: " + message);
 			}
 		}
-		disconnect(false);
+		//disconnect(false);
 		return generatedKey;
 	}
 	
