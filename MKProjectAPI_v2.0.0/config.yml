@@ -1,9 +1,9 @@
 
 MySQL:
-   Hostname: '192.168.1.10'
-   Port: '6736'
+   Hostname: 'localhost'
+   Port: '6603'
    Username: 'minecraft_server'
-   Password: '69Uri6Us4cSnpZ0W'
+   Password: 'password'
    Database: 'minecraft_gildie'
    SSL: True
    DebugConsole: True
