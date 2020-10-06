@@ -263,9 +263,12 @@ abstract public class Database {
 		public static final String IGNORE_CHECK_BAN = "ignore_check_ban";
 		
 		public static int addBan(Player player, LocalDateTime endDatetime, Player admin, String reason) {
+			return addBan(player, endDatetime, admin, reason, true);
+		}
+		public static int addBan(Player player, LocalDateTime endDatetime, Player admin, String reason, boolean ipBan) {
 			Map<String, Object> columnsValuesMap = new HashMap<>();
 			columnsValuesMap.put(USERNAME, player.getName().toLowerCase());
-			columnsValuesMap.put(USERIP, Papi.Model.getPlayer(player).getAddressIP());
+			columnsValuesMap.put(USERIP, ipBan ? Papi.Model.getPlayer(player).getAddressIP() : "");
 			columnsValuesMap.put(DATETIME, Papi.Function.getCurrentLocalDateTimeToString());
 			columnsValuesMap.put(DATETIME_END, endDatetime == null ? null : Papi.Function.getLocalDateTimeToString(endDatetime));
 			columnsValuesMap.put(ADMIN, admin == null ? "*SERVER*" : admin.getName());
@@ -281,10 +284,14 @@ abstract public class Database {
 //					REASON, reason
 //					), TABLE);
 		}
+		
 		public static int addBanOffline(OfflinePlayer player, LocalDateTime endDatetime, Player admin, String reason) {
+			return addBanOffline(player, endDatetime, admin, reason, true);
+		}
+		public static int addBanOffline(OfflinePlayer player, LocalDateTime endDatetime, Player admin, String reason, boolean ipBan) {
 			Map<String, Object> columnsValuesMap = new HashMap<>();
 			columnsValuesMap.put(USERNAME, player.getName().toLowerCase());
-			columnsValuesMap.put(USERIP, UsersAPI.getPlayerLastLoginIP(player.getUniqueId()));
+			columnsValuesMap.put(USERIP, ipBan ? UsersAPI.getPlayerLastLoginIP(player.getUniqueId()) : "");
 			columnsValuesMap.put(DATETIME, Papi.Function.getCurrentLocalDateTimeToString());
 			columnsValuesMap.put(DATETIME_END, endDatetime == null ? null : Papi.Function.getLocalDateTimeToString(endDatetime));
 			columnsValuesMap.put(ADMIN, admin == null ? "*SERVER*" : admin.getName());

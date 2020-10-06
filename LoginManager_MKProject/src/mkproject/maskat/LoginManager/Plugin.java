@@ -3,7 +3,9 @@ package mkproject.maskat.LoginManager;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 
+import org.apache.logging.log4j.LogManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -48,6 +50,15 @@ public class Plugin extends JavaPlugin {
 		
 		getServer().getPluginManager().registerEvents(eventHandler, this);
         
+		//For 1.6.x or older
+		//getLogger().setFilter(new LoggerFilter());
+		
+//		dla nowszych wersji mc:
+//        Class.forName("org.apache.logging.log4j.core.filter.AbstractFilter");
+//        org.apache.logging.log4j.core.Logger logger;
+//        logger = (org.apache.logging.log4j.core.Logger) LogManager.getRootLogger();
+//        logger.addFilter(new Log4JFilter());
+		
 		if(Papi.DEVELOPER_DIRECTORY_AUTODELETE) {
 			try {
 				FileUtils.deleteDirectory(getDataFolder());

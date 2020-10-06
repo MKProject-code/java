@@ -74,7 +74,7 @@ public class Event implements Listener {
     
     @EventHandler
     public void onAsyncPlayerPreLoginEvent(AsyncPlayerPreLoginEvent e) {
-    	if(e.getName() == null || e.getName().length() < 3 || e.getName().length() > 16 || !e.getName().matches("^[a-zA-Z0-9_]*$") || e.getName().charAt(0) == '_' || e.getName().charAt(e.getName().length()-1) == '_')
+    	if(e.getName() == null || e.getName().length() < 3 || e.getName().length() > 16 || !e.getName().matches("^[a-zA-Z0-9_]*$"))
     	{
     		e.disallow(Result.KICK_OTHER, Message.getColorMessage("&cZły nick! Zasady nicku: od &b3&c do &b16&c znaków, &bA-Z&c, &ba-z&c, &b0-9&c i &b_"));
     		return;

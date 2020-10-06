@@ -34,6 +34,7 @@ public class MessageFilter {
 		
 		replaceWords.put("sluhuj", "");
 		replaceWords.put("aciul", "");
+		replaceWords.put("ociul", "");
 	}
 	
 	public int isDisallowedWords(String message) {

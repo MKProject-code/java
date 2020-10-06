@@ -9,6 +9,7 @@ import mkproject.maskat.MiniGamesManager.GamesController.GameController;
 public abstract class SumoDatabase extends GameController {
 	
 	public final static MiniGame miniGame = MiniGame.Sumo;
+	
 	protected int locPlayBlockY;
 	
 	public SumoDatabase(World world) {

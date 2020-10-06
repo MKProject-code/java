@@ -22,14 +22,12 @@ public class ModelPlayer {
 
 	public ModelPlayer(Player player) {
 		this.player = player;
-		Papi.Debug.setDebug(true);
 		if (!Papi.MySQL.exists(Database.Inv.NAME, "=", player.getName().toLowerCase(), Database.Inv.TABLE))
 		{
 			Papi.MySQL.put(Map.of(Database.Inv.NAME, player.getName().toLowerCase()), Database.Inv.TABLE);
 			if(player.getGameMode() == GameMode.SURVIVAL)
 				this.saveInventory(GameMode.SURVIVAL);
 		}
-		Papi.Debug.setDebug(false);
 	}
 
 	public void saveInventory(GameMode gameMode) {
@@ -217,7 +215,7 @@ public class ModelPlayer {
 				try {
 					if (playerExpData != null) {
 						String[] expArr = playerExpData.split(",");
-						if (player.isDead()) {
+						if (player.isDead()) {//???? Maybe all change exp delay!
 							Bukkit.getScheduler().runTask(Plugin.getPlugin(), new Runnable() {
 								@Override
 								public void run() {
@@ -427,7 +425,7 @@ public class ModelPlayer {
 //		}
 	}
 
-	public void updateInventory(GameMode gameMode, PlayerInventory playerInventory, boolean keepInventory, int newLevel, int newExp) {
+	public void updateInventory(GameMode gameMode, PlayerInventory playerInventory, boolean keepInventory, int newLevel, float newExp) {
 		String playerSqlColumn = null;
 		if (gameMode == GameMode.SURVIVAL)
 			playerSqlColumn = Database.Inv.INV_SURVIVAL_CONTENT;
@@ -458,9 +456,6 @@ public class ModelPlayer {
 		else if (gameMode == GameMode.SPECTATOR)
 			expSqlColumn = Database.Inv.INV_SPECTATOR_EXP;
 
-		
-
-		
 		
 		if (keepInventory)
 		{

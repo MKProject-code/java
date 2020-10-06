@@ -70,5 +70,13 @@ public class PapiServer {
 	public static void dispatchCommandSilent(String command) {
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
 	}
+	public static boolean isSurvivalWorld(World world, boolean allowSpawn, boolean allowLobby) {
+		if(world == survivalWorld || world == netherWorld || world == theEndWorld) {
+			if((allowSpawn && world == serverSpawnWorld) || (allowLobby && world == serverLobbyWorld)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

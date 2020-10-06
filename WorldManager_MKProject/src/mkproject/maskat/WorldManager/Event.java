@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import com.alessiodp.parties.api.Parties;
 import com.alessiodp.parties.api.interfaces.PartiesAPI;
@@ -59,22 +60,31 @@ public class Event implements Listener {
 		}
 	}
 	
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	public void onPlayerTeleportEventLowest(PlayerTeleportEvent e) {
+		// v 2.0
+		if(e.getCause() == TeleportCause.SPECTATE && !e.getPlayer().hasPermission("mkp.worldmanager.bypass.spectatorteleport"))
+			e.setCancelled(true);
+	}
+	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerTeleportEventHighest(PlayerTeleportEvent e) {
 		Plugin.getPlugin().getLogger().info("Player '"+e.getPlayer().getName()+"' teleport from "+e.getFrom().getWorld().getName()+","+e.getFrom().getBlockX()+","+e.getFrom().getBlockY()+","+e.getFrom().getBlockZ()
-				+ " to "+e.getTo().getWorld().getName()+","+e.getFrom().getBlockX()+","+e.getFrom().getBlockY()+","+e.getFrom().getBlockZ());
+				+ " to "+e.getTo().getWorld().getName()+","+e.getTo().getBlockX()+","+e.getTo().getBlockY()+","+e.getTo().getBlockZ());
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onPlayerTeleportEvent(PlayerTeleportEvent e) {
-		if(e.getPlayer().getGameMode() == GameMode.SPECTATOR && !e.getPlayer().hasPermission("mkp.worldmanager.bypass.spectatorteleport"))
-		{
-			if(e.getFrom().getWorld() == e.getTo().getWorld() && e.getTo().getWorld().getName().indexOf("minigame_") == 0)
-				return;
-			
-			e.setCancelled(true);
-			return;
-		}
+		
+		// v 2.0
+//		if(e.getPlayer().getGameMode() == GameMode.SPECTATOR && !e.getPlayer().hasPermission("mkp.worldmanager.bypass.spectatorteleport"))
+//		{
+//			if(e.getFrom().getWorld() == e.getTo().getWorld() && e.getTo().getWorld().getName().indexOf("minigame_") == 0)
+//				return;
+//			
+//			e.setCancelled(true);
+//			return;
+//		}
 		
 		if(Model.existWorld(e.getTo().getWorld())) {
 			if(Model.getWorld(e.getTo().getWorld()).getBorderRadius() >= 0 && e.getTo().distance(e.getTo().getWorld().getSpawnLocation()) > Model.getWorld(e.getTo().getWorld()).getBorderRadius())

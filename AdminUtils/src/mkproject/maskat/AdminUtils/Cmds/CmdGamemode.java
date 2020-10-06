@@ -74,7 +74,7 @@ public class CmdGamemode implements CommandExecutor, TabCompleter  {
 		if(!manager.isPlayer())
 			return manager.doReturn();
 		
-		if(!manager.isPersmissionUse() || !manager.isPermissionAllowWorld())
+		if(!manager.isPersmissionUse() || !manager.isPermissionAllowWorld() || !manager.isPermissionAllowGameMode())
 			return manager.doReturn();
 		
 		this.registerArgAliases(manager);

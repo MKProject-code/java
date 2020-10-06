@@ -2,6 +2,7 @@ package mkproject.maskat.LoginManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -97,5 +98,12 @@ public class UsersAPI {
 		if(lastLoginIP == null)
 			return null;
 		return String.valueOf(lastLoginIP);
+	}
+	
+	public static LocalDateTime getPlayerLastLoginDateTime(UUID uuid) {
+		Object lastLoginDateTime = Papi.MySQL.get(Database.Users.LASTLOGIN_DATETIME, Database.Users.UUID, "=", uuid.toString(), Database.Users.TABLE);
+		if(lastLoginDateTime == null)
+			return null;
+		return Papi.Function.getLocalDateTimeFromString(String.valueOf(lastLoginDateTime));
 	}
 }

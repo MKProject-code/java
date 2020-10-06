@@ -7,7 +7,7 @@ website: http://skyidea.pl/
 api-version: 1.15
 load: POSTWORLD
 depend: [MKProjectAPI]
-softdepend: [MenuHelpManager]
+softdepend: [MenuHelpManager,InventoryManager]
 
 commands:
   loginmanager:

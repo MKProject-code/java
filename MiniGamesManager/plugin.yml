@@ -25,6 +25,9 @@ commands:
   sumo:
     description: Join to MiniGame
     permission: mkp.minigamesmanager.menu
+  tntrun:
+    description: Join to MiniGame
+    permission: mkp.minigamesmanager.menu
 
 #permissions:
 #   mkp.loginmanager.abortremoveexpwhenjoineddead:

@@ -2,12 +2,17 @@ package mkproject.maskat.Papi;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.util.Vector;
+
+import mkproject.maskat.Papi.Utils.Message;
 
 abstract public class PapiRegion {
 
@@ -120,4 +125,65 @@ abstract public class PapiRegion {
 		
 		return blocks;
 	}
+	
+	protected static Collection<Block> setAreaCyl(Location pointCenter, int radius, int height, Material material) {
+
+		World world = pointCenter.getWorld();
+
+		int cx = pointCenter.getBlockX();
+		int cy = pointCenter.getBlockY();
+		int cz = pointCenter.getBlockZ();
+
+		Collection<Block> blocks = new ArrayList<>();
+
+		int rSquared = radius * radius;
+		for (int x = cx - radius; x <= cx + radius; x++) {
+			for (int z = cz - radius; z <= cz + radius; z++) {
+				if ((cx - x) * (cx - x) + (cz - z) * (cz - z) <= rSquared) {
+					for (int y = cy; y <= height; y++) {
+						Block block = world.getBlockAt(x, y, z);
+						block.setType(material);
+						blocks.add(block);
+					}
+				}
+			}
+		}
+
+		return blocks;
+	}
+	
+	protected static Collection<Block> setAreaCyl(Location pointCenter, int radius, int height, List<Material> materials, boolean applyPhysics) {
+		
+		World world = pointCenter.getWorld();
+		
+		int cx = pointCenter.getBlockX();
+		int cy = pointCenter.getBlockY();
+		int cz = pointCenter.getBlockZ();
+		
+		Collection<Block> blocks = new ArrayList<>();
+		
+		int rSquared = radius * radius;
+		for (int x = cx - radius; x <= cx + radius; x++) {
+			for (int z = cz - radius; z <= cz + radius; z++) {
+				if ((cx - x) * (cx - x) + (cz - z) * (cz - z) <= rSquared) {
+					for (int y = cy; y < (cy+height); y++) {
+						Block block = world.getBlockAt(x, y, z);
+						if(!applyPhysics) {
+							BlockState blockState = block.getState();
+							blockState.setType((Material) Papi.Function.getRandom(materials.toArray()));
+							blockState.update(true, false);
+						}
+						else
+						{
+							block.setType((Material) Papi.Function.getRandom(materials.toArray()));
+						}
+						blocks.add(block);
+					}
+				}
+			}
+		}
+		
+		return blocks;
+	}
+		 
 }

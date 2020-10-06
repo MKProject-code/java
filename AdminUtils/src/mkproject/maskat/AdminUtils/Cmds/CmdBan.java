@@ -3,6 +3,8 @@ package mkproject.maskat.AdminUtils.Cmds;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,7 +12,9 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import mkproject.maskat.AdminUtils.Database;
+import mkproject.maskat.AdminUtils.Database.Bans.BanInfo;
 import mkproject.maskat.AdminUtils.Plugin;
+import mkproject.maskat.LoginManager.UsersAPI;
 import mkproject.maskat.Papi.Papi;
 import mkproject.maskat.Papi.Utils.CommandManager;
 import mkproject.maskat.Papi.Utils.Message;
@@ -45,16 +49,46 @@ public class CmdBan implements CommandExecutor, TabCompleter {
 				return manager.doReturn();
 		
 		if(manager.hasArgStart(3) && manager.hasArg(2, "perm"))
-			this.ban(manager, manager.getChosenPlayerFromArg(1, false, true), 0, manager.getArg(2), manager.getStringArgStart(3));
+			this.banOffline(manager, manager.getArg(1), 0, manager.getArg(2), manager.getStringArgStart(3));
 		else if(manager.hasArgStart(4) && manager.hasArg(3, List.of("seconds", "minutes", "hours", "days")))
-			this.ban(manager, manager.getChosenPlayerFromArg(1, false, true), manager.getIntArg(2), manager.getArg(3), manager.getStringArgStart(4));
+			this.banOffline(manager, manager.getArg(1), manager.getIntArg(2), manager.getArg(3), manager.getStringArgStart(4));
 		return manager.doReturn();
 	}
 	
 	// --------- /ban <player> <time|perm> <[timeformat]> [reason]
-	public void ban(CommandManager manager, Player destPlayer, Integer time, String timeformat, String reason) {
-		if(destPlayer == null || time == null || timeformat == null)
+	public void banOffline(CommandManager manager, String destPlayerStr, Integer time, String timeformat, String reason) {
+		if(time == null || timeformat == null)
 			return;
+		
+		OfflinePlayer destPlayer = null;
+		Player destPlayerOnline = Bukkit.getPlayer(destPlayerStr);
+		
+//		if(perrmission)
+//		{
+//			manager.setReturnMessage("&c&oGracz &e&o"+destPlayerOnline.getName()+"&c&o jest online! Użyj komendy &e&o/ban");
+//			return;
+//		}
+		
+		if(destPlayerOnline == null)
+		{
+			destPlayer = UsersAPI.getOfflinePlayer(destPlayerStr);
+			if(destPlayer == null)
+			{
+				manager.setReturnMessage("&c&oGracz &e&o"+destPlayerStr+"&c&o nie został odnaleziony");
+				return;
+			}
+			
+			BanInfo banInfo = Database.Bans.checkBan(destPlayer.getName(), null);
+			
+			if(banInfo != null)
+			{
+				if(banInfo.isPermament())
+					manager.setReturnMessage("&c&oGracz &e&o"+destPlayer.getName() + "&c&o ma aktywnego bana &6&ona zawsze");
+				else
+					manager.setReturnMessage("&c&oGracz &e&o"+destPlayer.getName() + "&c&o ma aktywnego bana. Pozostało &6&o" + Papi.Function.getRemainingTimeString(banInfo.getDatetimeEnd()));
+				return;
+			}
+		}
 		
 		LocalDateTime endDatetime = null;
 		String duration = "";
@@ -137,12 +171,24 @@ public class CmdBan implements CommandExecutor, TabCompleter {
 		
 		if(reason == null)
 			reason = "";
-		if(Database.Bans.addBan(destPlayer, endDatetime, manager.isPlayer() ? manager.getPlayer() : null, reason) > 0)
+		
+		if(destPlayerOnline != null)
+		{
+			if(Database.Bans.addBan(destPlayerOnline, endDatetime, manager.isPlayer() ? manager.getPlayer() : null, reason) > 0)
+			{
+				String admin = manager.isPlayer() ? Papi.Model.getPlayer(manager.getPlayer()).getNameWithPrefix() : "serwer";
+				Message.sendBroadcast(Papi.Model.getPlayer(destPlayerOnline).getNameWithPrefix()+" &7został zbanowany na &6"+duration+"&7 przez "+admin+"&7."+((reason!="") ? ("\nPowód: &6"+reason) : ""));
+				destPlayerOnline.kickPlayer(Message.getColorMessage("&cZostałeś zbanowany na "+duration+"!"+((reason!="") ? ("\n&6Powód: &e"+reason) : "")));
+				manager.setReturnMessage(null);
+			}
+			else
+				manager.setReturnMessage("&c&oWystąpił błąd podczas próby zbanowania gracza &e&o"+destPlayer.getName());
+		}
+		else if(Database.Bans.addBanOffline(destPlayer, endDatetime, manager.isPlayer() ? manager.getPlayer() : null, reason) > 0)
 		{
 			String admin = manager.isPlayer() ? Papi.Model.getPlayer(manager.getPlayer()).getNameWithPrefix() : "serwer";
-			Message.sendBroadcast(Papi.Model.getPlayer(destPlayer).getNameWithPrefix()+" &7został zbanowany na &6"+duration+"&7 przez "+admin+"&7."+((reason!="") ? ("\nPowód: &6"+reason) : ""));
-			destPlayer.kickPlayer(Message.getColorMessage("&cZostałeś zbanowany na "+duration+"!"+((reason!="") ? ("\n&6Powód: &e"+reason) : "")));
-			manager.setReturnMessage(null);
+			Message.sendBroadcast("&e"+destPlayer.getName()+" &7został zbanowany na &6"+duration+"&7 przez "+admin+"&7."+((reason!="") ? ("\nPowód: &6"+reason) : ""));
+			manager.setReturnMessage("&c&oZbanowano gracza offline!");
 		}
 		else
 			manager.setReturnMessage("&c&oWystąpił błąd podczas próby zbanowania gracza &e&o"+destPlayer.getName());

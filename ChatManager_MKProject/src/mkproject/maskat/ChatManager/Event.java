@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,24 +25,26 @@ import mkproject.maskat.Papi.Utils.Message;
 
 public class Event implements Listener {
 	
-	@EventHandler
-	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent e) {
-		if(e.getMessage().charAt(0) == '@' && e.getPlayer().hasPermission("mkp.chatmanager.adminchat.send")) {
-//			Set<Player> receipes = e.getRecipients();
-//	        for(Player p : receipes) {
-//	        	if(!p.hasPermission("mkp.adminchat.access"))
+	// OLD AdminChat
+//	@EventHandler
+//	public void onAsyncPlayerChatEventHighest(AsyncPlayerChatEvent e) {
+//		if(e.getMessage().charAt(0) == '@' && e.getPlayer().hasPermission("mkp.chatmanager.adminchat.send")) {
+////			Set<Player> receipes = e.getRecipients();
+////	        for(Player p : receipes) {
+////	        	if(!p.hasPermission("mkp.adminchat.access"))
+////	        		e.getRecipients().remove(p);
+////	        }
+//	        
+//			
+//	        for (Player p : new ArrayList<>(e.getRecipients())) {
+//	        	if(!p.hasPermission("mkp.chatmanager.adminchat.receive"))
 //	        		e.getRecipients().remove(p);
 //	        }
-	        
-	        for (Player p : new ArrayList<>(e.getRecipients())) {
-	        	if(!p.hasPermission("mkp.chatmanager.adminchat.receive"))
-	        		e.getRecipients().remove(p);
-	        }
-	        
-	        e.setMessage(e.getMessage().substring(1).trim());
-	        e.setFormat(e.getFormat().replace("{group}", "&4AdminChat").replace("{prefixmessage}", Plugin.getPlugin().getConfig().getString("ChatFormatter.PrefixMessage.AdminChat")));
-		}
-	}
+//	        
+//	        e.setMessage(e.getMessage().substring(1).trim());
+//	        e.setFormat(e.getFormat().replace("{group}", "&4AdminChat").replace("{prefixmessage}", Plugin.getPlugin().getConfig().getString("ChatFormatter.PrefixMessage.AdminChat")));
+//		}
+//	}
 	
     @EventHandler
     public void onServiceRegisterEvent(ServiceRegisterEvent e) {
@@ -75,7 +78,7 @@ public class Event implements Listener {
     			lastChar.set(1, lastChar.get(2));
     			lastChar.set(2, msgCharArray.get(i));
     			
-    			if(lastChar.get(0) == lastChar.get(1) && lastChar.get(1) == lastChar.get(2) && lastChar.get(2) == msgCharArray.get(i) && !Character.isDigit(msgCharArray.get(i)))
+    			if(lastChar.get(0).equals(lastChar.get(1)) && lastChar.get(1).equals(lastChar.get(2)) && lastChar.get(2).equals(msgCharArray.get(i)) && !Character.isDigit(msgCharArray.get(i)))
     			{
 	    			msgCharArray.remove(i);
 	    			i--;
@@ -151,7 +154,29 @@ public class Event implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onAsyncPlayerChatEventHigh(AsyncPlayerChatEvent e) {
     	Model.getPlayer(e.getPlayer()).setLastMessage(e.getMessage());
-    	ChatFormatter.onChatHigh(e);
+    	
+		if(e.getMessage().charAt(0) == '@' && e.getPlayer().hasPermission("mkp.chatmanager.adminchat.send"))
+		{
+			e.setCancelled(true);
+			
+			e.setMessage(e.getMessage().substring(1).trim());
+			e.setFormat(e.getFormat().replace("{group}", "&4AdminChat").replace("{prefixmessage}", Plugin.getPlugin().getConfig().getString("ChatFormatter.PrefixMessage.AdminChat")));
+			ChatFormatter.onChatHigh(e);
+			
+			Plugin.getPlugin().getLogger().info("[AdminChat] "+e.getPlayer().getName()+": "+e.getFormat());
+			
+			for(Player p : Bukkit.getOnlinePlayers())
+			{
+				if(p.hasPermission("mkp.chatmanager.adminchat.receive"))
+				{
+					Message.sendMessage(p, e.getFormat());
+				}
+			}
+		}
+		else
+		{
+			ChatFormatter.onChatHigh(e);
+		}
     }
     
     @EventHandler

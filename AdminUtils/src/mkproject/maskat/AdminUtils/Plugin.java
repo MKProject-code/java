@@ -6,8 +6,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import mkproject.maskat.AdminUtils.Config.ConfigKey;
 import mkproject.maskat.AdminUtils.Cmds.CmdBack;
+import mkproject.maskat.AdminUtils.Cmds.CmdBanOLD;
 import mkproject.maskat.AdminUtils.Cmds.CmdBan;
-import mkproject.maskat.AdminUtils.Cmds.CmdBanOffline;
+import mkproject.maskat.AdminUtils.Cmds.CmdBanNick;
 import mkproject.maskat.AdminUtils.Cmds.CmdBed;
 import mkproject.maskat.AdminUtils.Cmds.CmdChat;
 import mkproject.maskat.AdminUtils.Cmds.CmdCollision;
@@ -80,7 +81,8 @@ public class Plugin extends JavaPlugin {
 		initCommand("kick", new CmdKick(), true);
 		
 		initCommand("ban", new CmdBan(), true);
-		initCommand("banoffline", new CmdBanOffline(), true);
+		initCommand("bannick", new CmdBanNick(), true);
+//		initCommand("banoffline", new CmdBan(), true);
 		initCommand("unban", new CmdUnban(), true);
 		
 		initCommand("tpworld", new CmdTpworld(), true);

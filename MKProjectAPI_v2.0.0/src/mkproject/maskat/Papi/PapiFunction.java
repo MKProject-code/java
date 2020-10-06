@@ -7,7 +7,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -72,6 +75,10 @@ public class PapiFunction {
 	}
 	
 	protected static int getDifference(int nr1, int nr2)
+	{
+		return Math.abs(nr1 - nr2);
+	}
+	protected static double getDifference(double nr1, double nr2)
 	{
 		return Math.abs(nr1 - nr2);
 	}
@@ -374,5 +381,17 @@ public class PapiFunction {
 	    }
 	    else
 	    	return duration.toDays() + " dni";
+	}
+
+    protected static <K, V extends Comparable<? super V>> Map<K, V> sortMapByValue(Map<K, V> map) {
+        List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort(Entry.comparingByValue());
+
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
 	}
 }

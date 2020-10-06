@@ -1,11 +1,14 @@
 package me.maskat.wolfsecurity.models;
 
+import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -21,6 +24,7 @@ import me.maskat.wolfsecurity.Function;
 import me.maskat.wolfsecurity.Message;
 import me.maskat.wolfsecurity.Plugin;
 import me.maskat.wolfsecurity.WolfGuard;
+import mkproject.maskat.LoginManager.UsersAPI;
 
 public class ModelWolf {
     private int wolfid;
@@ -70,13 +74,42 @@ public class ModelWolf {
     
     public void initEntityWolf() {
     	Wolf wolf = getEntityWolf();
-    	if(wolf == null) 
+    	if(wolf == null)
     	{
-    		Plugin.plugin.getServer().getLogger().warning("******* Entity not found on server world map!");
-    		Plugin.plugin.getServer().getLogger().warning("******* Entity ID: " + wolfid);
+//    		Plugin.plugin.getServer().getLogger().info("******* Entity not found on server world map!");
+//    		Plugin.plugin.getServer().getLogger().info("******* Entity ID: " + wolfid);
     		return;
     	}
-    	wolfsitting = wolf.isSitting();
+    	else
+    	{
+    		ModelUser ownerUser = this.getOwnerUser();
+    		
+    		OfflinePlayer ownerPlayerOffline = null;
+    		if(ownerUser != null)
+    			ownerPlayerOffline = Bukkit.getOfflinePlayer(ownerUser.getUUID());
+			
+			if(ownerPlayerOffline == null)
+			{
+				setLastLocation(null);
+				wolf.remove();
+				this.wolfentity = null;
+				return;
+			}
+			else if(!ownerPlayerOffline.isOnline())
+			{
+				LocalDateTime ownerLastLogin = UsersAPI.getPlayerLastLoginDateTime(ownerPlayerOffline.getUniqueId());
+				
+				if(ownerLastLogin == null || ownerLastLogin.isBefore(LocalDateTime.now().minusDays(30)))
+				{
+					setLastLocation(null);
+					wolf.remove();
+					this.wolfentity = null;
+					return;
+				}
+			}
+			
+			wolfsitting = wolf.isSitting();
+    	}
     }
     
     public void fixSitting() {
@@ -337,9 +370,16 @@ public class ModelWolf {
 //		}, 10*20L); //20 Tick (1 Second) delay before run() is called
 	}
 	public Player getOwner() {
-		for (Map.Entry<Player, ModelPlayer> player : Model.Players().entrySet()) {
-			if(player.getValue().existWolf() && player.getValue().getWolf().getId() == wolfid)
-				return player.getKey();
+		for (ModelPlayer player : Model.Players().values()) {
+			if(player.existWolf() && player.getWolf().getId() == wolfid)
+				return player.getPlayer();
+		}
+		return null;
+	}
+	public ModelUser getOwnerUser() {
+		for (ModelUser user : Model.Users().values()) {
+			if(user.existWolfId() && user.getAssignedWolfId() == wolfid)
+				return user;
 		}
 		return null;
 	}
@@ -414,7 +454,10 @@ public class ModelWolf {
 	
 	public void setLastLocation(Location location) {
 		wolflastlocation = location;
-    	SQL.set("wolflastlocation", location.getWorld().getName()+","+location.getX()+","+location.getY()+","+location.getZ(), "wolfid", "=", wolfid, Config.databaseTableWolves);
+		if(location != null)
+			SQL.set("wolflastlocation", location.getWorld().getName()+","+location.getX()+","+location.getY()+","+location.getZ(), "wolfid", "=", wolfid, Config.databaseTableWolves);
+		else
+			SQL.set("wolflastlocation", "", "wolfid", "=", wolfid, Config.databaseTableWolves);
 	}
 	
 	public Location getLastLocation() {

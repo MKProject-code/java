@@ -52,16 +52,18 @@ public abstract class GamesManager {
 		}
 		lobbyGamesMap.clear();
 		
-		for(World world : worldGamesMap.keySet()) {
-			for(Player player : world.getPlayers())
-			{
-				if(player.getGameMode() == GameMode.SPECTATOR) //TODO !!!
-					player.setGameMode(GameMode.ADVENTURE);    //TODO !!!
-				player.teleport(Database.getSpawnLocation());
+		if(worldGamesMap.size() > 0) {
+			for(World world : worldGamesMap.keySet()) {
+				for(Player player : world.getPlayers())
+				{
+					if(player.getGameMode() == GameMode.SPECTATOR) //TODO !!!
+						player.setGameMode(GameMode.ADVENTURE);    //TODO !!!
+					player.teleport(Database.getSpawnLocation());
+				}
+				
+				GameModel gameModel = worldGamesMap.remove(world);
+				gameModel.setGameClosed(true);
 			}
-			
-			GameModel gameModel = worldGamesMap.remove(world);
-			gameModel.setGameClosed(true);
 		}
 		worldGamesMap.clear();
 		worldAvailableMap.clear();

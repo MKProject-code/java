@@ -107,7 +107,7 @@ public class ColorMixController extends ColorMixDatabase {
 			if(this.startedGame)
 			{
 				Player winner = players.toArray(new Player[1])[0];
-				if(winner.getLocation().getBlockY() >= this.locPlay1.getBlockY()-1)
+				if(winner.getLocation().getBlockY() >= (this.locPlay1.getBlockY()-1))
 					this.broadcastEndGame(winner);
 			}
 			this.closeGame();

@@ -29,4 +29,7 @@ public class ModelUser {
     	assigned_wolfid = wolfid;
 		SQL.set("assigned_wolfid", wolfid, "userid", "=", String.valueOf(userid), Config.databaseTableUsers);
     }
+	public boolean existWolfId() {
+		return assigned_wolfid > 0;
+	}
 }

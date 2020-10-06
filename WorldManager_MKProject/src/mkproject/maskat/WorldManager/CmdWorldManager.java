@@ -24,6 +24,7 @@ import com.google.common.io.Files;
 
 import mkproject.maskat.Papi.Papi;
 import mkproject.maskat.Papi.Utils.CommandManager;
+import mkproject.maskat.Papi.Utils.Message;
 
 public class CmdWorldManager implements CommandExecutor, TabCompleter {
 	@Override
@@ -165,12 +166,21 @@ public class CmdWorldManager implements CommandExecutor, TabCompleter {
 		manager.sendMessage("&6&lBorderRadius: &e"+Model.getWorld(world).getBorderRadius());
 		manager.sendMessage("&6&lBorderSquared: &e"+Model.getWorld(world).isBorderSquared());
 		
-		String gameRuleInfoList = "";
+//		String gameRuleInfoList = "";
 		for(GameRule<?> gameRule : GameRule.values())
 		{
-			gameRuleInfoList += "\n&6- " + gameRule.getName() + ": &e" + world.getGameRuleValue(gameRule);
+			Object gameRuleValue = world.getGameRuleValue(gameRule);
+			Message.sendRawMessage(manager.getPlayer(), ""
+					+ "["
+					+ "{\"text\":\"- "+gameRule.getName()+": \",\"color\":\"gold\"},"
+					+ "{\"text\":\""+gameRuleValue+"\",\"color\":\"yellow\","
+					+ 	"\"clickEvent\":{\"action\":\""+(gameRuleValue instanceof Boolean ? "run_command" : "suggest_command")+"\",\"value\":\"/worldmanager modify this GameRules "+gameRule.getName()+" "+(gameRuleValue instanceof Boolean ? ((boolean) gameRuleValue ? "FALSE" : "TRUE") : "")+"\"},"
+					+ 	"\"hoverEvent\":{\"action\":\"show_text\",\"contents\":{\"text\":\""+(gameRuleValue instanceof Boolean ? "Click to change to "+((boolean) gameRuleValue ? "FALSE" : "TRUE") : "Click to change")+"\"}}}"
+					+ "]");
+//			gameRuleInfoList += "\n&6- " + gameRule.getName() + ": &e" + world.getGameRuleValue(gameRule);
 		}
-		manager.setReturnMessage("&6&lGameRules:"+(gameRuleInfoList==""?" &e-":gameRuleInfoList));
+//		manager.setReturnMessage("&6&lGameRules:"+(gameRuleInfoList==""?" &e-":gameRuleInfoList));
+		manager.setReturnMessage(null);
 	}
 	private void doWorldLoad(CommandManager manager, String worldNameStr) {
 		

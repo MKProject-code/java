@@ -19,7 +19,7 @@ import mkproject.maskat.Papi.Papi;
 import mkproject.maskat.Papi.Utils.CommandManager;
 import mkproject.maskat.Papi.Utils.Message;
 
-public class CmdBanOffline implements CommandExecutor, TabCompleter {
+public class CmdBanNick implements CommandExecutor, TabCompleter {
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -55,34 +55,39 @@ public class CmdBanOffline implements CommandExecutor, TabCompleter {
 		return manager.doReturn();
 	}
 	
-	// --------- /banoffline <player> <time|perm> <[timeformat]> [reason]
+	// --------- /bannick <player> <time|perm> <[timeformat]> [reason]
 	public void banOffline(CommandManager manager, String destPlayerStr, Integer time, String timeformat, String reason) {
 		if(time == null || timeformat == null)
 			return;
 		
+		OfflinePlayer destPlayer = null;
 		Player destPlayerOnline = Bukkit.getPlayer(destPlayerStr);
-		if(destPlayerOnline != null)
-		{
-			manager.setReturnMessage("&c&oGracz &e&o"+destPlayerOnline.getName()+"&c&o jest online! Użyj komendy &e&o/ban");
-			return;
-		}
 		
-		OfflinePlayer destPlayer = UsersAPI.getOfflinePlayer(destPlayerStr);
-		if(destPlayer == null)
-		{
-			manager.setReturnMessage("&c&oGracz &e&o"+destPlayerStr+"&c&o nie został odnaleziony");
-			return;
-		}
+//		if(perrmission)
+//		{
+//			manager.setReturnMessage("&c&oGracz &e&o"+destPlayerOnline.getName()+"&c&o jest online! Użyj komendy &e&o/ban");
+//			return;
+//		}
 		
-		BanInfo banInfo = Database.Bans.checkBan(destPlayer.getName(), null);
-		
-		if(banInfo != null)
+		if(destPlayerOnline == null)
 		{
-			if(banInfo.isPermament())
-				manager.setReturnMessage("&c&oGracz &e&o"+destPlayer.getName() + "&c&o ma aktywnego bana &6&ona zawsze");
-			else
-				manager.setReturnMessage("&c&oGracz &e&o"+destPlayer.getName() + "&c&o ma aktywnego bana. Pozostało &6&o" + Papi.Function.getRemainingTimeString(banInfo.getDatetimeEnd()));
-			return;
+			destPlayer = UsersAPI.getOfflinePlayer(destPlayerStr);
+			if(destPlayer == null)
+			{
+				manager.setReturnMessage("&c&oGracz &e&o"+destPlayerStr+"&c&o nie został odnaleziony");
+				return;
+			}
+			
+			BanInfo banInfo = Database.Bans.checkBan(destPlayer.getName(), null);
+			
+			if(banInfo != null)
+			{
+				if(banInfo.isPermament())
+					manager.setReturnMessage("&c&oGracz &e&o"+destPlayer.getName() + "&c&o ma aktywnego bana &6&ona zawsze");
+				else
+					manager.setReturnMessage("&c&oGracz &e&o"+destPlayer.getName() + "&c&o ma aktywnego bana. Pozostało &6&o" + Papi.Function.getRemainingTimeString(banInfo.getDatetimeEnd()));
+				return;
+			}
 		}
 		
 		LocalDateTime endDatetime = null;
@@ -166,11 +171,24 @@ public class CmdBanOffline implements CommandExecutor, TabCompleter {
 		
 		if(reason == null)
 			reason = "";
-		if(Database.Bans.addBanOffline(destPlayer, endDatetime, manager.isPlayer() ? manager.getPlayer() : null, reason) > 0)
+		
+		if(destPlayerOnline != null)
+		{
+			if(Database.Bans.addBan(destPlayerOnline, endDatetime, manager.isPlayer() ? manager.getPlayer() : null, reason, false) > 0)
+			{
+				String admin = manager.isPlayer() ? Papi.Model.getPlayer(manager.getPlayer()).getNameWithPrefix() : "serwer";
+				Message.sendBroadcast(Papi.Model.getPlayer(destPlayerOnline).getNameWithPrefix()+" &7został zbanowany na &6"+duration+"&7 przez "+admin+"&7."+((reason!="") ? ("\nPowód: &6"+reason) : ""));
+				destPlayerOnline.kickPlayer(Message.getColorMessage("&cZostałeś zbanowany na "+duration+"!"+((reason!="") ? ("\n&6Powód: &e"+reason) : "")));
+				manager.setReturnMessage(null);
+			}
+			else
+				manager.setReturnMessage("&c&oWystąpił błąd podczas próby zbanowania gracza &e&o"+destPlayer.getName());
+		}
+		else if(Database.Bans.addBanOffline(destPlayer, endDatetime, manager.isPlayer() ? manager.getPlayer() : null, reason, false) > 0)
 		{
 			String admin = manager.isPlayer() ? Papi.Model.getPlayer(manager.getPlayer()).getNameWithPrefix() : "serwer";
 			Message.sendBroadcast("&e"+destPlayer.getName()+" &7został zbanowany na &6"+duration+"&7 przez "+admin+"&7."+((reason!="") ? ("\nPowód: &6"+reason) : ""));
-			manager.setReturnMessage(null);
+			manager.setReturnMessage("&c&oZbanowano gracza offline!");
 		}
 		else
 			manager.setReturnMessage("&c&oWystąpił błąd podczas próby zbanowania gracza &e&o"+destPlayer.getName());

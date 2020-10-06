@@ -14,6 +14,7 @@ commands:
   worldmanager:
     description: Reload the configuration
     permission: mkp.worldmanager.reload
+    aliases: [wm]
     
 permissions:
    mkp.worldmanager.bypass.gamemode:

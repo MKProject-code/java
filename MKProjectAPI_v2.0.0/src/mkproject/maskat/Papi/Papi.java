@@ -84,6 +84,12 @@ abstract public class Papi {
 		public static Collection<Block> setArea(Location pointStart, Location pointEnd, Material material) {
 			return PapiRegion.setArea(pointStart, pointEnd, material);
 		}
+		public static Collection<Block> setAreaCyl(Location pointCenter, int radius, int height, Material material) {
+			return PapiRegion.setAreaCyl(pointCenter, radius, height, material);
+		}
+		public static Collection<Block> setAreaCyl(Location pointCenter, int radius, int height, List<Material> materials, boolean applyPhysics) {
+			return PapiRegion.setAreaCyl(pointCenter, radius, height, materials, applyPhysics);
+		}
 	}
 //	public static class MenuInventory {
 //		public static MenuPage createPage(final int numberOfRows, final String colorTitle) {
@@ -136,6 +142,9 @@ abstract public class Papi {
 			return PapiFunction.getNumeric(strNum, defaultNum);
 		}
 		public static int getDifference(int nr1, int nr2) {
+			return PapiFunction.getDifference(nr1, nr2);
+		}
+		public static double getDifference(double nr1, double nr2) {
 			return PapiFunction.getDifference(nr1, nr2);
 		}
 		public static String getPermission(JavaPlugin plugin, String permission) {
@@ -225,6 +234,12 @@ abstract public class Papi {
 	    public static int randomInteger(int min, int max) {
 	    	return ThreadLocalRandom.current().nextInt(min, max + 1);
 	    }
+	    public static Object getRandom(Object type1, Object type2) {
+	    	return (ThreadLocalRandom.current().nextInt(0, 2) == 0 ? type1 : type2);
+	    }
+	    public static Object getRandom(Object... types) {
+	    	return types[ThreadLocalRandom.current().nextInt(0, types.length)];
+	    }
 	    public static double getTPS() {
 	    	return TPS.getTPS();
 	    }
@@ -239,6 +254,9 @@ abstract public class Papi {
 		}
 		public static String getRemainingTimeString(LocalDateTime datetimeStart, LocalDateTime datetimeExpires) {
 			return PapiFunction.getRemainingTimeString(datetimeStart, datetimeExpires);
+		}
+		public static <K, V extends Comparable<? super V>> Map<K, V> sortMapByValue(Map<K, V> map) {
+			return PapiFunction.sortMapByValue(map);
 		}
 	}
 	public static class ItemUtils {
@@ -502,6 +520,9 @@ abstract public class Papi {
 		}
 		public static World getTheEndWorld() {
 			return PapiServer.getTheEndWorld();
+		}
+		public static boolean isSurvivalWorld(World world, boolean allowSpawn, boolean allowLobby) {
+			return PapiServer.isSurvivalWorld(world, allowSpawn, allowLobby);
 		}
 		public static void initServerSpawnLocation(Location location) {
 			PapiServer.initServerSpawnLocation(location);

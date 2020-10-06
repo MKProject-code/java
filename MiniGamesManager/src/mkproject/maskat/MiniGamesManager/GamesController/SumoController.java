@@ -84,7 +84,7 @@ public class SumoController extends SumoDatabase {
 			if(this.startedGame)
 			{
 				Player winner = players.toArray(new Player[1])[0];
-				if(winner.getLocation().getBlockY() >= this.locPlayBlockY-1)
+				if(winner.getLocation().getBlockY() >= (this.locPlayBlockY-1))
 					this.broadcastEndGame(winner);
 			}
 			this.closeGame();

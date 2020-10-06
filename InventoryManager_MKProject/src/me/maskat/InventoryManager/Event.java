@@ -72,7 +72,12 @@ public class Event implements Listener {
 		GameMode gameMode = player.getGameMode();
 		
 		if(Manager.checkDeathUpdate(player, player.getWorld(), gameMode))
-			Model.getPlayer(player).updateInventory(player.getGameMode(), player.getInventory(), e.getKeepInventory(), e.getNewLevel(), e.getNewExp());
+		{
+			if(e.getKeepLevel())
+				Model.getPlayer(player).updateInventory(player.getGameMode(), player.getInventory(), e.getKeepInventory(), player.getLevel(), player.getExp());
+			else
+				Model.getPlayer(player).updateInventory(player.getGameMode(), player.getInventory(), e.getKeepInventory(), e.getNewLevel(), e.getNewExp());
+		}
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)

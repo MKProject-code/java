@@ -33,3 +33,19 @@ Games:
 #            Platform:
 #               Play:
 #                  Y: 100
+#                  Z1: 20
+#   TntRun:
+#      Worlds:
+#         world_tntrun:
+#            PlayersNeed: 5
+#            PlayersMax: 20
+#            Platform:
+#               Play:
+#                  CenterX: 100
+#                  CenterY: 100
+#                  CenterZ: 100
+#                  Radius: 30
+#                  Amount: 3
+#                  Space: 5
+
+

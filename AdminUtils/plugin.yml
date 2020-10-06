@@ -50,7 +50,10 @@ commands:
       description: AdminUtils command
    ban:
       description: AdminUtils command
-   banoffline:
+#   banoffline:
+#      description: AdminUtils command
+      description: AdminUtils command
+   bannick:
       description: AdminUtils command
    unban:
       description: AdminUtils command
@@ -346,11 +349,19 @@ permissions:
       default: op
       
    #/banoffline <player> <time|perm> [timeformat] [reason]
-   mkp.adminutils.banoffline.use:
+#   mkp.adminutils.banoffline.use:
+#      default: op
+#   mkp.adminutils.banoffline.allowworld.*:
+#      default: op
+#   mkp.adminutils.banoffline.allowgamemode.*:
+#      default: op
+      
+   #/bannick <player> <time|perm> [timeformat] [reason]
+   mkp.adminutils.bannick.use:
       default: op
-   mkp.adminutils.banoffline.allowworld.*:
+   mkp.adminutils.bannick.allowworld.*:
       default: op
-   mkp.adminutils.banoffline.allowgamemode.*:
+   mkp.adminutils.bannick.allowgamemode.*:
       default: op
       
       

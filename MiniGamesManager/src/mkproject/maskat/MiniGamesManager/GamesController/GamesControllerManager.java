@@ -11,6 +11,8 @@ public class GamesControllerManager {
 			return new ColorMixController(world);
 		else if(miniGame == SumoController.miniGame)
 			return new SumoController(world);
+		else if(miniGame == TntRunController.miniGame)
+			return new TntRunController(world);
 		return null;
 	}
 }

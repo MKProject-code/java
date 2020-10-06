@@ -126,7 +126,7 @@ public class MySQL
 	            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Error: " + message);
 	        }
 	    }
-	    disconnect(false);
+//	    disconnect(false);
 	    return true;
 	}
 	
@@ -155,7 +155,7 @@ public class MySQL
 				Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Error: " + message);
 			}
 		}
-		disconnect(false);
+//		disconnect(false);
 		return generatedKey;
 	}
 	
